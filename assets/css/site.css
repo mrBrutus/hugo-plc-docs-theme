@@ -1,0 +1,175 @@
+/** purgecss start ignore */
+
+html {
+  scroll-behavior: smooth;
+}
+
+html, body {
+  @apply w-full;
+  @apply h-full;
+}
+
+
+.flat {
+  @apply my-0 !important;
+}
+
+/* ============================================================================
+ * color schemes
+ * ========================================================================= */
+
+ html.dark {
+  color-scheme: dark;
+}
+
+html:not(.dark) {
+  color-scheme: light;
+}
+
+/* ============================================================================
+ * toggle switch
+ * https://codepen.io/lhermann/pen/EBGZRZ
+ * ========================================================================= */
+
+ input:checked ~ .toggle__dot {
+  transform: translateX(100%);
+  @apply bg-green-400;
+}
+
+
+/* ============================================================================
+ * keyboard buttons
+ * ========================================================================= */
+
+kbd {
+  @apply inline-block px-1 mx-1 bg-background-soft text-default rounded border shadow-sm font-mono;
+}
+
+
+/* ============================================================================
+ * class used for handling large horizontal (scrollable) tables in Markdown
+ * ========================================================================= */
+
+ .scroll {
+  @apply overflow-x-auto;
+  @apply border rounded;
+  @apply p-4;
+}
+
+
+/* ============================================================================
+ * sidebar
+ * ========================================================================= */
+
+.sb-btn {
+  @apply flex-grow flex items-start;
+  @apply p-4 min-h-12;
+}
+
+.sb-btn.active {
+  @apply font-semibold;
+}
+
+.collapse {
+  @apply relative;
+}
+
+.collapse:not(.show) {
+  @apply hidden;
+}
+
+.collapsing {
+  @apply h-0 overflow-y-hidden transition-all duration-300;
+}
+
+
+/* ============================================================================
+ * general styling for print
+ * https://www.smashingmagazine.com/2018/05/print-stylesheets-in-2018
+ * ========================================================================= */
+
+@media print {
+  /* hide scrollbars */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  /* page breaks */
+  /* h2 {
+    page-break-before:always;
+  } */
+  h3, h4 {
+    page-break-after: avoid;
+  }
+  /* pre, blockquote {
+    page-break-inside:avoid;
+  } */
+  table {
+    @apply whitespace-pre-wrap !important;
+  }
+  .collapse {
+    display: block !important;
+    height: auto !important;
+  }
+  .collapse-card {
+    page-break-inside: avoid;
+  }
+}
+
+
+/* ============================================================================
+ * skip transitions at page load
+ * ========================================================================= */
+ 
+.notransition * {
+  @apply transition-none !important;
+  @apply duration-0 !important;
+}
+
+
+/* ============================================================================
+ * scroll back to top
+ * ========================================================================= */
+ 
+#scrollTopButton {
+  @apply flex items-center justify-center;
+  @apply cursor-pointer fixed z-10 bottom-0 right-0 mb-6 mr-4 w-12 h-12 rounded-full;
+  @apply bg-default-soft shadow-sm text-default hover:text-default-dark;
+  @apply opacity-0 invisible;
+  @apply print:hidden;
+  @apply transition-all duration-300;
+}
+
+#scrollTopButton.show {
+  @apply opacity-100 visible;
+}
+
+
+/* ============================================================================
+ * mobile menu
+ * ========================================================================= */
+
+#overlay {
+  @apply fixed inset-0 top-16 z-20;
+  @apply bg-background-inverse opacity-0 invisible;
+  @apply cursor-pointer;
+  @apply transition-all duration-300;
+  @apply print:hidden;
+}
+
+#overlay.show {
+  @apply opacity-50 visible;
+}
+
+#sidebar {
+  @apply bg-background fixed h-full overflow-auto overflow-x-hidden z-30;
+  @apply overflow-y-scroll border-t md:border-none top-16 left-0 w-5/6 md:w-80 xl:w-96;
+  @apply transition-all duration-300;
+  @apply transform -translate-x-full md:translate-x-0;
+  @apply print:hidden;
+}
+
+#sidebar.show {
+  @apply translate-x-0;
+}
+
+/** purgecss end ignore */

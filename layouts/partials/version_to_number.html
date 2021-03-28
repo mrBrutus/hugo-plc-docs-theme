@@ -1,0 +1,23 @@
+{{/* converts a version string "major.minor.patch" to a number for easy comparison (patch is ignored) */}}
+
+{{ $ver_major := 0 }}
+{{ $ver_minor := 0 }}
+{{ $ver_number := 0 }}
+
+{{ with . }}
+  {{ $ver := split . "." }}
+
+  {{/* major version */}}
+  {{ with index $ver 0 }}
+    {{ $ver_major = (trim . " " | int | mul 1000 ) }}
+  {{ end }}
+
+  {{/* minor version */}}
+  {{ with index $ver 1 }}
+    {{ $ver_minor = (trim . " " | int ) }}
+  {{ end }}
+
+  {{ $ver_number = (add $ver_major $ver_minor ) }}
+{{ end }}
+
+{{ return $ver_number }}

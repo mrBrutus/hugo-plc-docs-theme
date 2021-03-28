@@ -1,0 +1,19 @@
+{{/* prerequisites as list */}}
+<div class="overflow-x-auto">
+  <table class="whitespace-nowrap">
+    <thead>
+      <tr>
+        <th scope="col" class="w-1/4">prerequisite</th>
+        <th scope="col" class="w-3/4">state</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{ range $key, $value := . }}
+        <tr>
+          <td>{{ with $key }}{{ humanize . }}{{ end }}</td>
+          <td>{{ with $value }}{{ . }}{{ end }}</td>
+        </tr>
+      {{ end }}
+    </tbody>
+  </table>
+</div>

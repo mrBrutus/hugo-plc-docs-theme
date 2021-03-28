@@ -1,0 +1,30 @@
+{{/* render variables as table */}}
+{{ with .var }}
+  <div class="overflow-x-auto">
+    <table class="whitespace-nowrap">
+      <thead>
+        <tr>
+          <th scope="col">name</th>
+          <th scope="col">type</th>
+          <th scope="col">default</th>
+          <th scope="col">comment</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        {{ range . }}
+          {{/* get the var data */}}
+          {{ $data := dict }}
+          {{ $data = partial "lib/read-var-data.html" (dict "ctx" $.ctx "var" . "name" .name ) }}                
+
+          <tr class="font-mono">
+            <td>{{ with $data.name }}<a class="" href="#{{ $data.id | urlize }}">{{ . }}</a>{{ end }}</td>
+            <td>{{ with $data.type }} {{ . }}{{ end }}</td>
+            <td>{{ with $data.default_value}}{{ . }}{{ end }}</td>
+            <td class="font-sans">{{ with $data.comment}} {{ . }} {{ end }}</td>            
+          </tr>
+        {{ end }}
+      </tbody>
+    </table>
+    </div>
+{{ end }}

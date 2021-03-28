@@ -1,0 +1,39 @@
+{{/* ---------------------------------------------------------------------------
+   * This partial checks whether this item is new.
+   * 
+   * return value:
+   *  - `true` when item is new
+   *  - `<version>` when item was introduced in an earlier version
+   *  - `nil` when item was never introduced
+   * ---------------------------------------------------------------------- */}}
+
+{{ $since := 0 }}
+{{ $current := 999999 }}
+{{ $result := "" }}
+
+{{/* "since version" is set in the definition file of the item */}}
+{{ with .since }}
+  {{ $since = partial "version_to_number.html" .}}
+{{ end }}
+
+
+{{/* "current version" is set in the definition file of the project */}}
+{{ with $.ctx.Page.FirstSection.Resources.GetMatch "project.yaml" }}
+  {{ $yamlData := . | transform.Unmarshal }}
+      {{ with $yamlData.changelog }}
+        {{ range first 1 . }}
+          {{ $current = partial "version_to_number.html" .version }}
+        {{ end }}
+      {{ end }}  
+{{ end }}
+
+
+{{ if eq $since $current }}
+  {{ $result = true }}
+{{ else }}
+  {{ if gt $since 0 }}
+    {{ $result = .since }}
+  {{ end }}
+{{ end }}
+
+{{ return $result }}

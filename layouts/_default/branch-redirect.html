@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Branch redirect</title>
+
+  {{ with .Site.Param (printf "imported_sections.%s" .Title) }}
+    <script>
+      const branchArray = {{ .branches | jsonify | safeJS }}
+// console.log(branch);
+      // branch from query string
+      const urlParams = new URLSearchParams(window.location.search)
+      const urlBranch = urlParams.get('branch')
+
+      // get stored branch
+      let branch = (urlBranch === null) ? localStorage.getItem({{ $.Title | urlize }}) : urlBranch
+
+      // if branch not valid pick latest
+      if (!branchArray.includes(branch)) { branch = branchArray[0] }
+
+        // save branch to local storage
+        localStorage.setItem({{ $.Title | urlize }}, branch);
+        
+        // update URL for the selected branch
+        window.history.replaceState({}, document.title, "/" + ({{ $.Title | urlize }} + '-' + branch))
+        location.reload()
+    </script>
+  {{ end }}
+
+</head>
+
+<body>
+
+</body>
+
+</html>

@@ -1,0 +1,19 @@
+{{/* this lists the possible values of the variable in a table */}}
+<div class="overflow-x-auto">
+  <table class="whitespace-nowrap">
+    <thead>
+    <tr>
+      <th scope="col" class="w-1/4">value</th>
+      <th scope="col" class="w-3/4">explanation</th>
+    </tr>
+    </thead>
+    <tbody>
+      {{ range $value, $description := . }}
+      <tr>
+        <td class="font-mono">{{ with $value }} {{ . }}{{ end }}</td>
+        <td>{{ with $description }} {{ . | markdownify }} {{ end }}</td>
+      </tr>
+      {{ end }}
+    </tbody>
+  </table>
+</div>

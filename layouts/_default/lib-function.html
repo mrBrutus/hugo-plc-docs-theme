@@ -1,0 +1,18 @@
+{{ define "main" }}
+  <article>
+    {{/* read the YAML data from the the parent's resources */}}
+    {{/* parse the function's interface and details */}}
+    {{ with .Parent.Resources.GetMatch (printf "**%s.yaml" .Page.File.BaseFileName) }}
+      {{ $yamlData := . | transform.Unmarshal }}
+
+      {{/* parse function */}}
+      {{ with $yamlData }}
+        {{ partial "lib/function/index.html" (dict "ctx" $ "Page" .  ) }}
+      {{ end }}
+
+    {{ end }}
+
+    {{/* followed by the markdown content */}}
+    {{ .Content }}
+  </article>
+{{ end }}

@@ -1,0 +1,19 @@
+{{/* controller support as table */}}
+<div class="overflow-x-auto">
+  <table class="whitespace-nowrap">
+    <thead>
+      <tr>
+        <th scope="col" class="w-1/4">controller</th>
+        <th scope="col" class="w-3/4">introduced in</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{ range $controller, $since := . }}
+        <tr>
+          <td>{{ with $controller }}{{ . }}{{ end }}</td>
+          <td>{{ with $since }}<code>{{ . }}</code>{{ end }}</td>
+        </tr>
+      {{ end }}
+    </tbody>
+  </table>
+</div>

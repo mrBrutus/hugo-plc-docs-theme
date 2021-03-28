@@ -1,0 +1,41 @@
+{{/* render variables as table */}}
+{{ with .var }}
+  <div class="overflow-x-auto">
+    <table class="whitespace-nowrap">
+      <thead>
+        <tr>
+          <th scope="col">kind</th>{{/* todo: only icons in this column */}}
+          <th scope="col">name</th>
+          <th scope="col">type</th>
+          <th scope="col">default</th>
+          <th scope="col">comment</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{ $kind := "" }}
+          {{ range  . }}    
+            {{ with .kind}}{{ $kind = . }}{{ end }}
+            
+            {{ with .var }}
+              {{ range  . }}    
+                {{ if (or (eq $kind "input") (eq $kind "output") (eq $kind "in_out") ($.ctx.Params.show_all_vars)) }}
+
+                {{/* get the var data */}}
+                {{ $data := dict }}
+                {{ $data = partial "lib/read-var-data.html" (dict "ctx" $.ctx "var" . "name" .name ) }}
+
+                <tr class="font-mono">
+                  <td>{{ $kind | upper }}</td>{{/* todo: only icons in this column */}}
+                  <td>{{ with $data.name }}<a class="" href="#{{ $data.id | urlize }}">{{ . }}</a>{{ end }}</td>
+                  <td>{{ with $data.type }} {{ . }}{{ end }}</td>
+                  <td>{{ with $data.default_value}}{{ . }}{{ end }}</td>
+                  <td class="font-sans">{{ with $data.comment}} {{ . }} {{ end }}</td>
+                </tr>
+              {{ end }}
+            {{ end }}
+          {{ end }}
+        {{ end }}
+      </tbody>
+    </table>
+  </div>
+{{ end }}

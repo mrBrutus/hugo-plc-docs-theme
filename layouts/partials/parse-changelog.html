@@ -1,0 +1,75 @@
+{{/* parse changelog */}}
+<div class="collapse-card mt-2 mb-0 border rounded collapse" id="changelog-accordion">
+  {{ range . }}
+    <div class="mb-10">
+      <div class="pl-4 bg-default-soft">
+        {{ with .version }}
+          <h3 class="inline-block flat tracking-widest">{{ printf "%s - " . }}</h3>
+        {{ end }}
+        {{ with .date }}
+          <span class="ml-2 text-default-light font-mono">{{ printf "%s" . }}</span>
+        {{ end }}
+        {{ with .author }}
+          <span class="inline-block ml-2 text-default-light italic">{{ printf "%s" . }}</span>
+        {{ end }}
+      </div>
+
+      <div class="pl-4">
+        {{ with .added }}
+          <h4 class="">Added:</h4>
+          <ul>
+            {{ range . }}
+              <li class="">{{ printf "%s" . | markdownify }}</li>
+            {{ end }}
+          </ul>
+        {{ end }}
+
+        {{ with .changed }}
+          <h4 class="">Changed:</h4>
+          <ul>
+            {{ range . }}
+              <li class="">{{ printf "%s" . | markdownify }}</li>
+            {{ end }}
+          </ul>
+        {{ end }}
+
+        {{ with .deprecated }}
+          <h4 class="">Deprecated:</h4>
+          <ul>
+            {{ range . }}
+              <li class="">{{ printf "%s" . | markdownify }}</li>
+            {{ end }}
+          </ul>
+        {{ end }}
+
+        {{ with .removed }}
+          <h4 class="">Removed:</h4>
+          <ul>
+            {{ range . }}
+              <li class="">{{ printf "%s" . | markdownify }}</li>
+            {{ end }}
+          </ul>
+        {{ end }}
+
+        {{ with .fixed }}
+          <h4 class="">Fixed:</h4>
+          <ul>
+            {{ range . }}
+              <li class="">{{ printf "%s" . | markdownify }}</li>
+            {{ end }}
+          </ul>
+        {{ end }}
+
+        {{ with .security }}
+          <h4 class="">Security:</h4>
+          <ul>
+            {{ range . }}
+              <li class="">{{ printf "%s" . | markdownify }}</li>
+            {{ end }}
+          </ul>
+        {{ end }}
+
+      </div>
+    </div>
+  {{ end }}
+</div>

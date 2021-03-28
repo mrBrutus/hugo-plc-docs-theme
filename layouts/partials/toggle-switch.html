@@ -1,0 +1,16 @@
+<!-- Toggle Button -->
+<label for="{{ .id }}" class="w-full py-2 flex justify-end items-center cursor-pointer">
+  <!-- text label -->
+  {{ with .text }}
+    <div class="mr-2 text-default-light">{{ . }}</div>
+  {{ end }}
+  <!-- toggle -->
+  <div class="relative pr-2">
+    <!-- input -->
+    <input id="{{ .id }}" type="checkbox" class="hidden" />
+    <!-- line -->
+    <div class="bg-default-light w-10 h-4 rounded-full"></div>
+    <!-- dot -->
+    <div class="toggle__dot bg-default-soft absolute w-6 h-6 -inset-y-1 -inset-x-1 rounded-full transition-all duration-300"></div>
+  </div>
+</label>

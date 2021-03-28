@@ -1,0 +1,92 @@
+{{/* title */}}
+{{ with $.ctx.Title }}
+  <div>
+    <div class="flex flex-wrap justify-start items-baseline">
+      {{/* item title */}}
+      <h1 class="flat inline-block">{{ . }}</h1>
+      
+      {{/* item version */}}
+      {{ with $.Page.changelog }}
+        {{ range first 1 . }}
+          {{/* <span class="ml-2 font-mono" title="view changelog"><a data-toggle="collapse" href="#changelog">v{{ .version }}</a></span> */}}
+          <a data-toggle="collapse" title="view history" href="#changelog-accordion">
+            <div class="flex justify-center items-center">
+              <span class="mx-2">
+                v{{ .version }}
+              </span>
+              {{/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg> */}}
+            </div>              
+          </a>
+        {{ end }}
+      {{ end }}
+
+
+      {{/* information about when the item was introduced */}}
+      {{/* this better be made a banner */}}
+      {{/* {{ with partial "lib/is-item-new.html" (dict "ctx" $.ctx "since" $.Page.since )}}
+        {{ if eq . true }}
+          <span class="pill pill-green">new</span>
+        {{ else }}
+          <span class=""> - since: <span class="font-mono">v{{ . }}</span></span>
+        {{ end }}
+      {{ end }} */}}
+    </div>
+  </div>
+{{ end }}
+
+
+{{/* changelog */}}
+{{ if not $.ctx.Params.disable_changelog }}
+  {{ with .Page.changelog }}
+    <div>
+      {{ partial "parse-changelog.html" . }}
+    </div>
+  {{ end }}
+{{ end }}
+
+
+{{/* description (or comment) */}}
+{{ with .Page.description }}
+  <section class="mt-8">
+    <span>{{ . | markdownify }}</span>
+  </section>
+{{ else }}
+  {{ with .Page.comment}}
+    <section>
+      <span>{{ . }}</span>
+    </section>
+  {{ end }}
+{{ end }}
+
+
+{{/* variable overview */}}
+{{ if not $.ctx.Params.disable_overview }}
+  {{ with .Page.var }}
+    <section>
+      <h2 id="overview">Overview</h2>
+      {{ partial "lib/type/var-table.html" (dict "ctx" $.ctx "var" . ) }}
+    </section>
+  {{ end }}
+{{ end }}
+
+
+{{/* variable details */}}
+{{ with .Page.var }}
+  <section>
+    <h2 id="details">Details</h2>
+    {{ partial "lib/type/var-details.html" (dict "ctx" $.ctx "var" . ) }}
+  </section>
+{{ end }}
+
+
+{{/* source code */}}
+{{ if (and (not $.ctx.Params.disable_source) (or (hugo.Environment | eq "development") ($.ctx.Params.open_source)) ) }}
+  {{ with .Page }}
+    <section>
+      <h2 id="source-code">Source code</h2>
+      {{ partial "lib/type/source-code.html" (dict "ctx" $.ctx "item" . ) }}
+    </section>
+  {{ end }}
+{{ end }}

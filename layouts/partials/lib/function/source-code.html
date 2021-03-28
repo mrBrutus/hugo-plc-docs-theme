@@ -1,0 +1,97 @@
+{{/* generate source code */}}
+{{ with .item }}
+  {{/* <details> */}}
+  {{/* <summary>Show source code</summary> */}}
+  <div class="">
+
+    {{/* Declaration */}}
+    {{ $name := $.ctx.Page.File.BaseFileName }}
+    {{ $description := "" }}
+    {{ with .comment }}{{ $description = . }}{{ end }}
+    {{ $code_block := "```iecst\n" }}      
+    
+    {{/* comment */}}
+    {{ with $description }}
+      {{ $code_block = printf "%s(*%s*)\n" $code_block . }}
+    {{ end }}
+
+    {{/* insert construct */}}
+    {{ with .return }}
+      {{/* Function */}}
+      {{ $code_block = printf "%sFUNCTION %s : %s\n\n" $code_block $name . }}
+    {{ else }}
+      {{/* Function Block */}}
+      {{ $code_block = printf "%sFUNCTION_BLOCK %s\n\n" $code_block $name }}
+    {{ end }}
+
+
+    {{/* insert code header */}}
+    {{ $family := $.ctx.Parent.Title }}
+    {{ $latestChangelog := dict }}
+    {{ with .changelog }}
+      {{ range first 1 . }}{{$latestChangelog = . }}{{ end }}
+    {{ end }}
+    {{ $code_header := partial "lib/code-header.html" (dict "name" $name "family" $family "description" $description "latestChangelog" $latestChangelog ) }}
+    {{ $code_block = printf "%s%s\n" $code_block $code_header }}
+
+    {{/* insert variables */}}
+    {{ with .var }}
+      <h3 id="declarations">Declarations</h3>
+      <div class="overflow-x-auto">
+        {{ $kind := "" }}
+        {{ $firstVar := true }}
+        {{ range  . }}
+          {{ with .kind}}{{ $kind = . | upper }}{{ end }}
+            {{/* insert some white space between groups */}}
+            {{ if not $firstVar }}
+              {{ $code_block = printf "%s\n" $code_block }}
+            {{ end }}
+            {{/* start of a group */}}
+            {{ if (or (eq $kind "CONSTANT") (eq $kind "VAR") ) }}
+              {{ if (eq $kind "VAR") }}
+                {{ $code_block = printf "%sVAR\n" $code_block }}
+              {{ else }}
+                {{ $code_block = printf "%sVAR %s\n" $code_block $kind }}
+              {{ end }}
+            {{ else }}
+              {{ $code_block = printf "%sVAR_%s\n" $code_block $kind }}
+            {{ end }}
+            {{ with .var }}
+              {{ range  . }}
+
+                {{/* get the var data */}}
+                {{ $data := dict }}
+                {{ $data = partial "lib/read-var-data.html" (dict "ctx" $.ctx "var" . "name" .name ) }}
+                {{ $type := "" }}
+                {{ $default_value := "" }}
+                {{ $comment := "" }}
+
+                {{ with $data.type }}{{$type = printf " : %s" . }}{{end}}
+                {{ with $data.default_value }}{{$default_value = printf " := %v" . }}{{end}}
+                {{ with $data.comment }}{{$comment = printf " (*%s*)" . }}{{end}}
+                {{ $code_block = printf "%s  %s%s%v;%s\n" $code_block $data.name $type $default_value $comment}}
+              {{ end }}
+              {{/* end of a group */}}
+              {{ $code_block = printf "%sEND_VAR\n" $code_block }}
+              {{ $firstVar = false }}
+          {{ end }}
+        {{ end }}
+        {{ printf "%s\n```" $code_block | markdownify }}
+      </div>
+    {{ end }}
+
+
+    {{/* Logic */}}
+    {{ with $.ctx.Parent.Resources.GetMatch (printf "**%s.iecst" $.ctx.Page.File.BaseFileName) }}
+      <h3 id="logic">Logic</h3>
+      <div class="overflow-x-auto">
+        {{ $code_block := "```iecst\n" }}
+        {{/* insert code */}}
+        {{ $code_block = printf "%s%s\n" $code_block .Content }}
+        {{ printf "%s\n```" $code_block | markdownify }}
+      </div>
+    {{ end }}
+
+  </div>
+{{/* </details> */}}
+{{ end }}

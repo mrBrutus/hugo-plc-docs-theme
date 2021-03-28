@@ -1,0 +1,11 @@
+<label for= "{{ .label }}" class="flex items-center">
+  <select id="{{ .label }}" class="branch-select">
+    {{ range $i, $j := .branches }}
+      {{ if eq $i 0 }}
+        <option class="latest-branch" title="latest branch" value="{{ . }}">{{ . }}</option>
+      {{ else }}
+        <option value="{{ . }}">{{ . }}</option>
+      {{end}}
+    {{end}}
+  </select>
+</label>

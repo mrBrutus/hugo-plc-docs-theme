@@ -1,0 +1,30 @@
+<footer class="text-center border-t p-4 text-sm text-default-light">
+    <p>Content generated at <span class="text-primary">{{ now.Format "02 Jan 2006 15:04:05 MST" }}</span></p>          
+</footer>
+
+
+{{ "<!-- plugins -->" | safeHTML }}
+{{ range $plugin, $settings := $.Site.Data.plugins }}
+  {{/* optional plugins are activated by site- or page parameter */}}
+  {{ if (or (not .optional) (in $.Site.Params.plugins $plugin) (in $.Params.plugins $plugin)) }}  
+    {{ with .scripts.foot }}      
+      {{ range . }}
+        {{/* CDN scripts */}}
+        {{ if findRE "^http" . }}
+          <script src="{{ . | absURL }}"></script>
+        {{/* served scripts */}}
+        {{ else }}      
+          {{ $singleJS := resources.Get . | fingerprint "sha512" }}
+          <script src="{{ $singleJS.RelPermalink }}" integrity="{{ $singleJS.Data.Integrity }}"></script>
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}  
+
+
+{{ "<!-- site script -->" | safeHTML }}
+{{ $allJS := slice }}
+{{ $allJS := $allJS | append (resources.Get "js/site.js" | minify) }}
+{{ $allJS := $allJS | resources.Concat "/js/vendor.js" | minify | fingerprint "sha512" }}
+<script src="{{ $allJS.RelPermalink }}" integrity="{{ $allJS.Data.Integrity }}"></script>

@@ -1,0 +1,62 @@
+/** purgecss start ignore */
+
+.hljs-code {
+  @apply relative;
+  @apply flex flex-col justify-start;  
+  @apply border dark:border-transparent;
+  @apply print:whitespace-pre-wrap;
+}
+
+/* collapsed code block */
+.hljs-code.collapsed {
+  @apply max-h-52 overflow-hidden;
+  @apply print:max-h-full;
+}
+
+/* bottom fade effect */
+.hljs-code.collapsed .bottom-fade {
+  @apply absolute bottom-0 z-10 left-0 pb-1 pt-24 w-full;
+  @apply rounded-b-md cursor-pointer;
+  @apply bg-gradient-to-t from-hljs to-hljs-transparent;
+  @apply print:hidden;
+}
+
+.hljs-code:not(.collapsed) .bottom-fade {
+  @apply hidden;
+}
+
+/* the code (styled by Highlight.js stylesheet) */
+.hljs-code > code {
+  @apply flex-none order-2;
+}
+
+/* wrapper for code block header items such as buttons */
+.hljs-code .btn-wrapper {
+  @apply order-1 pt-0.5;
+  @apply w-full;
+  @apply flex justify-end items-center space-x-4 xl:space-x-2;  
+  @apply bg-hljs;
+  @apply rounded-t-md;
+  @apply print:hidden;
+  @apply text-default-light;
+}
+
+.hljs-code .btn-wrapper > button {
+  @apply h-6 w-6 xl:h-5 xl:w-5;
+  @apply focus:outline-none;
+  @apply hover:text-background-inverse;
+}
+
+.hljs-code .btn-wrapper .language-label {
+  @apply h-full pr-2;
+  @apply flex items-center;  
+  @apply italic text-base xl:text-sm;
+}
+
+/* .copy-btn.copied {
+  @apply cursor-default;
+  @apply bg-primary;
+  @apply text-primary-inverse;
+} */
+
+/** purgecss end ignore */

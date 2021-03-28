@@ -1,0 +1,22 @@
+{{ $ctx := .ctx}}
+{{ $padding := .padding }}
+{{ $title := .title }}
+{{ $url := .url }}
+{{ $branchSelector := .branchSelector }}
+{{ $branches := .branches }}
+{{ $collapse := .collapse }}
+{{ $debugColor := .debugColor }}
+
+<div class="flex justify-between {{ $padding }}">
+  <a href="{{ $url }}" class="sb-btn" {{ if $collapse }} data-toggle="collapse" {{ end }}> 
+    <span class="{{ with $ctx.Param `debug` }}{{ $debugColor }}{{ end }} flex-none mr-2 w-6 h-6"></span>
+    <span class="mr-2">{{ $title }}</span>
+  </a>
+  {{if $branchSelector }}
+    {{ partial "sidebar-branch-selector.html" (dict 
+      "branches" $branches 
+      "label" ($title | urlize) 
+      ) 
+    }}
+  {{end}}
+</div>

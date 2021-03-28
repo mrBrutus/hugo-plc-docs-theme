@@ -1,0 +1,105 @@
+{{/* title */}}
+{{ with $.ctx.Title }}
+  <div>
+    <div class="flex flex-wrap justify-start items-baseline">
+      {{/* item title */}}
+      <h1 class="flat inline-block">{{ . }}</h1>
+      
+      {{/* item version */}}
+      {{ with $.Page.changelog }}
+        {{ range first 1 . }}
+          {{/* <span class="ml-2 font-mono" title="view changelog"><a data-toggle="collapse" href="#changelog">v{{ .version }}</a></span> */}}
+          <a data-toggle="collapse" title="view history" href="#changelog-accordion">
+            <div class="flex justify-center items-center">
+              <span class="mx-2">
+                v{{ .version }}
+              </span>
+              {{/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg> */}}
+            </div>              
+          </a>
+        {{ end }}
+      {{ end }}
+
+    </div>
+  </div>
+{{ end }}
+
+
+{{/* changelog */}}
+{{ if not $.ctx.Params.disable_changelog }}
+  {{ with .Page.changelog }}
+    <div>
+      {{ partial "parse-changelog.html" . }}
+    </div>
+  {{ end }}
+{{ end }}
+
+
+{{/* description (or comment) */}}
+{{ with .Page.description }}
+  <section class="mt-8">
+    <span>{{ . | markdownify }}</span>
+  </section>
+{{ else }}
+  {{ with .Page.comment}}
+    <section>
+      <span>{{ . }}</span>
+    </section>
+  {{ end }}
+{{ end }}
+
+{{/* variable details */}}
+{{ with .Page.var }}
+  <section id="accordion">
+      {{/* <h2 class="inline-block" id="content">Content</h2> */}}
+    <div class="flex justify-between items-baseline">
+      <h2 class="" id="content">Content</h2>
+      <div class="flex justify-end">
+        <a class="ml-2 print:hidden" href="javascript:void(0)" onclick="$('#accordion .collapse').collapse('show')">expand all</a>
+        <a class="ml-2 print:hidden" href="javascript:void(0)" onclick="$('#accordion .collapse').collapse('hide')">collapse all</a>
+      </div>
+    </div>
+
+    {{ range $key, $value := . }}
+      {{ $data := . }}
+      {{ $data = merge $data (dict "name" $key ) }}
+      {{ $collapseId := printf "%s-accordion" ($data.name | replaceRE "\\." "_")}}
+      
+      <div class="collapse-card border rounded mb-4">        
+        <a class="" data-toggle="collapse" title="toggle details" href="#{{ $collapseId }}">
+          <div class="pl-4 bg-default-soft ">
+            <h3 class="inline-block flat" id="{{ $data.name | urlize }}">{{ $data.name }}</h3>
+            {{ with .type }}<span class="inline-block ml-2 text-primary font-mono">{{ .}} </span>{{ end }}
+            <div class="inline-block ml-2 text-default-light italic">
+              {{ with (and ($data.optional) ($data.default_value)) }}
+                {{ with $data.default_value }}<span>(optional, default: {{ . }})</span>{{ end }}
+              {{ else }}
+                {{ if $data.optional }}<span>(optional)</span>{{ end }}
+                {{ with $data.default_value }}<span>(default: {{ . }})</span>{{ end }}
+              {{ end }}
+            </div>
+            {{/* todo: icon */}}
+            {{/* <a class="inline-block ml-2" data-toggle="collapse" title="toggle details" href="#{{ $collapseId }}">toggle details</a> */}}
+          </div>
+        </a>
+       
+        {{/* <div class="collapse" data-parent="#accordion" id="{{ $collapseId }}"> */}}
+        <div class="collapse" id="{{ $collapseId }}">
+          <div class="mx-4">
+            {{/* description (or comment) */}}
+            {{ with $data.description }}<p>{{ . | markdownify }} </p>
+            {{ else }}
+              {{ with $data.comment}}<p>{{ . }} </p>{{ end }}
+            {{ end }}
+
+            {{ with $data.legend }}
+              {{ partial "lib/legend-table.html" . }}
+            {{ end }}
+          </div>
+        </div>      
+      </div>
+    {{ end }}
+  </section>
+{{ end }}

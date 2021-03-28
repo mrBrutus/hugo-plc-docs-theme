@@ -1,0 +1,27 @@
+{{/* 
+Returns an object with the var data.
+- if input only contains the name the data will be looked up in _common.yaml
+- usage: data := {{ partial "lib/read-var-data.html" (dict "ctx" $.ctx "var" . "name" .name ) }} 
+*/}}
+
+{{ $data := .var }}
+
+{{/* look up in _common.yaml */}}
+{{if not $data.type}}
+  {{ with $.ctx.Parent.Resources.GetMatch "_common.yaml" | transform.Unmarshal }}
+  {{ with .var }}
+    {{ with index . $.name }}
+      {{ $data = . }}
+    {{ else }}
+      {{ warnf "[%q] Key %q not found in %q." $.ctx.Page.RelPermalink $.name "_common.yaml"}}
+    {{end}}
+  {{ else }}
+    {{ errorf "[%q] File %q not found." $.ctx.Page.RelPermalink "_common.yaml"}}
+  {{end}}
+  {{end}}
+{{end}}
+
+{{/* inject name  (only the part before the optional separator) */}}
+{{ $name := index (split .name ".") 0 }}
+{{ $data = merge $data (dict "name" $name "id" .name) }}
+{{ return $data }}

@@ -1,0 +1,83 @@
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
+  image:
+    name: 'klakegg/hugo:0.81.0-ext-pandoc'
+    entrypoint:
+      - ''
+  cache:
+    untracked: true
+    key: $CI_COMMIT_REF_NAME
+    paths:
+      - node_modules/
+  before_script:
+    - npm -v
+    - npm install
+  script:
+    - echo "building the theme's ExampleSite"
+    - 'hugo -e production -s exampleSite -t hugo-plc-docs-theme --themesDir=../.. --minify --gc --baseURL "http://$STAGING_SERVER$STAGING_SERVER_PORT/$CI_PROJECT_NAME/$CI_COMMIT_BRANCH/"'
+  artifacts:
+    paths:
+      - exampleSite/public
+    expire_in: 2 days
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /-wip/
+      - $CI_COMMIT_MESSAGE =~ /-deploy/
+
+deploy:
+  stage: deploy
+  image: alpine
+  cache: {}
+  before_script:
+    - which ssh-agent || ( apk --update add openssh-client )
+    - apk --update add rsync
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan $STAGING_SERVER >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  script:
+    - echo "Deploy to staging server ($STAGING_SERVER) using rsync"
+    - ssh $STAGING_SERVER_USER@$STAGING_SERVER mkdir -p $STAGING_SERVER_PATH/$CI_PROJECT_NAME/$CI_COMMIT_BRANCH
+    - rsync -az --delete --force "${PWD}/exampleSite/public/" $STAGING_SERVER_USER@$STAGING_SERVER:$STAGING_SERVER_PATH/$CI_PROJECT_NAME/$CI_COMMIT_BRANCH/
+  environment:
+    name: 'preview/$CI_COMMIT_BRANCH'
+    url: 'http://$STAGING_SERVER$STAGING_SERVER_PORT/$CI_PROJECT_NAME/$CI_COMMIT_BRANCH/'
+    on_stop: remove preview
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /-wip/
+      - $CI_COMMIT_MESSAGE =~ /-deploy/
+
+remove preview:
+  stage: deploy
+  image: alpine
+  cache: {}
+  before_script:
+    - which ssh-agent || ( apk --update add openssh-client )
+    - apk --update add rsync
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan $STAGING_SERVER >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  script:
+    - echo "Remove preview site"
+    - ssh $STAGING_SERVER_USER@$STAGING_SERVER rm -rf $STAGING_SERVER_PATH/$CI_PROJECT_NAME/$CI_COMMIT_BRANCH
+  environment:
+    name: 'preview/$CI_COMMIT_BRANCH'
+    action: stop
+  when: manual
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /-wip/
+      - $CI_COMMIT_MESSAGE =~ /-deploy/

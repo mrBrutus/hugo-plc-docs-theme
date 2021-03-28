@@ -1,0 +1,58 @@
+{{/* 
+Returns a string with the header text.
+- usage: {{ headerstring := partial "lib/code-header.html" (dict "name" $name "family" $family "description" $description "latestChangelog" $latestChangelog ) }} 
+- example:
+
+(*
+ * -----------------------------------------------------------------------------
+ * Name               : AddNumbers
+ * Family             : Library A functions
+ * Version            : 0.2.0
+ * Date               : 2020-11-25
+ * Author             : Brutus
+ * 
+ * -----------------------------------------------------------------------------
+ * Adds two **numbers** and rounds the result.
+ * -----------------------------------------------------------------------------
+ *)
+
+*/}}
+
+
+{{/* Header */}}
+{{ $code_header := "" }}
+
+{{ $l0 := "(*" }}
+{{ $ln := " * -----------------------------------------------------------------------------" }}
+{{ $l1 := " * Name               : " }}
+{{ $l2 := " * Family             : " }}
+{{ $l3 := " * Version            : " }}
+{{ $l4 := " * Date               : " }}
+{{ $l5 := " * Author             : " }}
+{{ $l8 := " * " }}
+{{ $l9 := " *)" }}
+
+
+{{ $code_header = printf "%s%s\n" $code_header $l0 }}
+{{ $code_header = printf "%s%s\n" $code_header $ln}}}}
+{{ with .name }}{{ $code_header = printf "%s%s%s\n" $code_header $l1 . }}{{ end }}
+{{ with .family }}{{ $code_header = printf "%s%s%s\n" $code_header $l2 . }}{{ end }}
+
+{{ with .latestChangelog }}
+  {{ with .version }}{{ $code_header = printf "%s%s%s\n" $code_header $l3 . }}{{ end }}
+  {{ with .date }}{{ $code_header = printf "%s%s%s\n" $code_header $l4 . }}{{ end }}
+  {{ with .author }}{{ $code_header = printf "%s%s%s\n" $code_header $l5 . }}{{ end }}
+{{ end }}
+
+{{ $code_header = printf "%s%s\n" $code_header $l8 }}
+{{ $code_header = printf "%s%s\n" $code_header $ln}}
+
+
+{{ with .description }} 
+  {{ $code_header = printf "%s%s%s\n" $code_header $l8 . }}
+  {{ $code_header = printf "%s%s\n" $code_header $ln}}
+{{ end }}
+
+{{ $code_header = printf "%s%s\n" $code_header $l9 }}
+
+{{return $code_header }}

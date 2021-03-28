@@ -1,0 +1,16 @@
+/* adjustments to Tailwind forms plugin */
+@layer base {
+  /* [type=text],  */
+  /* [type=url], */
+  /* [type=number], */
+  /* [type=date], */
+  /* [type=month], */
+  /* [type=search], */
+  /* [type=time], */
+  /* [type=week], */
+  /* [multiple], */
+  /* textarea, */
+  select {
+    @apply bg-background cursor-pointer py-1 border-soft focus:border-primary focus:ring-primary rounded-lg shadow-sm;
+  }
+}

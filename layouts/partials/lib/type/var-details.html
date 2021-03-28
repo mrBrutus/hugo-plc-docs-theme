@@ -1,0 +1,38 @@
+{{/* render variable details */}}
+{{ with .var }}
+  <div>
+  {{ range . }}
+
+    {{/* get the var data */}}
+    {{ $data := dict }}
+    {{ $data = partial "lib/read-var-data.html" (dict "ctx" $.ctx "var" . "name" .name ) }}
+
+    <div class="pl-4 bg-default-soft">
+      <h3 class="inline-block flat" id="{{ $data.id | urlize }}">{{ $data.name }}</h3>
+      {{ with $data.type }}<span class="ml-2 text-primary font-mono">{{ .}} </span>{{ end }}
+      {{/* todo: create hyperlinks for non-basic types*/}}
+      {{/* "optional" and "default value" between the same pair of brackets  */}}
+      <div class="inline-block ml-2 text-default-light italic">
+        {{ with (and ($data.optional) ($data.default_value)) }}
+          {{ with $data.default_value }}<span>(optional, default: {{ . }})</span>{{ end }}
+        {{ else }}
+          {{ if $data.optional }}<span>(optional)</span>{{ end }}
+          {{ with $data.default_value }}<span>(default: {{ . }})</span>{{ end }}
+        {{ end }}
+      </div>
+    </div>
+
+    <div class="mx-4">
+      {{/* description (or comment) */}}
+      {{ with $data.description }}<p>{{ . | markdownify }} </p>
+      {{ else }}
+        {{ with $data.comment}}<p>{{ . }} </p>{{ end }}
+      {{ end }}
+
+      {{ with $data.legend }}
+        {{ partial "lib/legend-table.html" . }}
+      {{ end }}
+    </div>
+  {{ end }}
+  </div>
+{{ end }}

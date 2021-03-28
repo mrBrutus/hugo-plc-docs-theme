@@ -1,0 +1,55 @@
+{{/* generate source code */}}
+{{ with .item }}
+  {{/* <details> */}}
+  {{/* <summary>Show source code</summary> */}}
+  <div>
+
+    {{/* Declaration */}}
+    {{ $name := $.ctx.Page.File.BaseFileName }}
+    {{ $description := "" }}
+    {{ with .comment }}{{ $description = . }}{{ end }}
+    {{ $code_block := "```iecst\n" }}
+
+    {{/* comment */}}
+    {{ with $description }}
+      {{ $code_block = printf "%s(*%s*)\n" $code_block . }}
+    {{ end }}
+
+    {{/* insert construct */}}
+    {{ $code_block = printf "%sTYPE %s : \n\n" $code_block $name }}
+    
+    {{/* insert code header */}}
+    {{ $family := $.ctx.Parent.Title }}
+    {{ $latestChangelog := dict }}
+    {{ with .changelog }}
+      {{ range first 1 . }}{{$latestChangelog = . }}{{ end }}
+    {{ end }}
+    {{ $code_header := partial "lib/code-header.html" (dict "name" $name "family" $family "description" $description "latestChangelog" $latestChangelog ) }}
+    {{ $code_block = printf "%s%s\n" $code_block $code_header }}
+
+    {{/* insert variables */}}
+    {{ with .var }}
+      <h3 id="declarations">Declarations</h3>
+      <div class="overflow-x-auto">
+      {{ $code_block = printf "%sSTRUCT\n" $code_block }}
+        {{ range  . }}
+          {{/* get the var data */}}
+          {{ $data := dict }}
+          {{ $data = partial "lib/read-var-data.html" (dict "ctx" $.ctx "var" . "name" .name ) }}
+          {{ $type := "" }}
+          {{ $default_value := "" }}
+          {{ $comment := "" }}
+
+          {{ with $data.type }}{{$type = printf " : %s" . }}{{end}}
+          {{ with $data.default_value }}{{$default_value = printf " := %v" . }}{{end}}
+          {{ with $data.comment }}{{$comment = printf " (*%s*)" . }}{{end}}
+          {{ $code_block = printf "%s  %s%s%v;%s\n" $code_block $data.name $type $default_value $comment}}
+        {{ end }}
+        {{ $code_block = printf "%sEND_STRUCT\n" $code_block }}
+        {{ $code_block = printf "%sEND_TYPE\n" $code_block }}
+        {{ printf "%s```" $code_block | markdownify }}
+      </div>
+    {{ end }}
+
+{{/* </details> */}}
+{{ end }}

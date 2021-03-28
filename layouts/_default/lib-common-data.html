@@ -1,0 +1,17 @@
+{{ define "main" }}
+  <article>
+    {{/* read the YAML data from the parent's resources */}}    
+    {{ with .Parent.Resources.GetMatch (printf "**%s.yaml" .Page.File.BaseFileName) }}
+      {{ $yamlData := . | transform.Unmarshal }}
+
+      {{/* parse the items */}}
+      {{ with $yamlData }}
+        {{ partial "lib/common-data/index.html" (dict "ctx" $ "Page" .  ) }}
+      {{ end }}
+    {{ end }}
+
+    {{/* followed by the markdown content */}}
+    {{ .Content }}
+
+  </article>
+{{ end }}
