@@ -76,8 +76,8 @@
   <link rel="stylesheet" href="{{ $allCSS.RelPermalink }}" integrity="{{ $allCSS.Data.Integrity }}">
 
 
-  {{/* override theme by site- or page parameters */}}
-  {{ with $.Site.Params.theme }}
+  {{/* override theme by site data - or page parameters */}}
+  {{ with $.Site.Data.theme }}  
     {{ $themeCss := "" }}
     {{ "<!-- theme overrides by site parameters -->" | safeHTML }}
     {{ "<style>" | safeHTML }}
@@ -92,7 +92,7 @@
       {{ end }}
 
       {{ with .dark }}
-        {{ $themeCss = printf "%v\n.theme-dark {\n" $themeCss }}
+        {{ $themeCss = printf "%v\nhtml.dark {\n" $themeCss }}
           {{ range $key, $val := . }}
             {{ $themeCss = printf "%v--%v : %v;\n" $themeCss $key $val }}
           {{ end }}
@@ -119,7 +119,7 @@
       {{ end }}
 
       {{ with .dark }}
-        {{ $themeCss = printf "%v\n.theme-dark {\n" $themeCss }}
+        {{ $themeCss = printf "%v\nhtml.dark {\n" $themeCss }}
           {{ range $key, $val := . }}
             {{ $themeCss = printf "%v--%v : %v;\n" $themeCss $key $val }}
           {{ end }}

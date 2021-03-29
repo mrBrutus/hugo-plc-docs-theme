@@ -5,7 +5,6 @@
 @import "node_modules/tailwindcss/components";
 
 /* Site Specific */
-@import "assets/css/theming";
 @import "assets/css/site";
 @import "assets/css/codeblocks";
 
