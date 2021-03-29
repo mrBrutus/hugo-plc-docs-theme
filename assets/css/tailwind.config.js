@@ -7,7 +7,7 @@ module.exports = {
   plugins: [
     require('@tailwindcss/forms'),
     require('@tailwindcss/typography')
-  ],  
+  ],
   purge: {
     enabled: process.env.HUGO_ENVIRONMENT === 'production',
     rejected: true,
@@ -37,13 +37,13 @@ module.exports = {
         soft: 'var(--color-default-soft)',
         primary: 'var(--color-primary)',
       },
-  
+
       ringColor: {
         DEFAULT: 'var(--color-default-soft)',
         soft: 'var(--color-default-soft)',
         primary: 'var(--color-primary)',
       },
-      
+
       colors: {
         background: {
           soft: 'var(--color-background-soft)',
@@ -193,22 +193,24 @@ module.exports = {
 
             'figure figcaption': {
               color: 'var(--color-default-light)',
-            },                 
+            },
             
             code: null,
+            'code::before': null,
+            'code::after': null,
             'pre code': null,
 
             ':not(pre)>code, a code': {
               color: 'var(--color-primary)',
               fontWeight: '600',
             },
-               
+
             pre: {
               color: "unset",
               padding: "unset",
               backgroundColor: "transparent"
             },
-                                  
+
           },
         },
       }),
