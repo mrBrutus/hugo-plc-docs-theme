@@ -53,10 +53,12 @@
   @apply italic text-base xl:text-sm;
 }
 
-/* .copy-btn.copied {
-  @apply cursor-default;
-  @apply bg-primary;
-  @apply text-primary-inverse;
-} */
+.hljs-code .btn-wrapper .copy-banner {
+  @apply h-full px-2 rounded;
+  @apply flex items-center;  
+  @apply text-base xl:text-sm;
+  @apply bg-background-inverse;
+  @apply text-background;
+}
 
 /** purgecss end ignore */

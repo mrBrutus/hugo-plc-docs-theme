@@ -34,7 +34,7 @@ hljs.initHighlightingOnLoad();
 
 // ============================================================================
 // add 'hljs-code' class to the code blocks
-// 
+//
 // ============================================================================
 var blocks = document.querySelectorAll('pre');
 Array.prototype.forEach.call(blocks, function (block) {
@@ -58,73 +58,44 @@ function toggleCodeblock(e) {
   var link = e.target;
   var cb = link.closest(".hljs-code");
   cb.classList.toggle('collapsed');
-  if (cb.classList.contains('collapsed')) {
+}
 
-    // cb.scrollIntoView({ behavior: 'smooth', block: "nearest" });
-    // todo: toggle svg
+async function copyToClipboard(e) {
+  var cb = e.target.closest(".hljs-code");
+  const codeToCopy = cb.querySelector('code').innerText
 
-
-    //   // clipboard
-    //   var clipInit = false;
-    //   // var codeblocks = $("pre code:not(.no-copy)");
-    //   // codeblocks.each(function () {
-
-    //   $("pre code:not(.no-copy)").each(function () {
-    //     var code = $(this),
-    //       text = code.text();
-
-    //     if (text.length > 5) {
-    //       if (!clipInit) {
-    //         var text;
-    //         var clip = new Clipboard(".copy-btn", {
-    //           text: function (trigger) {
-    //             text = $(trigger)
-    //               .prev("code")
-    //               .text();
-    //             return text.replace(/^\$\s/gm, "");
-    //           }
-    //         });
-
-    //         clip.on("success", function (e) {
-    //           e.clearSelection();
-    //           $(e.trigger)
-    //             .text("Copied to clipboard!")
-    //             .addClass("copied");
-
-    //           window.setTimeout(function () {
-    //             $(e.trigger)
-    //               .text("Copy")
-    //               .removeClass("copied");
-    //           }, 2000);
-    //         });
-
-    //         clip.on("error", function (e) {
-    //           e.clearSelection();
-    //           $(e.trigger).text("Error copying");
-
-    //           window.setTimeout(function () {
-    //             $(e.trigger).text("Copy");
-    //           }, 1000);
-    //         });
-
-    //         clipInit = true;
-    //       }
-
-    //       // code.after('<span class="copy-btn">Copy</span>');
-    //     }
-    //   });
-
-    // });
-
-
+  try {
+    result = await navigator.permissions.query({ name: "clipboard-write" });
+    if (result.state == "granted" || result.state == "prompt") {
+      await navigator.clipboard.writeText(codeToCopy);
+    }
+  } catch (_) {
+    copyBanner(e, 'fail');
+  }
+  finally {
+    copyBanner(e, 'success');
   }
 }
 
-function copyToClipboard(e) {
-  var link = e.target;
-  console.log('copy to clipboard');
-  // todo: copy logic
+
+function copyBanner(e, r) {
+  let bw = e.target.closest(".btn-wrapper");
+  let sp = document.createElement('span');
+  if (r === 'success') {
+    sp.className = "copy-banner";
+    sp.innerText = "copied!"
+  } else {
+    sp.className = "copy-banner fail";
+    sp.innerText = "⚠ copying failed!"
+  }
+  // add copy information banner
+  bw.prepend(sp);
+  setTimeout(function() {
+    // and remove it
+    bw.removeChild(sp);
+  }, 2000);
 }
+
 
 function processCodeBlocks() {
   var codeblocks = document.querySelectorAll('.hljs-code');
@@ -171,67 +142,9 @@ function processCodeBlocks() {
     bw.appendChild(sp);
   }
 
-
-
 }
 
 
 addEventListener('load', function () {
   processCodeBlocks();
 });
-
-
-
-// $(function () {
-
-//   // clipboard
-//   var clipInit = false;
-//   // var codeblocks = $("pre code:not(.no-copy)");
-//   // codeblocks.each(function () {
-
-//   $("pre code:not(.no-copy)").each(function () {
-//     var code = $(this),
-//       text = code.text();
-
-//     if (text.length > 5) {
-//       if (!clipInit) {
-//         var text;
-//         var clip = new Clipboard(".copy-btn", {
-//           text: function (trigger) {
-//             text = $(trigger)
-//               .prev("code")
-//               .text();
-//             return text.replace(/^\$\s/gm, "");
-//           }
-//         });
-
-//         clip.on("success", function (e) {
-//           e.clearSelection();
-//           $(e.trigger)
-//             .text("Copied to clipboard!")
-//             .addClass("copied");
-
-//           window.setTimeout(function () {
-//             $(e.trigger)
-//               .text("Copy")
-//               .removeClass("copied");
-//           }, 2000);
-//         });
-
-//         clip.on("error", function (e) {
-//           e.clearSelection();
-//           $(e.trigger).text("Error copying");
-
-//           window.setTimeout(function () {
-//             $(e.trigger).text("Copy");
-//           }, 1000);
-//         });
-
-//         clipInit = true;
-//       }
-
-//       // code.after('<span class="copy-btn">Copy</span>');
-//     }
-//   });
-
-// });
