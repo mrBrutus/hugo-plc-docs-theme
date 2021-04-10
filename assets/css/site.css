@@ -154,14 +154,14 @@ kbd {
 
 #overlay {
   @apply fixed inset-0 top-16 z-20;
-  @apply bg-background-inverse opacity-0 invisible;
+  @apply bg-black opacity-0 invisible;
   @apply cursor-pointer;
   @apply transition-all duration-300;
   @apply print:hidden;
 }
 
 #overlay.show {
-  @apply opacity-50 visible;
+  @apply opacity-60 visible;
 }
 
 #sidebar {
