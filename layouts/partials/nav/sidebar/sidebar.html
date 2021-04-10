@@ -27,7 +27,7 @@
   {{ if $showTopLevelItem }}
 
     {{/* has no children -> link to page in sidebar */}}
-    {{ partial "sidebar-item.html" (dict 
+    {{ partial "nav/sidebar/item.html" (dict 
       "debugColor" "bg-blue-400"
       "ctx" $ctx 
       "title" $ctx.Title
@@ -53,7 +53,7 @@
     {{ $startExpanded := false }}
 
     {{if $isTopLevel }}{{$startExpanded = true}}{{end}}
-    {{ partial "sidebar-item.html" (dict 
+    {{ partial "nav/sidebar/item.html" (dict 
       "debugColor" "bg-gray-400" 
       "ctx" $ctx 
       "padding" (printf "pl-%v" (sub (mul $depth 2) 0)) 
@@ -77,7 +77,7 @@
         {{else}}
 
           {{/* single pages not at top level */}}
-          {{ partial "sidebar-item.html" (dict 
+          {{ partial "nav/sidebar/item.html" (dict 
             "debugColor" "bg-purple-400" 
             "ctx" $ctx 
             "padding" (printf "pl-%v" (add (mul $depth 2) 2)) 
@@ -94,7 +94,7 @@
     {{/* collection of pages at top level */}}
     {{ if not $isImportedSection }}
 
-      {{ partial "sidebar-item.html" (dict 
+      {{ partial "nav/sidebar/item.html" (dict 
         "debugColor" "bg-green-400" 
         "ctx" $ctx 
         "title" $ctx.Title 

@@ -13,7 +13,7 @@
     <span class="mr-2">{{ $title }}</span>
   </a>
   {{if $branchSelector }}
-    {{ partial "sidebar-branch-selector.html" (dict 
+    {{ partial "nav/sidebar/branch-selector.html" (dict 
       "branches" $branches 
       "label" ($title | urlize) 
       ) 

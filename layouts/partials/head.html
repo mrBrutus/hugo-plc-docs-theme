@@ -19,8 +19,10 @@
   {{ hugo.Generator }}
 
   {{ "<!--favicon-->" | safeHTML }}
-  <link rel="shortcut icon" href="{{ `images/favicon.ico` | absURL }}" type="image/x-icon">
-  <link rel="icon" href="{{ `images/favicon.ico` | absURL }}" type="image/x-icon">
+  {{/* <link rel="shortcut icon" href="{{ `images/favicon.ico` | absURL }}" type="image/x-icon"> */}}
+  {{/* <link rel="icon" href="{{ `images/favicon.ico` | absURL }}" type="image/x-icon"> */}}
+  
+  {{ partial "head/meta" . }}
 
 
 

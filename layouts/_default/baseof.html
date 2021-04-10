@@ -10,99 +10,11 @@
     {{ with .Param `debug` }}{{ partial "dev-size-indicator.html" . }}{{ end }}
 
     <!-- Scroll back to top button -->
-    <a id="scrollTopButton">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
-      </svg>
-    </a>
+    <a id="scrollTopButton">      
+      {{ partial "svgs/heroicons/chevron-up.svg" (dict "class" "w-8 h-8" ) }}      
+    </a>     
 
-
-    <nav class="flex fixed w-full items-center justify-between h-16 bg-background shadow md:shadow-none md:border-b z-40 print:hidden">
-
-      <div class="flex items-center">
-        <a href="{{ .Site.Home.Permalink }}" class="flex items-center h-16 p-4 text-primary hover:text-primary-dark text-2xl font-semibold">
-          <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" class="h-6 w-6 mr-2">
-            <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-          </svg>
-          <span>Logo/home</span>
-          {{ with $.Param "debug" }}<span> (DEBUG)</span>{{ end }}
-        </a>
-      </div>
-
-      <div class="flex items-center md:hidden">
-        <button id="toggleMenu" aria-label="Open Menu" class="mr-2 focus:outline-none">
-          <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-8 h-8">
-            <path d="M4 6h16M4 12h16M4 18h16"></path>
-          </svg>
-        </button>
-      </div>
-
-      <!-- overlay for mobile menu -->
-      <div id="overlay"></div>
-         
-      <aside id="sidebar">
-        <div class="min-h-16 p-4 flex flex-col space-y-2 items-end border-b">
-
-          {{/* theme switch */}}
-          {{ partial "toggle-switch.html" (dict "id" "theme-switch" "text" "Dark theme") }}
-
-        </div>
-        <div class="mb-32">
-          {{/* sidebar always build from the root level */}}
-          {{ with .Site.GetPage "/" }}
-            {{ range .Pages }}
-              {{ partial "sidebar.html" (dict "ctx" . "depth" 0 "Page" $.Page ) }}
-            {{ end }}
-          {{ end }}
-
-          <!-- <div class="flex justify-between">
-            <a href="{{ .Site.Home.Permalink }}" class="flex-grow flex items-center p-4 h-16 hover:bg-default-soft">
-              <span class="mr-2">
-                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-6 h-6">
-                  <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-                </svg>
-              </span>
-              <span class="mr-2">Home</span>
-          
-              <span title="some title" class="w-6 h-6 hover:text-green-400">            
-                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="">
-                  <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-              </span>
-              <span class="hover:text-red-400">            
-                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-6 h-6">
-                  <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-              </span>
-            </a>
-
-            <select class="h-16 p-2 hover:bg-default-soft cursor-pointer">
-              <option >v0.1.2 (latest)</option>
-              <option >v0.1.1</option>
-            </select>
-          </div>
-
-
-          <span class="flex items-center p-4 h-16 hover:bg-default-soft">
-            <span class="mr-2">
-              <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" class="w-6 h-6">
-                <path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
-              </svg>
-            </span>
-            <span>Wishlist</span>
-          </span>
-
-          <span class="flex items-center p-4 h-16 hover:bg-default-soft">
-            <span class="mr-2">
-              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-6 h-6">
-                <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
-            </span>
-            <span>About</span>
-          </span>
-        </div>                  -->
-      </aside>
-    </nav>
+    {{ partial "nav/main" . }}
 
     <section class="md:ml-80 xl:ml-96">
       <div class="pt-32 pb-16 md:mx-auto px-4 lg:px-20 xl:px-20 min-h-full prose prose-sm md:prose max-w-none lg:max-w-3xl xl:max-w-4xl print:py-0 print:px-0 print:max-w-none print:prose">

@@ -1,0 +1,17 @@
+{{/* overlay for mobile menu */}}
+<div id="overlay"></div>
+
+<aside id="sidebar">
+  <div class="min-h-16 p-4 flex flex-col space-y-2 items-end border-b">
+    {{/* theme switch */}}
+    {{ partial "nav/toggle-switch.html" (dict "id" "theme-switch" "text" "Dark theme") }}
+  </div>
+  <div class="mb-32">
+    {{/* sidebar always build from the root level */}}
+    {{ with .Site.GetPage "/" }}
+      {{ range .Pages }}
+        {{ partial "nav/sidebar/sidebar.html" (dict "ctx" . "depth" 0 "Page" $.Page ) }}
+      {{ end }}
+    {{ end }}
+  </div>                  
+</aside>
