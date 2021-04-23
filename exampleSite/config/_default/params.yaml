@@ -55,11 +55,18 @@ imported_sections:
       - "0.1.0"
 
 navBar:
-  # kind of logo [ false / 'inline' (default) / '<logo file name>' ]
-  logo: logo.svg 
+  # kind of logo [ false / inline (default) / <logo file name> ]
+  logo: logo.svg    
+  
+  # setting this to true will increase the vertical padding for the logo
+  wide_logo: false
+  
+  # kind of text [ false / title (default) / <some custom text> ]
+  text: title
 
-  # kind of text [ false / 'title' (default) / '<some cusomt text>' ]
-  text: 'title'
+
+
+
 
 ################################################################################
 

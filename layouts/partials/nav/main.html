@@ -1,61 +1,17 @@
 
 <nav class="flex fixed w-full items-center justify-between h-16 bg-background shadow md:shadow-none md:border-b z-40 print:hidden">
 
-  <div class="flex items-center">
-    <a href="{{ .Site.Home.Permalink }}" class="flex items-center h-16 px-2 py-2 text-primary hover:text-primary-dark text-2xl font-semibold">
+  {{ partial "nav/logo-title" . }}
 
-      {{/* home: logo */}}
-      {{ if (isset .Site.Params.navBar "logo") }}
-        {{ with .Site.Params.navBar.logo }}
-          {{ if ne . false }}
-            {{ if eq . "inline" }}
-              {{/* logo as inline svg */}}
-              {{ partial "svgs/theme/icon-solid.svg" (dict "class" "h-full" ) }}
-            {{ else }}
-              {{/* logo as img */}}
-              <img src="{{ printf "/%s" . | relURL }}" alt="Home" class="h-full">
-            {{ end }}
-          {{ end }}
-        {{ end }}
-      {{ else }}
-        {{/* default: logo as inline svg */}}
-        {{ partial "svgs/theme/icon-solid.svg" (dict "class" "h-full" ) }}
-      {{ end }}
+  <div class="flex items-center ">
 
-      <span>
-        {{/* home: label */}}
-        {{ if (isset .Site.Params.navBar "text") }}
-          {{ with .Site.Params.navBar.text }}
-            {{ if ne . false }}                
-              {{ if eq . "title" }}
-                {{/* title from config.yaml */}}
-                {{ with $.Site.Title }}{{ . }}{{ end }}
-              {{ else }}
-                {{/* text from params.yaml */}}
-                {{ . }}
-              {{ end }}
-            {{ end }}
-          {{ end }}
-        {{ else }}
-          {{/* default: title from config.yaml */}}
-          {{ with $.Site.Title }}
-            {{ . }}
-          {{else}}
-            no title...
-          {{ end }}
-        {{ end }}
-      </span>
-    </a>
-    
     {{ with $.Param "debug" }}
       <span title="debug mode active">
-        {{ partial "svgs/heroicons/beaker.svg" (dict "class" "text-red-600 w-8 h-8" ) }}          
+        {{ partial "svgs/heroicons/beaker.svg" (dict "class" "text-red-600 mr-2 w-8 h-8" ) }}          
       </span>
-    {{ end }}          
-  </div>
+    {{ end }}
 
-  <div class="flex items-center md:hidden">
-    <button id="toggleMenu" aria-label="Open Menu" class="mr-2 focus:outline-none">
+    <button id="toggleMenu" aria-label="Open Menu" class="mr-2 focus:outline-none md:hidden">
       {{ partial "svgs/heroicons/menu.svg" (dict "class" "w-8 h-8" ) }}
     </button>
   </div>
