@@ -68,7 +68,7 @@
     <div class="collapse {{if $startExpanded }}show{{end}}" id="{{ $collapseId }}">
       {{range $page_index, $page := $ctx.Pages }}
         {{if gt (len .Pages) 0 }}
-          {{ partial "sidebar.html" (dict 
+          {{ partial "nav/sidebar/sidebar.html" (dict 
             "ctx" $page
             "depth" (add $depth 1)
             "Page" $.Page 

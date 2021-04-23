@@ -1,32 +1,33 @@
 <!DOCTYPE html>
 <html lang="{{ .Site.LanguageCode }}">
-{{ partial "head.html" . }}
 
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{{ block "title" . }}{{ .Title }}{{ end }}</title>
+    {{ partial "head/styles" . }}
+    {{ partial "head/scripts" . }}    
+    {{ partial "head/theme" . }}
+    {{ partial "head/meta" . }}
+</head>
 
-{{/* <body class="theme-dark notransition bg-default text-default transition-color duration-300"> */}}
 <body class="notransition bg-background font-body text-default transition-color duration-300">
-
   <div>
-    {{ with .Param `debug` }}{{ partial "dev-size-indicator.html" . }}{{ end }}
-
-    <!-- Scroll back to top button -->
-    <a id="scrollTopButton">      
-      {{ partial "svgs/heroicons/chevron-up.svg" (dict "class" "w-8 h-8" ) }}      
-    </a>     
-
     {{ partial "nav/main" . }}
-
     <section class="md:ml-80 xl:ml-96">
       <div class="pt-32 pb-16 md:mx-auto px-4 lg:px-20 xl:px-20 min-h-full prose prose-sm md:prose max-w-none lg:max-w-3xl xl:max-w-4xl print:py-0 print:px-0 print:max-w-none print:prose">
-        <main>
+      {{/* <div class="bg-red-200 flex justify-between pt-32 pb-16 md:mx-auto px-4 lg:px-20 xl:px-20  prose prose-sm md:prose max-w-none lg:max-w-3xl xl:max-w-4xl print:py-0 print:px-0 print:max-w-none print:prose"> */}}
+        <main class="min-h-screen">
           {{ block "main" . }}{{ end }}
-          {{ partial "footer.html" . }}
+          {{/* {{ partial "footer/page-footer.html" . }} */}}
+          {{ partial "footer/script.html" . }}
+          {{ partial "footer/scroll-to-top" . }}
+          {{ with .Param `debug` }}{{ partial "footer/dev-size-indicator.html" . }}{{ end }}
         </main>
       </div>
     </section>
-
   </div>
-
 </body>
 
 </html>

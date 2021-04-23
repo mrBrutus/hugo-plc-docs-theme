@@ -1,0 +1,54 @@
+{{/* override theme by site data - or page parameters */}}
+{{ with $.Site.Data.theme }}  
+  {{ $themeCss := "" }}
+  {{ "<!-- theme overrides by site parameters -->" | safeHTML }}
+  {{ "<style>" | safeHTML }}
+    /** purgecss start ignore */
+
+    {{ with .light }}
+      {{ $themeCss = printf "%v\n:root {\n" $themeCss }}
+        {{ range $key, $val := . }}
+          {{ $themeCss = printf "%v--%v : %v;\n" $themeCss $key $val }}
+        {{ end }}
+      {{ $themeCss = printf "%v}\n" $themeCss }}
+    {{ end }}
+
+    {{ with .dark }}
+      {{ $themeCss = printf "%v\nhtml.dark {\n" $themeCss }}
+        {{ range $key, $val := . }}
+          {{ $themeCss = printf "%v--%v : %v;\n" $themeCss $key $val }}
+        {{ end }}
+      {{ $themeCss = printf "%v}\n" $themeCss }}
+    {{ end }}
+
+    {{ $themeCss | safeHTML }}
+    /** purgecss end ignore */
+  {{ "</style>" | safeHTML }}
+{{ end }}
+
+{{ with .Params.theme }}
+  {{ $themeCss := "" }}
+  {{ "<!-- theme overrides by page parameters -->" | safeHTML }}
+  {{ "<style>" | safeHTML }}
+    /** purgecss start ignore */
+
+    {{ with .light }}
+      {{ $themeCss = printf "%v\n:root {\n" $themeCss }}
+        {{ range $key, $val := . }}
+          {{ $themeCss = printf "%v--%v : %v;\n" $themeCss $key $val }}
+        {{ end }}
+      {{ $themeCss = printf "%v}\n" $themeCss }}
+    {{ end }}
+
+    {{ with .dark }}
+      {{ $themeCss = printf "%v\nhtml.dark {\n" $themeCss }}
+        {{ range $key, $val := . }}
+          {{ $themeCss = printf "%v--%v : %v;\n" $themeCss $key $val }}
+        {{ end }}
+      {{ $themeCss = printf "%v}\n" $themeCss }}
+    {{ end }}
+
+    {{ $themeCss | safeHTML }}
+    /** purgecss end ignore */
+  {{ "</style>" | safeHTML }}
+{{ end }}

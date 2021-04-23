@@ -1,0 +1,24 @@
+{{ "<!-- plugin: styles -->" | safeHTML }}
+{{ range $plugin, $settings := $.Site.Data.plugins }}
+  {{/* optional plugins are activated by site- or page parameter */}}
+  {{ if (or (not .optional) (in $.Site.Params.plugins $plugin) (in $.Params.plugins $plugin)) }}
+    {{ with .styles }}
+      {{ range . }}
+        {{/* CDN stylesheets */}}
+        {{ if findRE "^http" .url }}
+          <link rel="stylesheet" href="{{ .url | absURL }}" {{ with .media }}media="{{ . }}"{{end}} {{ with .id }}id="{{ . }}"{{end}}>
+        {{/* served stylesheets */}}
+        {{ else if .url }}
+          {{ $singleCSS := resources.Get .url | minify | fingerprint "sha512" }}
+          <link rel="stylesheet" href="{{ $singleCSS.RelPermalink }}" integrity="{{ $singleCSS.Data.Integrity }}" {{ with .media }}media="{{ . }}"{{end}} {{ with .id }}id="{{ . }}"{{end}}>
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ "<!-- site stylesheet -->" | safeHTML }}
+{{ $allCSS := slice }}
+{{ $allCSS := $allCSS | append (resources.Get "css/styles.css" | postCSS (dict "config" "./assets/css/postcss.config.js") | minify ) }}
+{{ $allCSS := $allCSS | resources.Concat "/css/vendor.css" | minify | fingerprint "sha512" }}
+<link rel="stylesheet" href="{{ $allCSS.RelPermalink }}" integrity="{{ $allCSS.Data.Integrity }}">

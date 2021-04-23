@@ -1,9 +1,4 @@
-<footer class="text-center border-t p-4 text-sm text-default-light">
-    <p class="text-xs">generated using the <a class="hidden-link" href="https://github.com/mrBrutus/hugo-plc-docs-theme">PLC docs theme</a> at {{ now.Format "02 Jan 2006 15:04" }}</p>          
-</footer>
-
-
-{{ "<!-- plugins -->" | safeHTML }}
+{{ "<!-- plugin: script -->" | safeHTML }}
 {{ range $plugin, $settings := $.Site.Data.plugins }}
   {{/* optional plugins are activated by site- or page parameter */}}
   {{ if (or (not .optional) (in $.Site.Params.plugins $plugin) (in $.Params.plugins $plugin)) }}  
