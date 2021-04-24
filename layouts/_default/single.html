@@ -1,7 +1,13 @@
 {{ define "main" }}
+
+  <h1>{{ .Title }}</h1>
+  <div class="mb-8 flex flex-col items-start sm:flex-row sm:items-center sm:flex-wrap sm:flex-grow">
+    {{ partial "body/infos" . }}
+    {{ partial "body/tags" . }}
+  </div>
   <article>
-    <h1>{{ .Title }}</h1>
     {{ .Content }}
   </article>
   {{ partial "footer/page-footer.html" . }}
+
 {{ end }}

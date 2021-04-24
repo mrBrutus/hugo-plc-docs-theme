@@ -18,6 +18,14 @@ html, body {
   @apply no-underline !important;
 }
 
+.button-a {
+  @apply no-underline !important;
+  @apply text-default hover:text-default-dark !important;
+  @apply px-1 py-0.5 print:p-0;
+  @apply rounded bg-default-soft shadow-sm print:bg-none print:shadow-none;
+}
+
+
 /* ============================================================================
  * color schemes
  * ========================================================================= */
@@ -123,7 +131,7 @@ kbd {
 /* ============================================================================
  * skip transitions at page load
  * ========================================================================= */
- 
+
 .notransition * {
   @apply transition-none !important;
   @apply duration-0 !important;
@@ -133,7 +141,7 @@ kbd {
 /* ============================================================================
  * scroll back to top
  * ========================================================================= */
- 
+
 #scrollTopButton {
   @apply flex items-center justify-center;
   @apply cursor-pointer fixed z-10 bottom-0 right-0 mb-6 mr-4 w-12 h-12 rounded-full;

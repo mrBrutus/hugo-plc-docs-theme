@@ -1,0 +1,9 @@
+{{ if .Params.tags }}
+  <div class="flex items-center flex-wrap mr-2 text-xs">
+    <span class="py-0.5 flex items-center mr-2" title="tags">
+      {{ partial "svgs/heroicons/tag.svg" (dict "class" "h-4 mr-1" ) }}       
+      {{ range (.GetTerms "tags") }}
+        <a href="{{ .Permalink }}" class="button-a mr-1" title="{{ .LinkTitle }}">#{{ .LinkTitle }}</a>
+      {{ end }}
+    </span>
+{{ end }}
