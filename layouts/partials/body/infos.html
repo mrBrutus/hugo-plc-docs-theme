@@ -14,7 +14,7 @@
     </time>
   {{ end }}
   
-  <span class="py-0.5 flex items-center mr-2" title="reading time"> 
+  <span class="py-0.5 flex items-center mr-2 print:hidden" title="reading time"> 
     {{ partial "svgs/heroicons/clock.svg" (dict "class" "h-4 mr-1" ) }}    
     {{ printf "%v minutes" .ReadingTime }}
   </span>

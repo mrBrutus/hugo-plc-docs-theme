@@ -1,17 +1,44 @@
 {{ define "main" }}
-  <article>
-    {{/* read the YAML data from the parent's resources */}}    
-    {{ with .Parent.Resources.GetMatch (printf "**%s.yaml" .Page.File.BaseFileName) }}
-      {{ $yamlData := . | transform.Unmarshal }}
+    {{ partial "nav/main" . }}
 
-      {{/* parse the items */}}
-      {{ with $yamlData }}
-        {{ partial "lib/common-data/index.html" (dict "ctx" $ "Page" .  ) }}
-      {{ end }}
-    {{ end }}
+    <section class="md:ml-80 xl:ml-96">
+      <div class="pt-32 md:mx-auto px-4 lg:px-20 xl:px-20 min-h-full prose prose-sm md:prose max-w-none lg:max-w-3xl xl:max-w-4xl print:py-0 print:px-0 print:max-w-none print:prose">
+        <main class="min-h-screen">
 
-    {{/* followed by the markdown content */}}
-    {{ .Content }}
+          {{ partial "body/breadcrumb" . }}
 
-  </article>
+          {{/* <header>
+            <h1>{{ .Title }}</h1>
+          </header> */}}
+
+          {{/* <div class="mb-8 flex flex-col items-start sm:flex-row sm:items-center sm:flex-wrap sm:flex-grow"> */}}
+            {{/* {{ partial "body/infos" . }} */}}
+            {{/* {{ partial "body/tags" . }} */}}
+          {{/* </div> */}}
+
+          <article>
+            {{/* read the YAML data from the parent's resources */}}    
+            {{ with .Parent.Resources.GetMatch (printf "**%s.yaml" .Page.File.BaseFileName) }}
+              {{ $yamlData := . | transform.Unmarshal }}
+
+              {{/* parse the items */}}
+              {{ with $yamlData }}
+                {{ partial "lib/common-data/index.html" (dict "ctx" $ "Page" .  ) }}
+              {{ end }}
+            {{ end }}
+
+            {{/* followed by the markdown content */}}
+            {{ .Content }}
+          </article>
+
+          {{ partial "footer/page-footer.html" . }}
+
+        </main>
+      </div>
+
+      {{ partial "nav/sidebar/main" . }}
+
+    </section>
+
+
 {{ end }}
