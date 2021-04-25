@@ -182,7 +182,7 @@ $(function () {
   // let sidebarScroller = document.querySelector('.sidebar-scroller');
   let sidebarScroller = document.getElementById('sidebar');
 
-  // let selectedItem = sidebar.querySelector('.sb-btn.active');
+  // let selectedItem = sidebar.querySelector('.sidebar-item.active');
   // //console.log(sidebarScroller.offsetHeight);
 
   if (sidebarScroller) {
@@ -190,7 +190,7 @@ $(function () {
       sidebarScroller.scrollTop = storedScrollTop;
     }
     else {
-      let selectedItem = sidebar.querySelector('.sb-btn.active');
+      let selectedItem = sidebar.querySelector('.sidebar-item.active');
       // if (selectedItem.offsetTop > sidebarScroller.offsetHeight * 0.8) {
       // sidebarScroller.scrollTop = selectedItem.offsetTop - sidebarScroller.offsetHeight * 0.8;
       sidebarScroller.scrollTop = selectedItem.offsetTop + sidebarScroller.offsetHeight * 0.8;
