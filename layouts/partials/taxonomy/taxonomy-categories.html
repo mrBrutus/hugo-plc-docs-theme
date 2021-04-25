@@ -1,7 +1,7 @@
 {{ if (ne (len .Site.Taxonomies.categories) 0) }}
   {{ $collapseId := printf "_%s" (substr (md5 ("/categories/" | relURL)) 0 5) }}
 
-  <section class="px-4 border-t">
+  <section class="px-4">
     <a href="{{printf "#%s" $collapseId}}" data-toggle="collapse" class="sidebar-item italic">
       {{ partial "svgs/heroicons/bookmark.svg" (dict "class" "h-4 mr-1" ) }}
       <span class="">Categories</span>

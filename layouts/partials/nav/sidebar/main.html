@@ -15,7 +15,9 @@
         {{ partial "nav/sidebar/sidebar.html" (dict "ctx" . "depth" 0 "Page" $.Page ) }}
       {{ end }}
     {{ end }}
+  </div>
 
+  <div class="border-t">
     {{ partial "taxonomy/taxonomy-tags" . }}
     {{ partial "taxonomy/taxonomy-categories" . }}
   </div>

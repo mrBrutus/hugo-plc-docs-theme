@@ -16,9 +16,8 @@
           </article>
 
           <div class="">
-            {{/* {{ $paginator := .Paginate (where .Pages "Type" .Type).ByWeight }} */}}
-            {{/* {{ range $paginator.Pages }}             */}}
-            {{ range (where .Pages "Type" .Type).ByWeight }}            
+            {{/* {{ range .Paginator.Pages.ByWeight }} */}}
+            {{ range .Pages.ByWeight }}            
               {{ .Render "summary" }}
             {{ end }}
             {{/* {{ partial "pagination/pagination" . }} */}}

@@ -14,8 +14,10 @@ html, body {
   @apply my-0 !important;
 }
 
-.hidden-link {
+.low-profile-link {
   @apply no-underline !important;
+  color: inherit !important;
+  @apply hover:text-primary !important;
 }
 
 .button-a {

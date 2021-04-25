@@ -15,13 +15,19 @@
             {{ .Content }}
           </article>
 
-          <div class="">
-            {{/* {{ $paginator := .Paginate (where .Pages "Type" .Type).ByWeight }} */}}
-            {{/* {{ range $paginator.Pages }}             */}}
-            {{ range (where .Pages "Type" .Type).ByWeight }}            
-              {{ .Render "summary" }}
+          <div class="flex flex-row flex-wrap">
+            {{ range $index, $element := .Data.Terms }}
+              {{ if $index }}
+                <a href="{{ .Page.RelPermalink }}" class="low-profile-link mr-2 mb-2 flex flex-row items-center rounded bg-default-soft shadow-sm text-sm text-default hover:text-default-dark">
+                  <span class="pl-1 pr-1 py-0.5">
+                    {{ $element.Page.Title }}
+                  </span>
+                  <span class="pr-1 pl-1 py-0.5 rounded-r bg-primary text-primary-inverse">
+                    {{ printf "%#v" (len $element) }}
+                  </span>
+                </a>
+              {{ end }}
             {{ end }}
-            {{/* {{ partial "pagination/pagination" . }} */}}
           </div>
 
           {{ partial "footer/page-footer.html" . }}          
