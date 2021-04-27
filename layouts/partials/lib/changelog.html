@@ -1,22 +1,30 @@
-{{/* parse changelog */}}
 <div class="collapse-card mt-2 mb-0 border rounded collapse" id="changelog-accordion">
   {{ range . }}
     <div class="mb-10">
-      <div class="pl-4 bg-default-soft">
+      <div class="pl-4 bg-default-soft flex flex-row">
         {{ with .version }}
-          <h3 class="inline-block flat tracking-widest">{{ printf "%s - " . }}</h3>
+          <span class="py-0.5 flex items-center mr-2">
+            {{ partial "svgs/heroicons/code.svg" (dict "class" "h-5 mr-1" ) }}
+            {{ printf "v%v" . }}          
+          </span>
         {{ end }}
         {{ with .date }}
-          <span class="ml-2 text-default-light font-mono">{{ printf "%s" . }}</span>
+          <span class="py-0.5 flex items-center mr-2">
+            {{ partial "svgs/heroicons/pencil.svg" (dict "class" "h-4 mr-1" ) }}
+            {{ dateFormat "02 Jan 2006" . }}
+          </span>
         {{ end }}
         {{ with .author }}
-          <span class="inline-block ml-2 text-default-light italic">{{ printf "%s" . }}</span>
+          <span class="py-0.5 flex items-center mr-2">
+            {{ partial "svgs/heroicons/user.svg" (dict "class" "h-4 mr-1" ) }}
+            {{ . }}
+          </span>          
         {{ end }}
       </div>
 
       <div class="pl-4">
         {{ with .added }}
-          <h4 class="">Added:</h4>
+          <span class="">Added:</span>
           <ul>
             {{ range . }}
               <li class="">{{ printf "%s" . | markdownify }}</li>
@@ -25,7 +33,7 @@
         {{ end }}
 
         {{ with .changed }}
-          <h4 class="">Changed:</h4>
+          <span class="">Changed:</span>
           <ul>
             {{ range . }}
               <li class="">{{ printf "%s" . | markdownify }}</li>
@@ -34,7 +42,7 @@
         {{ end }}
 
         {{ with .deprecated }}
-          <h4 class="">Deprecated:</h4>
+          <span class="">Deprecated:</span>
           <ul>
             {{ range . }}
               <li class="">{{ printf "%s" . | markdownify }}</li>
@@ -43,7 +51,7 @@
         {{ end }}
 
         {{ with .removed }}
-          <h4 class="">Removed:</h4>
+          <span class="">Removed:</span>
           <ul>
             {{ range . }}
               <li class="">{{ printf "%s" . | markdownify }}</li>
@@ -52,7 +60,7 @@
         {{ end }}
 
         {{ with .fixed }}
-          <h4 class="">Fixed:</h4>
+          <span class="">Fixed:</span>
           <ul>
             {{ range . }}
               <li class="">{{ printf "%s" . | markdownify }}</li>
@@ -61,7 +69,7 @@
         {{ end }}
 
         {{ with .security }}
-          <h4 class="">Security:</h4>
+          <span class="">Security:</span>
           <ul>
             {{ range . }}
               <li class="">{{ printf "%s" . | markdownify }}</li>

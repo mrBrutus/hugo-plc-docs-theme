@@ -7,40 +7,84 @@
 
           {{ partial "body/breadcrumb" . }}
 
-          {{/* <header>
+          {{/* read the YAML data from the parent's resources */}}
+          {{ $yamlData := partial "lib/get-yaml-data" . }}
+
+          <header>
             <h1>{{ .Title }}</h1>
-          </header> */}}
+          </header>
 
           <div class="mb-8 flex flex-col items-start sm:flex-row sm:items-center sm:flex-wrap sm:flex-grow">
-            {{/* {{ partial "body/infos" . }} */}}
+            {{ partial "lib/infos" $yamlData }}
             {{ partial "body/tags" . }}
           </div>
 
           <article>
-            {{/* read the YAML data from the the parent's resources */}}
-            {{/* parse the function's interface and details */}}
-            {{ with .Parent.Resources.GetMatch (printf "**%s.yaml" .Page.File.BaseFileName) }}
-              {{ $yamlData := . | transform.Unmarshal }}
-
-              {{/* parse function */}}
-              {{ with $yamlData }}
-                {{ partial "lib/function/index.html" (dict "ctx" $ "Page" .  ) }}
+            {{/* changelog */}}
+            {{ if not .Params.disable_changelog }}
+              {{ with $yamlData.changelog }}
+                <div>
+                  {{ partial "lib/changelog.html" . }}
+                </div>
               {{ end }}
+            {{ end }}
 
+            {{/* description (or comment) */}}
+            <div>
+              {{ partial "lib/description.html" $yamlData }}
+            </div>
+
+            {{/* controller support */}}
+            {{ with $yamlData.controller }}
+              <section>
+                <h2 id="controller-support">Controller support</h2>
+                {{ partial "lib/controller-table.html" . }}
+              </section>
+            {{ end }}
+
+            {{/* prerequisites */}}
+            {{ with $yamlData.prerequisite }}
+              <section>
+                <h2 id="prerequisites">Prerequisites</h2>
+                {{ partial "lib/prerequisite-table.html" . }}
+              </section>
+            {{ end }}
+
+            {{/* variable overview */}}
+            {{ if not .Params.disable_overview }}
+              {{ with $yamlData.var }}
+                <section>
+                  <h2 id="overview">Overview</h2>
+                  {{ partial "lib/function/var-table.html" (dict "ctx" $ "var" . ) }}
+                </section>
+              {{ end }}
+            {{ end }}
+
+            {{/* variable details */}}
+            {{ with $yamlData.var }}
+              <section>
+                <h2 id="details">Details</h2>
+                {{ partial "lib/function/var-details.html" (dict "ctx" $ "var" . ) }}
+              </section>
+            {{ end }}
+
+            {{/* source code */}}
+            {{ if (and (not .Params.disable_source) (or (hugo.Environment | eq "development") (.Params.open_source)) ) }}
+              {{ with $yamlData }}
+                <section>
+                  <h2 id="source-code">Source code</h2>
+                  {{ partial "lib/function/source-code.html" (dict "ctx" $ "item" . ) }}
+                </section>
+              {{ end }}
             {{ end }}
 
             {{/* followed by the markdown content */}}
             {{ .Content }}
           </article>
-
           {{ partial "footer/page-footer.html" . }}
-
         </main>
       </div>
-
       {{ partial "nav/sidebar/main" . }}
-
     </section>
-
 
 {{ end }}

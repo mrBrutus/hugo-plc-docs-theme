@@ -1,0 +1,8 @@
+{{/* read the YAML data from the the parent's resources */}}
+{{ $yamlData := dict}}
+
+{{ with $.Parent.Resources.GetMatch (printf "**%s.yaml" $.Page.File.BaseFileName) }}
+  {{ $yamlData = . | transform.Unmarshal }}
+{{ end }}
+
+{{ return $yamlData }}

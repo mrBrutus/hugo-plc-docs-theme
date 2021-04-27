@@ -10,8 +10,8 @@
     <tbody>
       {{ range $controller, $since := . }}
         <tr>
-          <td>{{ with $controller }}{{ . }}{{ end }}</td>
-          <td>{{ with $since }}<code>{{ . }}</code>{{ end }}</td>
+          <td>{{ with $controller }}{{ . | markdownify }}{{ end }}</td>
+          <td>{{ with $since }}{{ . | markdownify }}{{ end }}</td>
         </tr>
       {{ end }}
     </tbody>

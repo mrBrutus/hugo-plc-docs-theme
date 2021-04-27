@@ -1,0 +1,37 @@
+<div class="flex items-center flex-wrap mr-2 text-xs">
+
+  {{ with .changelog }}
+    {{ range first 1 . }}
+
+      {{ with .version }}
+        <a class="py-0.5 flex items-center mr-2 button-a" data-toggle="collapse" title="version / toggle changelog" href="#changelog-accordion">
+          {{ partial "svgs/heroicons/code.svg" (dict "class" "h-5 mr-1" ) }}
+          {{ printf "v%v" . }}
+        </a>
+      {{ end }}
+
+      {{ with .date }}
+        <time class="py-0.5 flex items-center mr-2" title="last edit">
+          {{ partial "svgs/heroicons/pencil.svg" (dict "class" "h-4 mr-1" ) }}
+          {{ dateFormat "02 Jan 2006" . }}
+        </time>
+      {{ end }}
+
+      {{ with .author }}
+        <span class="py-0.5 flex items-center mr-2" title="author of last edit">
+          {{ partial "svgs/heroicons/user.svg" (dict "class" "h-4 mr-1" ) }}
+          {{ . }}
+        </span>
+      {{ end }}
+
+    {{ end }}
+  {{ end }}
+
+  {{ with .since }}
+    <span class="py-0.5 flex items-center mr-2" title="lib version of introduction">
+      {{ partial "svgs/heroicons/information-circle.svg" (dict "class" "h-4 mr-1" ) }}
+      {{ printf "since lib: v%v" . }}
+    </span>
+  {{ end }}
+
+</div>
