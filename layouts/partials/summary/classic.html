@@ -1,24 +1,22 @@
-<article class="border-t pt-8 mb-8">
-  <div class="">
-    <header>
-      <span class="text-default">
-        <a href='{{ .Permalink }}'  class="low-profile-link">{{- with .Params.pinned -}}{{ ($.Site.Params.pinIcon | safeHTML) | default "📌" }}&nbsp;{{- end -}}{{ .Title }}</a>
-      </span>
+<article class="w-full border-t pt-8 mb-8">
+  <header>
+    <span class="text-xl">
+      <a href='{{ .Permalink }}'  class="low-profile-link">{{- with .Params.pinned -}}{{ ($.Site.Params.pinIcon | safeHTML) | default "📌" }}&nbsp;{{- end -}}{{ .Title }}</a>
+    </span>  
 
-      <div class="mb-8 flex flex-col items-start sm:flex-row sm:items-center sm:flex-wrap sm:flex-grow">
-        {{ partial "body/infos" . }}
-        {{ partial "body/tags" . }}
-      </div>
-    </header>
+    <div class="mb-8 flex flex-col items-start sm:flex-row sm:items-center sm:flex-wrap sm:flex-grow">
+      {{ partial "body/infos" . }}
+      {{ partial "body/tags" . }}
+    </div>
+  </header>
 
-    <div>
-      <div class="">
-        {{ with .Params.description }}
-          {{ . }}
-        {{ else }}
-          {{ .Summary | safeHTML }}
-        {{ end }}
-      </div>
+  <div>
+    <div class="">
+      {{ with .Params.description }}
+        {{ . }}
+      {{ else }}
+        {{ .Summary | safeHTML }}
+      {{ end }}
     </div>
   </div>
 

@@ -15,7 +15,7 @@
             {{ .Content }}
           </article>
 
-          <div class="">
+          <div class="flex flex-wrap">
             {{/* {{ $paginator := .Paginate (where .Pages "Type" .Type).ByWeight }} */}}
             {{/* {{ range $paginator.Pages }}             */}}
             {{ range (where .Pages "Type" .Type).ByWeight }}            
