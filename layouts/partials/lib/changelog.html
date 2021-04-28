@@ -11,7 +11,16 @@
         {{ with .date }}
           <span class="py-0.5 flex items-center mr-2">
             {{ partial "svgs/heroicons/pencil.svg" (dict "class" "h-4 mr-1" ) }}
-            {{ dateFormat "02 Jan 2006" . }}
+
+            {{ if or (eq ( . | lower) "unreleased" (eq ( . | lower) "draft"))  }}
+              <span class="text-primary">
+                unreleased
+              </span>
+            {{ else }}
+              {{ dateFormat "02 Jan 2006" . }}
+            {{ end }}
+
+            {{/* {{ dateFormat "02 Jan 2006" . }} */}}
           </span>
         {{ end }}
         {{ with .author }}
