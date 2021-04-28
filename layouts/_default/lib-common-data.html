@@ -7,38 +7,55 @@
 
           {{ partial "body/breadcrumb" . }}
 
-          {{/* <header>
-            <h1>{{ .Title }}</h1>
-          </header> */}}
+          {{/* read the YAML data from the parent's resources */}}
+          {{ $yamlData := partial "lib/get-yaml-data" . }}
 
-          {{/* <div class="mb-8 flex flex-col items-start sm:flex-row sm:items-center sm:flex-wrap sm:flex-grow"> */}}
-            {{/* {{ partial "body/infos" . }} */}}
-            {{/* {{ partial "body/tags" . }} */}}
-          {{/* </div> */}}
+          <header>
+            <h1>{{ .Title }}</h1>
+          </header>
+
+          <div class="mb-8 flex flex-col items-start sm:flex-row sm:items-center sm:flex-wrap sm:flex-grow">
+            {{ partial "lib/infos" $yamlData }}
+            {{ partial "body/tags" . }}
+          </div>
 
           <article>
-            {{/* read the YAML data from the parent's resources */}}    
-            {{ with .Parent.Resources.GetMatch (printf "**%s.yaml" .Page.File.BaseFileName) }}
-              {{ $yamlData := . | transform.Unmarshal }}
-
-              {{/* parse the items */}}
-              {{ with $yamlData }}
-                {{ partial "lib/common-data/index.html" (dict "ctx" $ "Page" .  ) }}
+            {{/* changelog */}}
+            {{ if not .Params.disable_changelog }}
+              {{ with $yamlData.changelog }}
+                <div>
+                  {{ partial "lib/changelog.html" . }}
+                </div>
               {{ end }}
             {{ end }}
 
-            {{/* followed by the markdown content */}}
-            {{ .Content }}
+            {{/* description (or comment) */}}
+            <div>
+              {{ partial "lib/description.html" $yamlData }}
+            </div>
+
+            {{/* variable details */}}
+            {{ with $yamlData.var }}
+              <section id="accordion">
+                <div class="flex justify-between items-baseline">
+                  <h2 class="" id="content">Content</h2>
+                  <div class="flex justify-end">
+                    <a class="ml-2 print:hidden" href="javascript:void(0)" onclick="$('#accordion .collapse').collapse('show')">expand all</a>
+                    <a class="ml-2 print:hidden" href="javascript:void(0)" onclick="$('#accordion .collapse').collapse('hide')">collapse all</a>
+                  </div>
+                </div>
+
+                {{ range $key, $value := . }}
+                  {{ partial "lib/common-data/var-details.html" (dict "key" $key "value" $value ) }}
+                {{ end }}
+              </section>
+            {{ end }}
+
           </article>
-
           {{ partial "footer/page-footer.html" . }}
-
         </main>
       </div>
-
       {{ partial "nav/sidebar/main" . }}
-
     </section>
-
 
 {{ end }}
