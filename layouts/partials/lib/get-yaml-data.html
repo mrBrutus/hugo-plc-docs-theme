@@ -1,8 +1,12 @@
-{{/* read the YAML data from the the parent's resources */}}
+{{/* read the YAML data from the (parent's) resources */}}
 {{ $yamlData := dict}}
 
-{{ with $.Parent.Resources.GetMatch (printf "**%s.yaml" $.Page.File.BaseFileName) }}
-  {{ $yamlData = . | transform.Unmarshal }}
+{{ with .ctx.Resources.GetMatch (printf "**%s.yaml" .fileName) }}
+    {{ $yamlData = . | transform.Unmarshal }}
+{{ else }}
+  {{ with .ctx.Parent.Resources.GetMatch (printf "**%s.yaml" .fileName) }}
+    {{ $yamlData = . | transform.Unmarshal }}
+  {{ end }}
 {{ end }}
 
 {{ return $yamlData }}

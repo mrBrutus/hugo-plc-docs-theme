@@ -8,7 +8,7 @@
           {{ partial "body/breadcrumb" . }}
 
           {{/* read the YAML data from the parent's resources */}}
-          {{ $yamlData := partial "lib/get-yaml-data" . }}
+          {{ $yamlData := partial "lib/get-yaml-data" ( dict "ctx" $ "fileName" .Page.File.BaseFileName ) }}
 
           <header>
             <h1>{{ .Title }}</h1>
