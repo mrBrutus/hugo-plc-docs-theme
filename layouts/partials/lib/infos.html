@@ -4,9 +4,8 @@
     {{ range first 1 . }}
 
       {{ with .version }}
-        <a class="py-0.5 flex items-center mr-2 button-a" data-toggle="collapse" title="version / toggle changelog" href="#changelog-accordion">
-          {{ partial "svgs/heroicons/code.svg" (dict "class" "h-5 mr-1" ) }}
-          {{ printf "v%v" . }}
+        <a class="tracking-wider text-base py-0.5 flex items-center mr-2 button-a" data-toggle="collapse" title="version / toggle changelog" href="#changelog-accordion">
+          {{ . }}
         </a>
       {{ end }}
 

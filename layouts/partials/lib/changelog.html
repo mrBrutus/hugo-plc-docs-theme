@@ -1,11 +1,10 @@
 <div class="collapse-card mt-2 mb-0 border rounded collapse" id="changelog-accordion">
   {{ range . }}
     <div class="mb-10">
-      <div class="pl-4 bg-default-soft flex flex-row">
+      <div class="pl-4 bg-default-soft flex flex-row text-xs">
         {{ with .version }}
-          <span class="py-0.5 flex items-center mr-2">
-            {{ partial "svgs/heroicons/code.svg" (dict "class" "h-5 mr-1" ) }}
-            {{ printf "v%v" . }}          
+          <span class="tracking-wider text-base py-0.5 flex items-center mr-2">
+            {{ . }}          
           </span>
         {{ end }}
         {{ with .date }}
@@ -20,7 +19,6 @@
               {{ dateFormat "02 Jan 2006" . }}
             {{ end }}
 
-            {{/* {{ dateFormat "02 Jan 2006" . }} */}}
           </span>
         {{ end }}
         {{ with .author }}
