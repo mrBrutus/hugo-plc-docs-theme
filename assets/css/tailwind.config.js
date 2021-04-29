@@ -171,7 +171,7 @@ module.exports = {
               color: 'var(--color-default-light)',
             },
             'ul > li::before': {
-              backgroundColor: 'var(--color-default-soft)',
+              backgroundColor: 'var(--color-default-light)',
             },
             hr: {
               borderColor: 'var(--color-default-soft)',
@@ -202,7 +202,8 @@ module.exports = {
 
             ':not(pre)>code, a code': {
               color: 'var(--color-primary)',
-              fontWeight: '600',
+              fontWeight: '400',
+              fontSize: '1rem'
             },
 
             pre: {
