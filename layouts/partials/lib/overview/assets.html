@@ -1,0 +1,37 @@
+
+<div class="mb-10 ml-4 pb-2">
+  <h4>Assets</h4>
+  <div class="border rounded-lg">
+    {{ $index := 1 }}
+    {{ range $key, $value := . }}
+      <div class="flex justify-between items-center pl-2 pr-2 py-1 {{if ne $index 1 }}border-t{{ end }}">
+
+        {{ with $value.url}}
+          <a class="low-profile-link" title="download" target="_blank" href={{.}}>
+            <span class="flex justify-start items-center">
+              {{ partial "svgs/heroicons/cube.svg" (dict "class" "h-4 mr-2" ) }}
+              {{ $key }}
+            </span>
+          </a>        
+          <span class="text-xs">
+            {{ with $value.date }}
+              {{ dateFormat "02 Jan 2006" . }}
+            {{ end }}
+          </span>
+        {{ else }}
+
+          <span class="flex justify-start items-center">
+            {{ partial "svgs/heroicons/cube.svg" (dict "class" "h-4 mr-2 invisible" ) }}
+            {{ $key }}
+          </span>
+          <span class="text-xs italic">
+            coming soon
+          </span>
+        {{ end }}
+
+      </div>
+      {{ $index = add $index 1 }}
+    {{ end }}
+
+  </div>
+</div>

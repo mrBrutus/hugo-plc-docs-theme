@@ -1,0 +1,11 @@
+{{ with .releases }}
+  {{ range first 1 . }}
+    {{ with .version }}
+    <div class="flex items-center text-xs border border-primary text-primary rounded-full">
+      <a class="low-profile-link px-2 py-0.5" title="latest release" href="{{ (printf "#%s" .) | urlize }}">
+        {{ printf "Latest release: %s" . }}
+      </a>
+    </div>
+    {{ end }}
+  {{ end }}
+{{ end }}
