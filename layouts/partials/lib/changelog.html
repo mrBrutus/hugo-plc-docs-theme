@@ -4,19 +4,19 @@
       <div class="pl-4 bg-default-soft flex flex-row text-xs">
         {{ with .version }}
           <span class="tracking-wider text-base py-0.5 flex items-center mr-2">
-            {{ . }}          
+            {{ . }}&nbsp          
           </span>
         {{ end }}
         {{ with .date }}
           <span class="py-0.5 flex items-center mr-2">
-            {{ partial "svgs/heroicons/pencil.svg" (dict "class" "h-4 mr-1" ) }}
+            {{ partial "svgs/heroicons/calendar.svg" (dict "class" "h-4 mr-1" ) }}
 
             {{ if or (eq ( . | lower) "unreleased" (eq ( . | lower) "draft"))  }}
               <span class="text-primary">
                 unreleased
-              </span>
+              </span>&nbsp
             {{ else }}
-              {{ dateFormat "02 Jan 2006" . }}
+              {{ dateFormat "02 Jan 2006" . }}&nbsp
             {{ end }}
 
           </span>

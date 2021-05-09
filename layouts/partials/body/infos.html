@@ -5,28 +5,28 @@
       <time class="py-0.5 flex items-center mr-2" title="created">
         {{ partial "svgs/heroicons/calendar.svg" (dict "class" "h-4 mr-1" ) }}
         {{ $.Date.Format "02 Jan 2006" }}
-      </time>
+      </time>&nbsp
     {{ end }}
 
     {{ if ne (.Date.Format "02 Jan 2006") (.Lastmod.Format "02 Jan 2006") }}
       <time class="py-0.5 flex items-center mr-2" title="last edit">
         {{ partial "svgs/heroicons/pencil.svg" (dict "class" "h-4 mr-1" ) }}
         {{ .Lastmod.Format "02 Jan 2006" }}
-      </time>
+      </time>&nbsp
     {{ end }}
 
     {{ if gt .ReadingTime 1 }}
       <span class="py-0.5 flex items-center mr-2 print:hidden" title="reading time">
         {{ partial "svgs/heroicons/clock.svg" (dict "class" "h-4 mr-1" ) }}
         {{ printf "%v minutes" .ReadingTime }}
-      </span>
+      </span>&nbsp
     {{ end }}
 
     {{ with .Params.Author }}
       <span class="py-0.5 flex items-center mr-2" title="author">
         {{ partial "svgs/heroicons/user.svg" (dict "class" "h-4 mr-1" ) }}
         {{ . }}
-      </span>
+      </span>&nbsp
     {{ end }}
 
   </div>

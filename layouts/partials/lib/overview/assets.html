@@ -12,21 +12,21 @@
               {{ partial "svgs/heroicons/cube.svg" (dict "class" "h-4 mr-2" ) }}
               {{ $key }}
             </span>
-          </a>        
+          </a>&nbsp
           <span class="text-xs">
             {{ with $value.date }}
               {{ dateFormat "02 Jan 2006" . }}
             {{ end }}
-          </span>
+          </span>&nbsp
         {{ else }}
 
           <span class="flex justify-start items-center">
             {{ partial "svgs/heroicons/cube.svg" (dict "class" "h-4 mr-2 invisible" ) }}
-            {{ $key }}
-          </span>
+            {{ $value.name }}
+          </span>&nbsp
           <span class="text-xs italic">
             coming soon
-          </span>
+          </span>&nbsp
         {{ end }}
 
       </div>

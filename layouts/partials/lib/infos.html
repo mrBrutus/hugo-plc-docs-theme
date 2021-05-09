@@ -6,7 +6,7 @@
       {{ with .version }}
         <a class="tracking-wider text-base py-0.5 flex items-center mr-2 button-a" data-toggle="collapse" title="version / toggle changelog" href="#changelog-accordion">
           {{ . }}
-        </a>
+        </a>&nbsp
       {{ end }}
 
       {{ with .date }}
@@ -20,14 +20,14 @@
           {{ else }}
             {{ dateFormat "02 Jan 2006" . }}
           {{ end }}
-        </time>
+        </time>&nbsp
       {{ end }}
 
       {{ with .author }}
         <span class="py-0.5 flex items-center mr-2" title="author of last edit">
           {{ partial "svgs/heroicons/user.svg" (dict "class" "h-4 mr-1" ) }}
           {{ . }}
-        </span>
+        </span>&nbsp
       {{ end }}
 
     {{ end }}
@@ -37,7 +37,7 @@
     <span class="py-0.5 flex items-center mr-2" title="lib version of introduction">
       {{ partial "svgs/heroicons/information-circle.svg" (dict "class" "h-4 mr-1" ) }}
       {{ printf "since lib: v%v" . }}
-    </span>
+    </span>&nbsp
   {{ end }}
 
 </div>
