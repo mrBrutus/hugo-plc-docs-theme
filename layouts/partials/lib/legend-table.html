@@ -10,7 +10,7 @@
     <tbody>
       {{ range $value, $description := . }}
       <tr>
-        <td class="font-mono">{{ with $value }} {{ . }}{{ end }}</td>
+        <td class="">{{ with $value }} {{ . }}{{ end }}</td>
         <td>{{ with $description }} {{ . | markdownify }} {{ end }}</td>
       </tr>
       {{ end }}

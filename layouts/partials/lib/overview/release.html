@@ -7,13 +7,15 @@
     {{ end }}
     
 
-    <div class="ml-1 border-l">
+    <div class="border-l">
       {{ partial "lib/overview/infos.html" . }}
-      {{ partial "lib/overview/changelog.html" . }}
-
+      
       {{ with .assets }}
         {{ partial "lib/overview/assets.html" . }}
       {{ end }}
+
+      {{ partial "lib/overview/changelog.html" . }}
+
     </div>
   </div>
 {{ end }}
