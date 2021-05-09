@@ -1,0 +1,2 @@
+// this is the magic calculation
+result      := ROUND(number1 + number2);

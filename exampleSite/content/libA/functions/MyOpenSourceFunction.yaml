@@ -1,0 +1,198 @@
+company: Yaskawa Europe GmbH
+author: deGroot
+since: 2.3.0
+description: |
+  This function adds two **numbers** and rounds the result.
+  - some `markdown` *here*.
+comment: Adds two numbers and rounds the result
+changelog:
+  - version: 0.2.1
+    date: 2020-12-16
+    author: deGroot
+    added: 
+      - "`comment` tag (shortened variant of `description`)"
+  - version: 0.2.0
+    date: 2020-11-25 # yyyy-mm-dd
+    author: Brutus
+    added:
+      - |
+        3rd input `a common input` which contains no data
+        (will be parsed from template).
+  - version: 0.1.1
+    date: 2020-10-07 # yyyy-mm-dd
+    author: John Doe
+    changed:
+      - Description
+    fixed:
+      - Typo comment `number2`
+  - version: 0.1.0
+    date: 2020-10-06 # yyyy-mm-dd
+    author: John Doe
+    added:
+      - This is the initial release
+      - 🎉 *awesome* stuff
+var:
+  - kind: input
+    var:
+      - name: number1
+        description: This is the first *input* for the function.
+        type: REAL
+        comment: first number
+        default_value: 3
+        legend:
+          0: 'I am sleeping'
+          1: 'I am eating'
+          2: 'I am drinking'
+          3: 'I am doing stuff'
+          4..99: |
+            this is
+            a
+            multi line
+            comment with **preserved empty lines**
+      - name: number2
+        description: This is the **second** input for the function.
+        type: REAL
+        comment: second number
+      - name: CommonInput
+      - name: CommonInput.examples
+
+      - name: BlendFactor
+        description: |
+          With the BlendFactor parameter you define at what point the motion should
+          begin to blend into the next queued motion.
+
+          Blending is key to a fast and smooth robot motion.
+          For the best blending the robot controller requires *at least 3 motions*
+          (active motion + 2 motions pre-loaded).
+
+          Basically there are 3 choices for blending:
+          - **No blending**
+          - **Speed dependent blending** *(recommended)*
+          - **Blend by a predefined distance**
+
+          The BlendFactor is **also important for the last motion** before a
+          standstill as it defines the point at which the `Sts_PC` signal becomes
+          active.
+          Usually you want the robot to be exactly at the target position before
+          proceeding actions can follow (e.g. closing the gripper). This means you
+          have to set `BlendFactor=0`. Other values will result in `Sts_PC` becoming
+          high before the robot really reached the target position.
+
+          #### DX200 limitation
+
+          On the DX200 robot controller, blending between *diffent kinds of
+          motions* (e.g. point-to-point to linear motions or vice-versa) is only
+          possible using `BlendFactor=-1`. On newer controllers this limitation
+          was removed by a system software upgrade.
+
+          #### No blending
+
+          BlendFactor `0` is used to disable blending for this motion. The robot
+          will move without cutting the corner. This will add some cycle time as the
+          robot will have a short standstill **exactly** on the target position.
+
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 300 300" width="300" height="300" stroke="currentColor" stroke-linecap="round" stroke-opacity="1.0" stroke-linejoin="round" stroke-width="2">
+            <text x="0" y="280">P0</text>
+            <text x="0" y="20">P1</text>
+            <text x="280" y="20">P2</text>
+            <path stroke-dasharray="4" d="M 270 30  30 30 30 270"/>
+            <circle fill="currentColor" cx="30" cy="270" r="1"/>
+            <circle fill="currentColor" cx="30" cy="30" r="1"/>
+            <circle fill="currentColor" cx="270" cy="30" r="1"/>
+          </svg>
+
+          #### Speed dependent blending
+
+          BlendFactor `-1` is used for blending depending on the speed of the robot.
+          The faster the robot moves, the more it cuts the corners.
+
+          This setting is recommended for most cases as it works for any trajectory.
+          However, if there is a risk of collision (and predictable blending is
+          required) you should blend by a predefined distance.
+
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 300 300" width="300" height="300" stroke="currentColor" stroke-linecap="round" stroke-opacity="1.0" stroke-linejoin="round" stroke-width="2">
+            <text x="0" y="280">P0</text>
+            <text x="0" y="20">P1</text>
+            <text x="280" y="20">P2</text>
+            <path stroke-dasharray="4" d="M 270 30  45 30 A  15  15 0 0 0 30  45 M 30  45 30 270"/>
+            <path stroke-dasharray="4" d="M 270 30 260 30 A 230 230 0 0 0 30 260 M 30 260 30 270"/>
+            <circle fill="currentColor" cx="30" cy="270" r="1"/>
+            <circle fill="currentColor" cx="30" cy="30" r="1"/>
+            <circle fill="currentColor" cx="270" cy="30" r="1"/>
+          </svg>
+
+          #### Fixed distance blending
+
+          BlendFactor `1` to `8` are used for blending by predefined distances. This
+          leads to a predictable and consistent blending. However, when using one of
+          these predefined blending distances you have to **make sure that the
+          setting is not too large** for the motion segment, otherwise
+          it will not blend at all (resulting in non-smooth motion and increased
+          cycle time).
+
+          These distances are defined by robot parameters and **cannot be changed
+          by the customer**. Below table shows the default settings.
+
+          | parameter  | distance [µm] | description   |
+          | ---------- | ------------- | ------------- |
+          | `S1CxG 33` | `12500`       | Blendfactor 1 |
+          | `S1CxG 34` | `25000`       | Blendfactor 2 |
+          | `S1CxG 35` | `50000`       | Blendfactor 3 |
+          | `S1CxG 36` | `100000`      | Blendfactor 4 |
+          | `S1CxG 37` | `200000`      | Blendfactor 5 |
+          | `S1CxG 38` | `300000`      | Blendfactor 6 |
+          | `S1CxG 39` | `400000`      | Blendfactor 7 |
+          | `S1CxG 40` | `500000`      | Blendfactor 8 |
+
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 300 300" width="300" height="300" stroke="currentColor" stroke-linecap="round" stroke-opacity="1.0" stroke-linejoin="round" stroke-width="2" >
+            <text x="0" y="280">P0</text>
+            <text x="0" y="20">P1</text>
+            <text x="280" y="20">P2</text>
+            <path stroke="#FF0000" stroke-dasharray="4" d="M 270 30  50 30 A  20  20 0 0 0 30  50 M 30  50 30 270"/>
+            <path stroke="#FFBF00" stroke-dasharray="4" d="M 270 30  80 30 A  50  50 0 0 0 30  80 M 30  80 30 270"/>
+            <path stroke="#80FF00" stroke-dasharray="4" d="M 270 30 110 30 A  80  80 0 0 0 30 110 M 30 110 30 270"/>
+            <path stroke="#00FF40" stroke-dasharray="4" d="M 270 30 140 30 A 110 110 0 0 0 30 140 M 30 140 30 270"/>
+            <path stroke="#00FFFF" stroke-dasharray="4" d="M 270 30 170 30 A 140 140 0 0 0 30 170 M 30 170 30 270"/>
+            <path stroke="#0040FF" stroke-dasharray="4" d="M 270 30 200 30 A 170 170 0 0 0 30 200 M 30 200 30 270"/>
+            <path stroke="#8000FF" stroke-dasharray="4" d="M 270 30 230 30 A 200 200 0 0 0 30 230 M 30 230 30 270"/>
+            <path stroke="#FF00BF" stroke-dasharray="4" d="M 270 30 260 30 A 230 230 0 0 0 30 260 M 30 260 30 270"/>
+            <circle fill="currentColor" cx="30" cy="270" r="1"/>
+            <circle fill="currentColor" cx="30" cy="30" r="1"/>
+            <circle fill="currentColor" cx="270" cy="30" r="1"/>
+          </svg>
+
+        type: DINT
+        comment: "Valid values: 0-8. This will define how much this motion should be blended into the next motion. Note: an additional motion will need to be added to the queue for this parameter to work correctly. See User Guide for detailed instructions on using this parameter."
+        default_value: "0"
+        legend:
+          "-1" : "speed dependent blending"
+          "0" : "no blending"
+          "1-8" : "blending *fine* to *coarse*"
+
+
+  - kind: output
+    var:
+      - name: result
+        type: REAL
+        comment: rounded result of number1 + number2
+  - kind: in_out
+    var:
+      - name: myInOutVar
+        type: ARRAY [0..9] OF USINT
+        comment: Bratwurst mit Senf
+  - kind: var
+    var:
+      - name: someVar
+        type: REAL
+        comment: just some variable
+  - kind: temp
+    var:
+      - name: tempVar
+        type: DINT
+        comment: a temporary variable
+  - kind: constant
+    var:
+      - name: PI
+        type: REAL
+        comment: the value of PI
+        default_value: 3.14159265

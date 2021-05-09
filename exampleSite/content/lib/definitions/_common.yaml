@@ -1,0 +1,333 @@
+description: |
+  Common data for the definitions.
+company: Yaskawa Europe GmbH
+author: deGroot
+changelog:
+  - version: 0.1.0
+    date: 2021-01-17
+    author: deGroot
+    added:
+      - initial release
+var:
+  company:
+    optional: true
+    description: |
+      Name of the company.
+
+      ```yaml
+      company: Yaskawa Europe GmbH
+      ```
+    type: STRING
+
+  author:
+    optional: true
+    description: |
+      Name of the original author.
+
+      ```yaml
+      author: John Doe
+      ```
+    type: STRING
+
+  description:
+    optional: true
+    description: |
+      Detailed description of the item.
+      Supports Markdown formatting such as:
+
+      - **bold** text
+      - *italic* text
+      - some [hyperlink](http://www.example.com)
+
+      **Tip:** Use the `yaml` multi-line syntax (`|`) to create longer texts.
+
+      ```yaml
+      description: |
+        Detailed description of the variable.
+        Supports Markdown formatting such as:
+
+        - **bold** text
+        - *italic* text
+        - some [hyperlink](http://www.example.com)
+
+        **Tip:** Use the `yaml` multi-line syntax (`|`) to create longer texts.
+      ```
+    type: STRING
+
+  comment:
+    description: |
+      Short description of the item. This is used in the engineering tool for the target controller (e.g. in code header).
+
+      *formatting:*
+      - should fit on one line
+      - don't add a period if it is a single sentence
+
+      **Important:** Depending on the target controller platform,
+      *length rules* might apply.
+
+      ```yaml
+      comment: Adds two numbers and rounds the result
+      ```
+    type: STRING
+
+  since:
+    optional: true
+    description: |
+      Version number of the release where this item was *introduced for the first time*.
+      It has to follow the *major.minor.patch* format and is used to inform the user on new items.
+
+      **Important:** Do not use any prefix (e.g. `v` or `V`).
+
+      ```yaml
+      since: '0.1.2'
+      ```
+    type: STRING
+
+  changelog:
+    description: |
+      Array containing the changelog entries. Newest on top.
+      The changelog has to follow the guidelines of [Semantic versioning](https://semver.org)
+      and [Keep a changelog](https://keepachangelog.com).
+
+      A changelog entry is defined by the following keys:
+
+      - [`.version`](#version.changelog)
+      - [`.date`](#date.changelog)
+      - [`.author`](#author.changelog)
+      - [`.added`](#added.changelog)
+      - [`.changed`](#changed.changelog)
+      - [`.fixed`](#fixed.changelog)
+      - [`.deprecated`](#deprecated.changelog)
+      - [`.removed`](#removed.changelog)
+      - [`.security`](#security.changelog)
+
+      ```yaml
+      changelog:
+        - version: '1.0.1'
+          date: '2020-02-03'
+          author: 'Jane Doe'
+          fixed:
+            - 'rounding error fixed in function `XYZ`'
+            ...
+        - version: '1.0.0'
+          date: '2020-01-31'
+          author: 'John Doe'
+          added:
+            - 'function `XYZ` for doing something'
+            ...
+      ```
+
+    type: SLICE
+
+
+  version.changelog:
+    description: |
+      Version number of the changelog entry.
+      The version number of the *latest* (top) changelog entry is being displayed in the item title.
+
+      - **Format:** `major.minor.patch`
+
+      **Important:** Do not use any prefix (e.g. `v` or `V`).
+
+      ```yaml
+      version: '0.1.2'
+      ```
+    type: STRING
+
+
+  date.changelog:
+    description: |
+      Date of the changelog entry.
+
+      - **Format:** `yyyy-mm-dd`
+
+      ```yaml
+      date: '2020-11-26'
+      ```
+    type: STRING
+
+
+  author.changelog:
+    optional: true
+    description: |
+      Name of the author.
+
+      ```yaml
+      author: John Doe
+      ```
+    type: STRING
+
+
+  added.changelog:
+    optional: true
+    description: |
+      Array describing the *new features*.
+
+      ```yaml
+      added:
+        - some cool feature
+        - another *super cool* feature
+      ```
+    type: SLICE
+
+
+  changed.changelog:
+    optional: true
+    description: |
+      Array describing the *changes in existing functionality*.
+
+      ```yaml
+      changed:
+        - something
+        - and *another* thing
+      ```
+    type: SLICE
+
+
+  fixed.changelog:
+    optional: true
+    description: |
+      Array describing the *bug fixes*.
+
+      ```yaml
+      fixed:
+        - typo something
+        - and *another* thing
+      ```
+    type: SLICE
+
+
+  deprecated.changelog:
+    optional: true
+    description: |
+      Array describing the *soon-to-be removed features*.
+
+      ```yaml
+      deprecated:
+        - function `ABC` will be replaced by the much better function `XYZ`
+      ```
+    type: SLICE
+
+
+  removed.changelog:
+    optional: true
+    description: |
+      Array describing the *now removed features*.
+
+      ```yaml
+      removed:
+        - function `ABC`
+      ```
+    type: SLICE
+
+
+  security.changelog:
+    optional: true
+    description: |
+      Array describing *fixes which concern **vulnerabilities** or **safety***.
+
+      ```yaml
+      security:
+        - wrong input was used in E-stop safety logic
+      ```
+    type: SLICE
+
+
+  var:
+    description: |
+      Array containing the variables.
+      A variable is defined by the following keys:
+
+      - [`.name`](#name.var)
+      - [`.optional`](#optional.var)
+      - [`.description`](#description.var)
+      - [`.type`](#type.var)
+      - [`.default_value`](#default_value.var)
+      - [`.comment`](#comment.var)
+      - [`.legend`](#legend.var)
+
+      ```yaml
+      var:
+      - name: firstVar
+        type: DINT
+        ...
+      - name: secondVar
+        type: BOOL
+        ...
+      - name: lastVar
+        type: ARRAY [0..9] OF REAL
+        ...
+      ```
+    type: SLICE
+
+  name.var:
+    description: |
+      Defines the name of the variable.
+
+      **Important:** Depending on the target controller platform,
+      *length-* and/or *naming rules* might apply.
+
+      ```yaml
+      name: buttonColor
+      ```
+    type: STRING
+
+
+  optional.var:
+    optional: true
+    description: |
+      Set this parameter to mark the variable as *optional*.
+
+      ```yaml
+      optional: true
+      ```
+    type: BOOL
+    default_value: 'false'
+
+  type.var:
+    description: |
+      Describes the data type of the variable.
+
+      ```yaml
+      type: DINT
+      ```
+    type: data type
+
+  default_value.var:
+    optional: true
+    description: |
+      Defines the default value for the variable.
+
+      ```yaml
+      default_value: 3
+      ```
+    type: data type
+
+  comment.var:
+    optional: true
+    description: |
+      Variable comment as used in the engineering tool for the target controller.
+      This is usually a *compact* mixture of `description` and `legend`.
+
+      **Important:** Depending on the target controller platform,
+      *length rules* might apply.
+
+      ```yaml
+      comment: Button color (0=none, 1=rd, 2=gn, 3=bl, 4=gr)
+      ```
+    type: STRING
+
+  legend.var:
+    optional: true
+    description: |
+      Object containing the possible values and their meaning.
+
+      ```yaml
+      legend:
+        0: none (transparent)
+        1: red
+        2: green
+        3: blue
+        4: gray
+      ```
+    type: MAP

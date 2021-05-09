@@ -1,0 +1,44 @@
+company: Yaskawa Europe GmbH
+author: deGroot
+since: 0.1.24
+description: Here should be some kind of a nice description.
+changelog:
+  - version: 1.0.0
+    date: 2020-10-06 # yyyy-mm-dd
+    author: John Doe
+    added:
+      - initial release  
+var:
+  - name: Name_LEN
+    type: DINT
+    comment: "*Stringlength for platform compatibility*"
+  - name: Name
+    type: STRING[82]
+    comment: "User-defined name of the Cubic IZ."
+  - name: CubicIZType
+    type: DINT
+    comment: "-1 = IZ not defined, 0 = Two Corners, 1 = Center Point"
+  - name: ZoneAction
+    type: DINT
+    comment: "0 = Status Only, 1 = Stop Motion, 2 = Clear IZ"
+  - name: Corner1
+    type: ARRAY[0..2] OF REAL
+    comment: "VALID ONLY WITH CubicIZType = 0. Defines first corner of the Cubic IZ."
+  - name: Corner2
+    type: ARRAY[0..2] OF REAL
+    comment: "VALID ONLY WITH CubicIZType = 0. Defines second corner of the Cubic IZ."
+  - name: CoordFrame
+    type: DINT
+    comment: "VALID ONLY WITH CubicIZType = 0. 0 = Robot, 1 = Base, 2 = User."
+  - name: CenterPoint
+    type: ARRAY[0..5] OF REAL
+    comment: "VALID ONLY WITH CubicIZType = 1. Defines the [X,Y,Z,RX,RY,RZ] position of the center of the Cubic IZ."
+  - name: Dimensions
+    type: ARRAY[0..2] OF REAL
+    comment: "VALID ONLY WITH CubicIZType = 1. Defines the length (X), width (Y), and height (Z) of the Cubic IZ around the Center Point."
+  - name: RobotActiveStatus
+    type: ARRAY[0..1] OF SINT
+    comment: "Contains the active IZ Type for each robot (index 0 = Robot 0, index 1 = Robot 1)."
+  - name: Padding
+    type: ARRAY[0..1] OF SINT
+    comment: "*Placeholder for platform compatibility*"

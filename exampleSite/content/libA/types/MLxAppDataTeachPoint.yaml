@@ -1,0 +1,32 @@
+company: Yaskawa Europe GmbH
+author: deGroot
+since: 0.1.24
+description:
+changelog:
+  - version: 1.0.0
+    date: 2020-10-06 # yyyy-mm-dd
+    author: John Doe
+    added:
+      - initial release  
+var:
+  - name: TeachPointName_LEN
+    type: DINT
+    comment: "*Stringlength for platform compatibility*"
+  - name: TeachPointName
+    type: STRING[82]
+    comment: "User-Defined Teach Point Name."
+  - name: TCPPosition
+    type: MLxRobotPosition
+    comment: "Teach Point TCP Position"
+  - name: AxisPosition
+    type: ARRAY[0..7] OF REAL
+    comment: "Teach Point Axes Position"
+  - name: UserFrameNumber
+    type: INT
+    comment: "-1=ignore the active UserFrame (treat as WORLD position), other values are not used by the robot controller"
+  - name: ToolNumber
+    type: INT
+    comment: "-1=ignore the active Tool (treat as tool offsets all zero), other values are not used by the robot controller"
+  - name: Reserved
+    type: DINT
+    comment: "*For future use*"

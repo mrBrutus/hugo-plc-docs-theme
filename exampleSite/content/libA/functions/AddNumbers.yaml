@@ -1,0 +1,89 @@
+company: Yaskawa Europe GmbH
+author: deGroot
+since: 1.24.0
+description: |
+  This function adds two **numbers** and rounds the result.
+  - some `markdown` *here*.
+comment: Adds two numbers and rounds the result
+controller:
+  YRC1000: YAS3.4.5
+  DX200: DN2.3.4
+  YRC1000micro: under development
+prerequisite:
+  robot: standstill
+  key_switch: remote
+changelog:
+  - version: 0.2.1
+    date: 2020-12-16
+    author: deGroot
+    added: 
+      - "`comment` tag (shortened variant of `description`)"
+  - version: 0.2.0
+    date: 2020-11-25 # yyyy-mm-dd
+    author: Brutus
+    added:
+      - |
+        3rd input `a common input` which contains no data
+        (will be parsed from template).
+  - version: 0.1.1
+    date: 2020-10-07 # yyyy-mm-dd
+    author: John Doe
+    changed:
+      - Description
+    fixed:
+      - Typo comment `number2`
+  - version: 0.1.0
+    date: 2020-10-06 # yyyy-mm-dd
+    author: John Doe
+    added:
+      - This is the initial release
+      - 🎉 *awesome* stuff
+var:
+  - kind: input
+    var:
+      - name: number1
+        description: This is the first *input* for the function.
+        type: REAL
+        comment: first number
+        default_value: 3
+        legend:
+          0: 'I am sleeping'
+          1: 'I am eating'
+          2: 'I am drinking'
+          3: 'I am doing stuff'
+          4..99: |
+            this is
+            a
+            multi line
+            comment with **preserved empty lines**
+      - name: number2
+        description: This is the **second** input for the function.
+        type: REAL
+        comment: second number
+      - name: CommonInput.examples
+  - kind: output
+    var:
+      - name: result
+        type: REAL
+        comment: rounded result of number1 + number2
+  - kind: in_out
+    var:
+      - name: myInOutVar
+        type: ARRAY [0..9] OF USINT
+        comment: Bratwurst mit Senf
+  - kind: var
+    var:
+      - name: someVar
+        type: REAL
+        comment: just some variable
+  - kind: temp
+    var:
+      - name: tempVar
+        type: DINT
+        comment: a temporary variable
+  - kind: constant
+    var:
+      - name: PI
+        type: REAL
+        comment: the value of PI
+        default_value: 3.14159265
