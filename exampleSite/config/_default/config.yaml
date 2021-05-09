@@ -50,7 +50,7 @@ services:
     disableInlineCSS: true
     
 enableEmoji: true
-enableGitInfo: false
+enableGitInfo: true
 googleAnalytics: ''
 
 markup:

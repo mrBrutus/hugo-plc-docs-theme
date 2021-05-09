@@ -8,51 +8,51 @@ plugins:
 #   - mermaid
 #   - fullcalendar
 
-imported_sections:
-  YaskawaMLx:
-    # repo: "<the URL of the repository>"
-    branches:
-      - "1.25.0"
-      - "1.24.0"
-      - "master"
-      # - "1.22.1"
-  Libraries:
-    # repo: "<the URL of the repository>"
-    branches:
-      - "1.24.0"
-      - "1.23.1"
-      - "1.23.0"
-      - "1.22.0"
-  Folder:
-    # repo: "<the URL of the repository>"
-    branches:
-      - "0.4.0"
-      - "0.3.4"
-      - "0.3.3"
-      - "0.3.2"
-      - "0.3.1"
-      - "0.3.0"
-      - "0.2.0"
-      - "0.1.2"
-      - "0.1.1"
-      - "0.1.0"
-  Versioned Page:
-    # repo: "<the URL of the repository>"
-    branches:
-      - "0.2.0"
-      - "0.1.1"
-      - "0.1.0"
-  Example one:
-    # repo: "<the URL of the repository>"
-    branches:
-      - "0.2.0"
-      - "0.1.1"
-      - "0.1.0"
-  Example two:
-    # repo: "<the URL of the repository>"
-    branches:
-      - "0.1.1"
-      - "0.1.0"
+# imported_sections:
+#   YaskawaMLx:
+#     # repo: "<the URL of the repository>"
+#     branches:
+#       - "1.25.0"
+#       - "1.24.0"
+#       - "master"
+#       # - "1.22.1"
+#   Libraries:
+#     # repo: "<the URL of the repository>"
+#     branches:
+#       - "1.24.0"
+#       - "1.23.1"
+#       - "1.23.0"
+#       - "1.22.0"
+#   Folder:
+#     # repo: "<the URL of the repository>"
+#     branches:
+#       - "0.4.0"
+#       - "0.3.4"
+#       - "0.3.3"
+#       - "0.3.2"
+#       - "0.3.1"
+#       - "0.3.0"
+#       - "0.2.0"
+#       - "0.1.2"
+#       - "0.1.1"
+#       - "0.1.0"
+#   Versioned Page:
+#     # repo: "<the URL of the repository>"
+#     branches:
+#       - "0.2.0"
+#       - "0.1.1"
+#       - "0.1.0"
+#   Example one:
+#     # repo: "<the URL of the repository>"
+#     branches:
+#       - "0.2.0"
+#       - "0.1.1"
+#       - "0.1.0"
+#   Example two:
+#     # repo: "<the URL of the repository>"
+#     branches:
+#       - "0.1.1"
+#       - "0.1.0"
 
 navBar:
   # kind of logo [ false / inline (default) / <logo file name> ]
