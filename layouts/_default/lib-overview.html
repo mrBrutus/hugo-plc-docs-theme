@@ -11,12 +11,11 @@
           {{ $yamlData := partial "lib/get-yaml-data" ( dict "ctx" $ "fileName" "project" ) }}
 
           <header>
-            <h1>{{ .Title }}</h1>
+            <div class="flex justify-start items-baseline flex-wrap">
+              <h1 class="low-profile-header mr-2 py-0" id="{{ .Title }}">{{ .Title }}</h1>
+              {{ partial "lib/overview/latest" $yamlData }}            
+            </div>
           </header>
-
-          <div class="mb-8 flex flex-col items-start sm:flex-row sm:items-center sm:flex-wrap sm:flex-grow">
-            {{ partial "lib/overview/latest" $yamlData }}            
-          </div>
 
 
           <article>

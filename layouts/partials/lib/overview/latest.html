@@ -1,9 +1,10 @@
 {{ with .releases }}
   {{ range first 1 . }}
     {{ with .version }}
-    <div class="flex items-center text-xs border border-primary text-primary rounded-full">
-      <a class="low-profile-link px-2 py-0.5" title="latest release" href="{{ (printf "#%s" .) | urlize }}">
-        {{ printf "Latest release: %s" . }}
+    <div class="text-xs border border-primary text-primary rounded-full">
+      <a class="flex flex-nowrap justify-start items-center low-profile-link px-2 py-0.5" title="latest release" href="{{ (printf "#%s" .) | urlize }}">
+        {{ partial "svgs/heroicons/information-circle.svg" (dict "class" "h-4 -ml-1 mr-1" ) }}
+        {{ . }}
       </a>
     </div>
     {{ end }}

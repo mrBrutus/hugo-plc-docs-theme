@@ -1,7 +1,9 @@
 {{ range . }}
   <div class="mb-10">
     {{ with .version }}
-      <h3 id="{{ . | urlize }}">{{ . }}</h3>
+      <div class="mb-2 flex justify-start text-primary">
+        <h3 class="low-profile-header px-1 py-0 border border-primary rounded" id="{{ . | urlize }}">{{ . }}</h3>
+      </div>
     {{ end }}
     
 

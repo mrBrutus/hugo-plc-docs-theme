@@ -3,14 +3,15 @@
   <h4>Assets</h4>
   <div class="border rounded-lg">
     {{ $index := 1 }}
-    {{ range $key, $value := . }}
+
+    {{ range $key, $value := (sort . "date" "asc") }}
       <div class="flex justify-between items-center pl-2 pr-2 py-1 {{if ne $index 1 }}border-t{{ end }}">
 
         {{ with $value.url}}
           <a class="low-profile-link" title="download" target="_blank" href={{.}}>
             <span class="flex justify-start items-center">
               {{ partial "svgs/heroicons/cube.svg" (dict "class" "h-4 mr-2" ) }}
-              {{ $key }}
+              {{ $value.name }}
             </span>
           </a>&nbsp
           <span class="text-xs">
