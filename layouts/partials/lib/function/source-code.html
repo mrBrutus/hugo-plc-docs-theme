@@ -31,7 +31,12 @@
     {{ with .changelog }}
       {{ range first 1 . }}{{$latestChangelog = . }}{{ end }}
     {{ end }}
-    {{ $code_header := partial "lib/code-header.html" (dict "name" $name "family" $family "description" $description "latestChangelog" $latestChangelog ) }}
+
+
+    {{/* read the YAML data from the project file */}}
+    {{ $projectData := partial "lib/get-yaml-data" ( dict "ctx" $.ctx.Parent "fileName" "project" ) }}
+
+    {{ $code_header := partial "lib/code-header.html" (dict "name" $name "project" $projectData "description" $description "latestChangelog" $latestChangelog ) }}
     {{ $code_block = printf "%s%s\n" $code_block $code_header }}
 
     {{/* insert variables */}}
