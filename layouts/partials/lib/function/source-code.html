@@ -1,7 +1,5 @@
 {{/* generate source code */}}
 {{ with .item }}
-  {{/* <details> */}}
-  {{/* <summary>Show source code</summary> */}}
   <div class="">
 
     {{/* Declaration */}}
@@ -26,7 +24,6 @@
 
 
     {{/* insert code header */}}
-    {{ $family := $.ctx.Parent.Title }}
     {{ $latestChangelog := dict }}
     {{ with .changelog }}
       {{ range first 1 . }}{{$latestChangelog = . }}{{ end }}
@@ -92,11 +89,10 @@
       <div class="overflow-x-auto">
         {{ $code_block := "```iecst\n" }}
         {{/* insert code */}}
-        {{ $code_block = printf "%s%s\n" $code_block .Content }}
+        {{ $code_block = printf "%s%s" $code_block .Content }}
         {{ printf "%s\n```" $code_block | markdownify }}
       </div>
     {{ end }}
 
   </div>
-{{/* </details> */}}
 {{ end }}
