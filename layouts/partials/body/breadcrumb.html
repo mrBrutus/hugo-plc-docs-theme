@@ -21,7 +21,7 @@
           <span class="pr-4">
             {{ partial "svgs/heroicons/chevron-right.svg" (dict "class" "h-4" ) }}
           </span>
-          <span class="">{{ lower .p1.Title }}</span>
+          <span class="">{{ .p1.Title }}</span>
         </div>
 
       {{ else }}
@@ -29,7 +29,7 @@
           <span class="pr-4">
             {{ partial "svgs/heroicons/chevron-right.svg" (dict "class" "h-4" ) }}
           </span>
-          <a href="{{ .p1.Permalink }}" class="low-profile-link pr-4">{{ lower .p1.Title }}</a>
+          <a href="{{ .p1.Permalink }}" class="low-profile-link pr-4">{{ .p1.Title }}</a>
         </div>
       {{ end }}
     </div>
