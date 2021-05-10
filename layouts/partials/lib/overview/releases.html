@@ -1,0 +1,19 @@
+{{ range . }}
+  <div class="mb-10">
+    {{ with .version }}
+      <h3 id="{{ . | urlize }}">{{ . }}</h3>
+    {{ end }}
+    
+
+    <div class="">
+      {{ partial "lib/version-info.html" . }}
+      
+      {{ with .assets }}
+        {{ partial "lib/overview/assets.html" . }}
+      {{ end }}
+
+      {{ partial "lib/changes.html" . }}
+
+    </div>
+  </div>
+{{ end }}

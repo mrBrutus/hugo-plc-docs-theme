@@ -1,0 +1,18 @@
+{{ $version := "" }}
+{{ $classes := "flex flex-nowrap justify-start items-center button-a text-sm" }}
+
+{{ with .changelog }}
+  {{ range first 1 . }}
+    {{ with .version }}{{ $version = . }}{{ end }}
+  {{ end }}
+{{ else }}
+  {{ with .releases }}
+    {{ range first 1 . }}
+      {{ with .version }}{{ $version = . }}{{ end }}      
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+<a class="{{ $classes }}" title="latest version" href="{{ (printf "#%s" $version) | urlize }}">
+  {{ $version }}
+</a>

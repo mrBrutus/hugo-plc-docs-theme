@@ -13,7 +13,7 @@
           <header>
             <div class="flex justify-start items-baseline flex-wrap">
               <h1 class="low-profile-header mr-2 py-0" id="{{ .Title }}">{{ .Title }}</h1>
-              {{ partial "lib/overview/latest" $yamlData }}            
+              {{ partial "lib/latest-version" $yamlData }}
             </div>
           </header>
 
@@ -29,7 +29,7 @@
             {{ with $yamlData.releases }}
               <section>
                 <h2 id="releases">Releases</h2>
-                {{ partial "lib/overview/release.html" . }}
+                {{ partial "lib/overview/releases.html" . }}
               </section>
             {{ end }}
 

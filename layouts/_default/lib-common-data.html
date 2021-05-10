@@ -11,7 +11,10 @@
           {{ $yamlData := partial "lib/get-yaml-data" ( dict "ctx" $ "fileName" .Page.File.BaseFileName ) }}
 
           <header>
-            <h1>{{ .Title }}</h1>
+            <div class="flex justify-start items-baseline flex-wrap mb-2">
+              <h1 class="low-profile-header mr-2 py-0" id="{{ .Title }}">{{ .Title }}</h1>
+              {{ partial "lib/latest-version" $yamlData }}
+            </div>
           </header>
 
           <div class="mb-8 flex flex-col items-start sm:flex-row sm:items-center sm:flex-wrap sm:flex-grow">
@@ -20,19 +23,23 @@
           </div>
 
           <article>
-            {{/* changelog */}}
-            {{ if not .Params.disable_changelog }}
-              {{ with $yamlData.changelog }}
-                <div>
-                  {{ partial "lib/changelog.html" . }}
-                </div>
-              {{ end }}
-            {{ end }}
-
             {{/* description (or comment) */}}
             <div>
               {{ partial "lib/description.html" $yamlData }}
             </div>
+
+            {{/* changelog */}}
+            {{ if not .Params.disable_changelog }}
+              {{ with $yamlData.changelog }}
+      
+                <section>
+                  <h2 id="version-history">Version history</h2>
+                  {{ partial "lib/version-history.html" . }}
+                </section>
+
+              {{ end }}
+            {{ end }}
+
 
             {{/* variable details */}}
             {{ with $yamlData.var }}
