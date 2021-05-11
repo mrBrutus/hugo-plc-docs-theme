@@ -1,6 +1,6 @@
 company: Yaskawa Europe GmbH
 author: deGroot
-since: 2.3.0
+since: 2.3.4
 description: |
   This function adds two **numbers** and rounds the result.
   - some `markdown` *here*.
