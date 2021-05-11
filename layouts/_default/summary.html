@@ -1,1 +1,5 @@
-{{ partial "summary/classic" . }}
+{{ if in .Layout "lib-" }}
+  {{ partial "summary/lib-item" . }}  
+{{ else }}
+  {{ partial "summary/classic" . }}
+{{ end }}
