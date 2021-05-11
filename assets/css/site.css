@@ -132,6 +132,9 @@ kbd {
   .collapse-card {
     page-break-inside: avoid;
   }
+  summary {
+    display: none;
+  }
 }
 
 
