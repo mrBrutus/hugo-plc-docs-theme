@@ -11,23 +11,23 @@
           <a class="low-profile-link" title="download" target="_blank" href={{.}}>
             <span class="flex justify-start items-center">
               {{ partial "svgs/heroicons/cube.svg" (dict "class" "h-4 mr-2" ) }}
-              {{ $value.name }}
+              {{ $value.name }}&nbsp
             </span>
-          </a>&nbsp
+          </a>
           <span class="text-xs">
             {{ with $value.date }}
               {{ dateFormat "02 Jan 2006" . }}
             {{ end }}
-          </span>&nbsp
+          </span>
         {{ else }}
 
           <span class="flex justify-start items-center">
             {{ partial "svgs/heroicons/cube.svg" (dict "class" "h-4 mr-2 invisible" ) }}
-            {{ $value.name }}
-          </span>&nbsp
+            {{ $value.name }}&nbsp
+          </span>
           <span class="text-xs italic">
             coming soon
-          </span>&nbsp
+          </span>
         {{ end }}
 
       </div>
