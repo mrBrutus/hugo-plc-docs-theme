@@ -4,13 +4,8 @@
   "description": "A Hugo theme for creating a PLC documentation website using a docs-as-code approach.",
   "main": "README.md",
   "scripts": {
-    "server-dev": "hugo server -D -p 1313 -e development -s exampleSite --themesDir=../.. --minify --cleanDestinationDir --disableFastRender --gc --buildDrafts",
-    "server-dev-debug": "set HUGO_PARAMS_DEBUG=TRUE && hugo server -D -p 1315 -e development -s exampleSite --themesDir=../.. --minify --cleanDestinationDir --disableFastRender --gc --buildDrafts --templateMetrics --templateMetricsHints",
-    "server-prod": "hugo server -p 1314 -e production -s exampleSite --themesDir=../.. --minify --cleanDestinationDir --disableFastRender --gc",
-    "server-hugo-example-site": "hugo server -p 1313 -e development -t hugo-plc-docs-theme -s exampleSite --themesDir=../.. --minify --cleanDestinationDir --disableFastRender --gc",
-    "server-hugo-example-debug": "set HUGO_PARAMS_DEBUG=TRUE && hugo server -p 1313 -e development -t hugo-plc-docs-theme -s exampleSite --themesDir=../.. --minify --cleanDestinationDir --disableFastRender --gc",
-    "server-hugo-example-site-prod": "hugo server -p 1314 -e production -t hugo-plc-docs-theme -s exampleSite --themesDir=../.. --minify --cleanDestinationDir --disableFastRender --gc",
-    "build": "hugo -e production -s exampleSite --themesDir=../.. --minify --cleanDestinationDir --gc"
+    "dev": "hugo server -D -p 1313 -e development -s exampleSite --themesDir=../.. --minify --cleanDestinationDir --disableFastRender --gc --buildDrafts",
+    "prod": "hugo server -p 1314 -e production -s exampleSite --themesDir=../.. --minify --cleanDestinationDir --disableFastRender --gc"
   },
   "repository": {
     "type": "git",
