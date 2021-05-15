@@ -1,5 +1,7 @@
 <p align="center">
-  <img alt="PLC docs theme" src="static/logo.svg" height="150">
+  <a href="https://plc-docs-theme.netlify.app/">
+    <img alt="PLC docs theme" src="static/logo.svg" height="150">
+  </a>
 </p>
 
 <h1 align="center">
