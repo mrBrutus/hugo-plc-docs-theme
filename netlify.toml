@@ -1,11 +1,8 @@
 [build]
-publish = "exampleSite/public"
-command = "cd exampleSite && hugo --themesDir ../.."
+command = "hugo -e production -s exampleSite -t repo --themesDir=../.. --minify --gc --baseURL https://plc-docs-theme.netlify.app"
 
 [build.environment]
 HUGO_VERSION = "0.81.0"
-HUGO_THEME = "repo"
-HUGO_BASEURL = "https://plc-docs-theme.netlify.app"
 
 [[headers]]
 for = "/*"
