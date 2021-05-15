@@ -1,8 +1,6 @@
 <h1 align="center">
-  <span>
-    <img alt="PLC docs theme" src="static/logo.svg" height="100">
-    PLC docs theme
-  </span>
+  <img alt="PLC docs theme" src="static/logo.svg" height="100" valign="middle">
+  PLC docs theme
 </h1>
 
 <h3 align="center">
