@@ -1,9 +1,11 @@
-<h1 align="center">
-  <span>
-    <img alt="PLC docs theme" src="static/logo.svg" height="100">
-    PLC docs theme
-  </span>
-</h1>
+<div style="display: flex; justify-content: center; align-items: center;">
+  <h1>
+    <span>
+      <img alt="PLC docs theme" src="static/logo.svg" height="100">
+      PLC docs theme
+    </span>
+  </h1>
+</div>
 
 <h3 align="center">
   A theme for PLC library documentation
