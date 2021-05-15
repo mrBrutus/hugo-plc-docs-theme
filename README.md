@@ -1,4 +1,7 @@
-<img alt="PLC docs theme" src="static/logo.svg" height="150" align="center">
+<p align="center">
+  <img alt="PLC docs theme" src="static/logo.svg" height="150">
+</p>
+
 <h1 align="center">
   PLC docs theme
 </h1>
