@@ -1,8 +1,13 @@
 [build]
-command = "hugo -e production -s exampleSite -t repo --themesDir=../.. --minify --gc --baseURL https://plc-docs-theme.netlify.app"
+publish = "public"
+command = "hugo --themesDir=../.. -s exampleSite -t hugo-plc-docs-theme --minify --gc --enableGitInfo"
 
 [build.environment]
 HUGO_VERSION = "0.81.0"
+HUGO_ENV = "production"
+HUGO_ENABLEGITINFO = "true"
+HUGO_BASEURL = "https://plc-docs-theme.netlify.app"
+
 
 [[headers]]
 for = "/*"
