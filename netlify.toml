@@ -1,0 +1,5 @@
+[build]
+command = "hugo -e production -s exampleSite -t hugo-plc-docs-theme --themesDir=../.. --minify --gc --baseURL $URL"
+
+[build.environment]
+HUGO_VERSION = "0.81.0"
