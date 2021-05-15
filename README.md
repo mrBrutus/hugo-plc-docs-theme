@@ -21,11 +21,11 @@
 > Writing PLC code is great fun, writing documentation really isn't.<br>
 > — <cite>Bertus de Groot</cite>
 
-As a [PLC](https://en.wikipedia.org/wiki/Programmable_logic_controller) software engineer you might need to write proper documentation for your *library components* (data types, function blocks etc.) and *programs*.
+As a [PLC](https://en.wikipedia.org/wiki/Programmable_logic_controller) software engineer you eventually have to write documentation for your *library components* (data types, function blocks etc.) and *programs*.
 
-Although some PLC vendors have tools for writing library documentation integrated in their engineering tool, there is no industry standard and especially when working with various PLC platforms such a *vendor specific solution* is not ideal.
+Although some PLC vendors have tools for writing library documentation integrated in their engineering tool, there is no industry standard and especially when working with various PLC platforms such a *vendor specific solution* is far from ideal.
 
-Then you often end up using office tools such as a text processor (e.g. Word) to write the documentation, something not ideal either. In the worst case you might even find yourself pasting *screenshots of the source code* in these documents.
+Then you often end up using standard office tools such as MS Word to write the documentation, something not ideal either. In the worst case you might even find yourself pasting *screenshots of the source code* in these files — a true disaster in terms of maintenance.
 
 **Do you recognize this?**
 Then the time is right to implement a <a href="https://www.writethedocs.org/guide/docs-as-code">docs-as-code</a> approach to your [PLC](https://en.wikipedia.org/wiki/Programmable_logic_controller) coding workflow and use this theme to generate the documentation.
@@ -48,59 +48,53 @@ Please note that even though the PLC documentation features is what makes this t
 
 View the demo of this theme on Netlify: [plc-docs-theme.netlify.app](https://plc-docs-theme.netlify.app/).
 
-## Requirements
+## Get started
 
-The PLC docs theme has the following requirements:
+1. [Install Node.js](https://nodejs.org/en/download/).
+   Node's `npm` is used for package management/dependencies and for running scripts.
 
-1. **Hugo** - The static site generator.
-    Install the latest `hugo_extended` release from the [Hugo site](https://github.com/gohugoio/hugo/releases). Make sure the version is *at least* `v0.81`.
-
-    > The **extended** version of Hugo includes support for `PostCSS` which is **a must** for this theme.
-
-1. **Node.js** - `npm` is used for package management/dependencies and for running scripts.
-
-    Install the latest release from the [Node.js site](https://nodejs.org/en/download/).
-
-1. **Tailwind CSS** - for building and purging the css files
-
-    Install globally (see [Hugo Docs](https://gohugo.io/hugo-pipes/postcss/)):
+1. Install the dependencies for **Tailwind CSS**.
+   These have to be installed globally (see [Hugo Docs](https://gohugo.io/hugo-pipes/postcss/)):
 
     ```sh
     npm install -g postcss-cli autoprefixer
     ```
 
-## Get started
+1. [Install Hugo](https://gohugo.io/overview/installing/).
+   Make sure to install the **extended version** (`hugo_extended`) and that is is at least `v0.81`.
 
-### 1) Install dependencies
-
-```sh
-npm i
-```
-
-### 2) Run the exampleSite
-
-Start Hugo's local server for the environment of your choice:
-
-1. **development**
-
-    - all pages and content visible (including the know-how protected parts)
-    - contains the full set of TailwindCSS classes (> 8Mb)
-    - page served at <localhost:1313>
+1. Clone this repository:
 
     ```sh
+    git clone https://github.com/mrBrutus/hugo-plc-docs-theme.git
+    cd hugo-plc-docs-theme
+    ```
+
+1. Install the theme's dependencies:
+
+    ```sh
+    npm i
+    ```
+
+1. Run the exampleSite in the environment of your choice.
+   This starts Hugo's local server and serves the website at the mentioned IP address:
+
+    ```sh
+    # development environment
+    # - all pages and content visible (including the know-how protected parts)
+    # - contains the full set of TailwindCSS classes (> 8Mb)
+    # - page served at <localhost:1313>
+
     npm run dev
     ```
 
-1. **production**
-
-    - only pages and content intended for the customers visible (know-how protected parts not available)
-    - contains only the used TailwindCSS classes (CSS purged)
-    - page served at <localhost:1314>
+    or:
 
     ```sh
+    # production environment
+    # - only pages and content intended for customers visible (no know-how protected parts)
+    # - contains only the used TailwindCSS classes (CSS purged)
+    # - page served at <localhost:1314>
+
     npm run prod
     ```
-
-After some initial build time (up to 20 seconds) the example site is now being served at the above mentioned address.
-
-The Hugo server watches for changes and will rebuild (and refresh) the page automatically after every change. Keep an eye on the terminal output to see the progress of rebuilding.
