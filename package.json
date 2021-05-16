@@ -4,8 +4,8 @@
   "description": "A Hugo theme for creating a PLC documentation website using a docs-as-code approach.",
   "main": "README.md",
   "scripts": {
-    "dev": "hugo server -D -p 1313 -e development -s exampleSite --themesDir=../.. --minify --cleanDestinationDir --disableFastRender --gc --buildDrafts",
-    "prod": "hugo server -p 1314 -e production -s exampleSite --themesDir=../.. --minify --cleanDestinationDir --disableFastRender --gc"
+    "dev": "hugo server  -p 1313 -e development -s exampleSite --themesDir=../.. --minify --cleanDestinationDir --disableFastRender --gc --buildDrafts",
+    "prod": "hugo server -p 1314 -e production  -s exampleSite --themesDir=../.. --minify --cleanDestinationDir --disableFastRender --gc"
   },
   "repository": {
     "type": "git",
@@ -19,9 +19,9 @@
     "docs-as-code",
     "responsive",
     "tailwindcss",
-    "structured text",
+    "Structured Text",
     "ST",
-    "IEC61131"
+    "IEC61131-3"
   ],
   "author": "Bertus de Groot",
   "license": "MIT",
