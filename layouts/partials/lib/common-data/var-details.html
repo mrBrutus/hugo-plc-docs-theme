@@ -7,7 +7,7 @@
   <a class="" data-toggle="collapse" title="toggle details" href="#{{ $collapseId }}">
     <div class="pl-4 bg-default-soft ">
       <h3 class="inline-block flat" id="{{ $name | urlize }}">{{ $name }}</h3>
-      {{ with .type }}<span class="inline-block ml-2 text-primary font-mono">{{ .}} </span>{{ end }}
+      {{ with .type }}<span class="inline-block ml-2 text-brand font-mono">{{ .}} </span>{{ end }}
       <div class="inline-block ml-2 text-default-light italic">
         {{ with (and ($data.optional) ($data.default_value)) }}
           {{ with $data.default_value }}<span>(optional, default: {{ . }})</span>{{ end }}

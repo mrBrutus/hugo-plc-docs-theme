@@ -1,8 +1,8 @@
 <div class="flex items-center">
   {{ with .Site.Params.navBar.wide_logo }}
-    <a href="{{ $.Site.Home.Permalink }}" class="flex items-baseline h-16 px-2 py-4 text-primary hover:text-primary-dark text-2xl font-semibold">
+    <a href="{{ $.Site.Home.Permalink }}" class="flex items-baseline h-16 px-2 py-4 text-brand hover:text-brand-dark text-2xl font-semibold">
   {{ else }} 
-    <a href="{{ $.Site.Home.Permalink }}" class="flex items-center h-16 px-2 py-2 text-primary hover:text-primary-dark text-2xl font-semibold">
+    <a href="{{ $.Site.Home.Permalink }}" class="flex items-center h-16 px-2 py-2 text-brand hover:text-brand-dark text-2xl font-semibold">
   {{ end }}
 
     {{/* home: logo */}}

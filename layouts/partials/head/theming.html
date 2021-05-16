@@ -1,5 +1,5 @@
-{{/* override theme by site data - or page parameters */}}
-{{ with $.Site.Data.theme }}  
+{{/* override theme by site- or page parameters */}}
+{{ with $.Site.Params.theme }}  
   {{ $themeCss := "" }}
   {{ "<!-- theme overrides by site parameters -->" | safeHTML }}
   {{ "<style>" | safeHTML }}

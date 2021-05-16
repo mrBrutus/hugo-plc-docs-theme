@@ -4,7 +4,7 @@
       {{ partial "svgs/heroicons/calendar.svg" (dict "class" "h-4 mr-1" ) }}
 
       {{ if or (eq ( . | lower) "unreleased" (eq ( . | lower) "draft"))  }}
-        <span class="text-primary">
+        <span class="text-brand">
           unreleased
         </span>
       {{ else }}

@@ -26,7 +26,7 @@ module.exports = {
       'exampleSite/content/**/*.yaml',
     ],
     options: {
-      // safelisting is needed in case of dynamic classes (e.g. `pl-{{ mul $someVariable 2 }}` ==> pl-0, pl-2 etc.)
+      // safelisting needed for dynamic classes (e.g. `pl-{{ mul $someVariable 2 }}` ==> pl-0, pl-2 etc.)
       safelist: [/^pl-/, /^ml-/],
     }
   },
@@ -35,13 +35,13 @@ module.exports = {
       borderColor: {
         DEFAULT: 'var(--color-default-soft)',
         soft: 'var(--color-default-soft)',
-        primary: 'var(--color-primary)',
+        brand: 'var(--color-brand)',
       },
 
       ringColor: {
         DEFAULT: 'var(--color-default-soft)',
         soft: 'var(--color-default-soft)',
-        primary: 'var(--color-primary)',
+        brand: 'var(--color-brand)',
       },
 
       colors: {
@@ -63,12 +63,12 @@ module.exports = {
           dark: 'var(--color-default-dark)',
         },
 
-        primary: {
-          soft: 'var(--color-primary-soft)',
-          light: 'var(--color-primary-light)',
-          DEFAULT: 'var(--color-primary)',
-          dark: 'var(--color-primary-dark)',
-          inverse: 'var(--color-primary-inverse)',
+        brand: {
+          soft: 'var(--color-brand-soft)',
+          light: 'var(--color-brand-light)',
+          DEFAULT: 'var(--color-brand)',
+          dark: 'var(--color-brand-dark)',
+          inverse: 'var(--color-brand-inverse)',
         },
       },
 
@@ -79,12 +79,12 @@ module.exports = {
           DEFAULT: 'var(--color-default)',
           dark: 'var(--color-default-dark)',
         },
-        primary: {
-          soft: 'var(--color-primary-soft)',
-          light: 'var(--color-primary-light)',
-          DEFAULT: 'var(--color-primary)',
-          dark: 'var(--color-primary-dark)',
-          inverse: 'var(--color-primary-inverse)',
+        brand: {
+          soft: 'var(--color-brand-soft)',
+          light: 'var(--color-brand-light)',
+          DEFAULT: 'var(--color-brand)',
+          dark: 'var(--color-brand-dark)',
+          inverse: 'var(--color-brand-inverse)',
         },
       },
 
@@ -160,7 +160,6 @@ module.exports = {
             },
             h1: {
               fontWeight: '500',
-              // marginBottom: '0'
             },
             blockquote: {
               color: 'var(--color-default-dark)',
@@ -184,10 +183,9 @@ module.exports = {
               borderBottomColor: 'var(--color-default-soft)',
             },
             a: {
-              color: 'var(--color-primary)',
-              // textDecoration: false,
+              color: 'var(--color-brand)',
               '&:hover': {
-                color: 'var(--color-primary-light)',
+                color: 'var(--color-brand-light)',
               },
             },
 
@@ -201,7 +199,7 @@ module.exports = {
             'pre code': null,
 
             ':not(pre)>code, a code': {
-              color: 'var(--color-primary)',
+              color: 'var(--color-brand)',
               fontWeight: '400',
               fontSize: '1rem'
             },

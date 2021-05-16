@@ -7,6 +7,7 @@
 /* Site Specific */
 @import "assets/css/site";
 @import "assets/css/codeblocks";
+@import "assets/css/theming";
 
 /* Tailwind's utility classes - generated based on config file */
 @import "node_modules/tailwindcss/utilities";
