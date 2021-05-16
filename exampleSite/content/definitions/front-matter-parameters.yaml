@@ -1,21 +1,21 @@
 description: |  
   Definition of the *front-matter parameters* for a library item.
-company: Yaskawa Europe GmbH
-author: deGroot
+company: Foo inc.
+author: mrBrutus
 changelog:
   - version: 0.3.0
     date: 2021-02-24
-    author: deGroot
+    author: mrBrutus
     added: 
       - "`show_all_vars` parameter" 
   - version: 0.2.1
     date: 2021-01-17
-    author: deGroot
+    author: mrBrutus
     removed: 
       - "`common_data_key` parameter" 
   - version: 0.2.0
     date: 2020-12-29
-    author: deGroot
+    author: mrBrutus
     added: 
       - "`draft` parameter" 
       - "`_build.publishResources` parameter" 
@@ -24,7 +24,7 @@ changelog:
       - data moved from `_common.yaml` to own yaml file
   - version: 0.1.0
     date: 2020-12-11
-    author: deGroot
+    author: mrBrutus
     added: 
       - initial release
 var:

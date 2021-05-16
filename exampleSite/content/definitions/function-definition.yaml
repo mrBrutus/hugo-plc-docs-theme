@@ -14,7 +14,7 @@ description: |
 
   ```yaml
   # someProject/someLib/functions/anotherFct.yaml
-  company: Yaskawa Europe GmbH
+  company: Foo inc.
   author: John Doe
   since: 0.2.0          # this refers to the versioned project
   description: |
@@ -31,17 +31,17 @@ description: |
         - This is the initial release
   ```
 
-company: Yaskawa Europe GmbH
-author: deGroot
+company: Foo inc.
+author: mrBrutus
 changelog:
   - version: 0.2.0
     date: 2021-01-17
-    author: deGroot
+    author: mrBrutus
     changed:
       - "`group` renamed to `vars`"
   - version: 0.1.0
     date: 2020-12-23
-    author: deGroot
+    author: mrBrutus
     added:
       - initial release
 var:

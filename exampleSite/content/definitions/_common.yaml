@@ -1,11 +1,11 @@
 description: |
   Common data for the definitions.
-company: Yaskawa Europe GmbH
-author: deGroot
+company: Foo inc.
+author: mrBrutus
 changelog:
   - version: 0.1.0
     date: 2021-01-17
-    author: deGroot
+    author: mrBrutus
     added:
       - initial release
 var:
@@ -15,7 +15,7 @@ var:
       Name of the company.
 
       ```yaml
-      company: Yaskawa Europe GmbH
+      company: Foo inc.
       ```
     type: STRING
 

@@ -13,7 +13,7 @@ description: |
 
   ```yaml
   # someProject/someLib/types/anotherType.yaml
-  company: Yaskawa Europe GmbH
+  company: Foo inc.
   author: John Doe
   since: 0.3.0          # this refers to the versioned project
   description: |
@@ -29,22 +29,22 @@ description: |
       added:
         - This is the initial release
   ```
-company: Yaskawa Europe GmbH
-author: deGroot
+company: Foo inc.
+author: mrBrutus
 changelog:
   - version: 0.3.0
     date: 2020-12-23
-    author: deGroot
+    author: mrBrutus
     added: 
       - text added to description
   - version: 0.2.0
     date: 2020-12-16
-    author: deGroot
+    author: mrBrutus
     added: 
       - "`comment` tag (shortened variant of `description`)"
   - version: 0.1.0
     date: 2020-12-11
-    author: deGroot
+    author: mrBrutus
     added: 
       - initial release
 var:

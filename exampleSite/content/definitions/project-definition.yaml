@@ -48,8 +48,8 @@ description: |
 
   ```yaml
   # someProject/project.yaml
-  company: Yaskawa Europe GmbH
-  author: deGroot
+  company: Foo inc.
+  author: mrBrutus
   description: |
     This project contains the `someLib` for doing *something*.
   comment: someLib package
@@ -73,12 +73,12 @@ description: |
   ```
 
 
-company: Yaskawa Europe GmbH
-author: deGroot
+company: Foo inc.
+author: mrBrutus
 changelog:
   - version: 0.1.0
     date: 2020-12-23
-    author: deGroot
+    author: mrBrutus
     added:
       - initial release
 var:
