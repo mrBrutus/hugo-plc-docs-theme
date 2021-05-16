@@ -1,0 +1,42 @@
+{{ $item := dict }}
+
+{{/* get yaml data */}}
+{{ with .ctx.Parent.Resources.GetMatch (printf "**%s.yaml" .ctx.File.BaseFileName) }}
+  {{ $item = merge $item ( . | transform.Unmarshal) }}
+{{ end }}
+
+{{/* name */}}
+{{ with .ctx.Title }}  
+  {{ $item = merge $item (dict "name" . ) }}
+{{ end }}
+
+{{/* build a markdown link */}}
+{{ with .ctx.RelPermalink }}  
+  {{ $item = merge $item (dict "markdownLink" (printf "[`%s`](%s)" $item.name . ) ) }}
+{{ end }}
+
+{{/* kind */}}
+{{ with .ctx.Layout }}
+  {{ $kind := "" }}
+  {{ if (eq . "lib-type")}}
+    {{ $kind = "Data type" }}
+  {{ else }} 
+    {{ if $item.return }}
+      {{ $kind = "Function" }}
+    {{ else }} 
+      {{ $kind = "Function block" }}
+    {{ end }}
+  {{ end }}
+  {{ $item = merge $item (dict "kind" $kind ) }}
+{{ end }}
+
+{{/* latest version */}}
+{{ with $item.changelog }}
+  {{ range first 1 . }}
+    {{ with .version }}
+      {{ $item = merge $item (dict "version" .) }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ return $item }}
