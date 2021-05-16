@@ -1,0 +1,24 @@
+{{ $tag := .Get "tag" }}
+
+{{ $table := "" }}
+{{ $table = printf "%s| item | kind | version | description |\n" $table }}
+{{ $table = printf "%s| ---- | ---- | ------- | ----------- |\n" $table }}
+
+<h2 title="library-components">Library components</h2>
+
+{{ with (index .Page.Site.Taxonomies.tags $tag) }}
+
+  {{/* data types */}}
+  {{ range where .Pages "Layout" "lib-type" }}
+    {{ $item := partial "lib/lib-item-summary" ( dict "ctx" . ) }}
+    {{ $table = printf "%s| %s | %s | %s | *%s* |\n" $table $item.markdownLink $item.kind $item.version $item.comment }}
+  {{ end }}
+
+  {{/* functions */}}
+  {{ range where .Pages "Layout" "lib-function" }}
+    {{ $item := partial "lib/lib-item-summary" ( dict "ctx" . ) }}
+    {{ $table = printf "%s| %s | %s | %s | *%s* |\n" $table $item.markdownLink $item.kind $item.version $item.comment }}
+  {{ end }}
+
+  {{ $table | markdownify}}
+{{ end }}
