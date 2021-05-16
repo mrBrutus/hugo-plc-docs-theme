@@ -1,0 +1,78 @@
+company: OSCAT
+author: The OSCAT community
+since: 2.27.0
+description: |
+  Ea consequat pariatur est culpa excepteur veniam laboris id ea incididunt.
+  Aute adipisicing velit consequat minim laboris aute eiusmod officia ex esse
+  ad nulla labore magna.
+
+  Esse consequat culpa anim eiusmod quis laborum nulla Lorem.
+  Labore ad officia irure ad sunt. Dolor nulla nostrud irure duis Lorem aute
+  minim consequat sit enim occaecat mollit. Amet pariatur amet dolor sint nisi
+  sunt in occaecat aute sit qui ea enim.
+
+
+  Examples:
+
+  ```iecst
+  _STRING_TO_BUFFER(STR, POS, ADR(bigarray), SIZEOF(bigarray))
+  ```
+comment: Converts a Real to a fixed length String
+changelog:
+  - version: 1.4.0
+    date: 2012-01-02
+    author: hm
+    changed:
+      - "return the position after the input string when finished"
+  - version: 1.3.0
+    date: 2009-11-12
+    author: hm
+    changed:
+      - "limit end to `size - 1`"
+  - version: 1.2.0
+    date: 2008-05-13
+    author: hm
+    changed:
+      - "type of pointer to `array[1..32767]`"
+      - "size of string to `STRING_LENGTH`"
+  - version: 1.1.0
+    date: 2008-03-16
+    author: hm
+    changed:
+      - "type of input size to `UINT`"
+  - version: 1.0.0
+    date: 2008-03-05
+    author: hm
+    added:
+      - "original version"
+return: INT
+var:
+  - kind: input
+    var:
+      - name: STR
+        description: |
+          String to be copied.
+        type: "STRING(STRING_LENGTH)"
+        comment: string to be copied
+      - name: POS
+        description: |
+          Position from which the string is copied into the buffer.
+        type: INT
+        comment: position from which the string is copied into the buffer
+      - name: PT
+        description: |
+          Address of the buffer.
+        type: "POINTER TO ARRAY[0..32767] OF BYTE"
+        comment: address of the buffer
+      - name: SIZE
+        description: |
+          Size of the buffer.
+        type: UINT
+        comment: size of the buffer
+  - kind: var
+    var:
+      - name: ps
+        type: POINTER TO BYTE
+      - name: i
+      - name: end
+        type: INT

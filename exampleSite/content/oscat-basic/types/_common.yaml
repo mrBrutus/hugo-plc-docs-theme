@@ -1,0 +1,11 @@
+description: |
+  Common data for `oscat_basic` data types.
+company: Foo inc.
+author: mrBrutus
+changelog:
+  - version: 0.1.0
+    date: 2021-05-16
+    author: mrBrutus
+    added:
+      - initial release
+var:

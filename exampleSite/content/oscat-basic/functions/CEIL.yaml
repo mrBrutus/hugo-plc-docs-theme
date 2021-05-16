@@ -1,0 +1,35 @@
+company: OSCAT
+author: The OSCAT community
+since: 0.15.0
+description: |
+  This is a rounding function which returns the smallest possible integer
+  which is greater or equal to `X`.
+
+  Examples:
+
+  ```iecst
+  CEIL(3.14)    // 4
+  CEIL(-3.14)   // -3
+  ```
+
+comment: Returns the smallest possible integer which is greater or equal to `X`
+changelog:
+  - version: 1.1.0
+    date: 2008-03-21
+    author: hm
+    changed:
+      - "use `REAL_TO_INT` instead of `TRUNC` for compatibility reasons"
+  - version: 1.0.0
+    date: 2007-02-07
+    author: hm
+    added:
+      - "original version"
+return: INT
+var:
+  - kind: input
+    var:
+      - name: X
+        description: |
+          Input value.
+        type: REAL
+        comment: input value

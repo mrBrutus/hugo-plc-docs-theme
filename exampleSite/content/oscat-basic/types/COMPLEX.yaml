@@ -1,0 +1,22 @@
+company: OSCAT
+author: The OSCAT community
+since: 3.1.0
+description: |
+  The COMPLEX structure can present complex numbers.
+
+comment: The COMPLEX structure can present complex numbers
+changelog:
+  - version: 1.0.0
+    date: 2008-10-18
+    author: hm
+    added:
+      - "original version"
+var:
+  - name: re
+    description: Real part of a complex number.
+    type: REAL
+    comment: Real part of a complex number
+  - name: im
+    description: Imaginary part of a complex number.
+    type: REAL
+    comment: Imaginary part of a complex number
