@@ -19,12 +19,12 @@
 {{ with .ctx.Layout }}
   {{ $kind := "" }}
   {{ if (eq . "lib-type")}}
-    {{ $kind = "Data type" }}
+    {{ $kind = "data type" }}
   {{ else }} 
     {{ if $item.return }}
-      {{ $kind = "Function" }}
+      {{ $kind = "function" }}
     {{ else }} 
-      {{ $kind = "Function block" }}
+      {{ $kind = "function block" }}
     {{ end }}
   {{ end }}
   {{ $item = merge $item (dict "kind" $kind ) }}
