@@ -1,24 +1,72 @@
-{{ $tag := .Get "tag" }}
+{{ $tag := .Get "tag" | urlize }}
+{{ $type := .Get "type" | lower }}
 
-{{ $table := "" }}
-{{ $table = printf "%s| item | kind | version | description |\n" $table }}
-{{ $table = printf "%s| ---- | ---- | ------- | ----------- |\n" $table }}
+{{ $filter := "" }}
+{{ $kind := "item" }}
 
-<h2 title="library-components">Library components</h2>
+{{ if eq $type "function" }}
+  {{ $filter = "lib-function" }}
+  {{ $kind = $type }}
+{{ end}}
+
+{{ if eq $type "function block" }}
+  {{ $filter = "lib-function" }}
+  {{ $kind = $type }}
+{{ end}}
+
+{{ if eq $type "data type" }}
+  {{ $filter = "lib-type" }}
+  {{ $kind = $type }}
+{{ end}}
 
 {{ with (index .Page.Site.Taxonomies.tags $tag) }}
+  {{ $table := "" }}
+  {{ $itemsFound := false }}
 
-  {{/* data types */}}
-  {{ range where .Pages "Layout" "lib-type" }}
-    {{ $item := partial "lib/lib-item-summary" ( dict "ctx" . ) }}
-    {{ $table = printf "%s| %s | %s | %s | *%s* |\n" $table $item.markdownLink $item.kind $item.version $item.comment }}
+  {{ if ne $kind "item" }}
+    {{/* list selected type */}}
+    {{ $table = printf "%s| %s  | version | description |\n" $table $kind }}
+    {{ $table = printf "%s| --- | ------- | ----------- |\n" $table }}
+    {{ range where .Pages "Layout" $filter }}
+      {{ $item := partial "lib/lib-item-summary" ( dict "ctx" . ) }}
+      {{ if eq $item.kind $type }}
+        {{ $itemsFound = true }}
+        {{ $table = printf "%s | %s | %v | %s |\n" $table $item.markdownLink $item.version $item.comment }}
+      {{ end }}
+    {{ end }}
+  {{ else }}
+
+    {{/* list all */}}
+    {{ $table = printf "%s| item | kind | version | description |\n" $table }}
+    {{ $table = printf "%s| ---- | ---- | ------- | ----------- |\n" $table }}
+
+    {{/* data types */}}
+    {{ range where .Pages "Layout" "lib-type" }}
+      {{ $itemsFound = true }}
+      {{ $item := partial "lib/lib-item-summary" ( dict "ctx" . ) }}
+      {{ $table = printf "%s| %s | %s | %v | %s |\n" $table $item.markdownLink $item.kind $item.version $item.comment }}
+    {{ end }}
+
+    {{/* function blocks */}}
+    {{ range where .Pages "Layout" "lib-function" }}
+      {{ $item := partial "lib/lib-item-summary" ( dict "ctx" . ) }}
+      {{ if eq $item.kind "function block" }}
+        {{ $itemsFound = true }}
+        {{ $table = printf "%s| %s | %s | %v | %s |\n" $table $item.markdownLink $item.kind $item.version $item.comment }}
+      {{ end }}
+    {{ end }}
+
+    {{/* functions */}}
+    {{ range where .Pages "Layout" "lib-function" }}
+      {{ $item := partial "lib/lib-item-summary" ( dict "ctx" . ) }}
+      {{ if eq $item.kind "function" }}
+        {{ $itemsFound = true }}
+        {{ $table = printf "%s| %s | %s | %v | %s |\n" $table $item.markdownLink $item.kind $item.version $item.comment }}
+      {{ end }}
+    {{ end }}
   {{ end }}
 
-  {{/* functions */}}
-  {{ range where .Pages "Layout" "lib-function" }}
-    {{ $item := partial "lib/lib-item-summary" ( dict "ctx" . ) }}
-    {{ $table = printf "%s| %s | %s | %s | *%s* |\n" $table $item.markdownLink $item.kind $item.version $item.comment }}
+  {{ if $itemsFound }}
+    {{ $table | markdownify}}
   {{ end }}
-
-  {{ $table | markdownify}}
 {{ end }}
