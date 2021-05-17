@@ -19,7 +19,16 @@
   {{ $kind = $type }}
 {{ end}}
 
-{{ with (index .Page.Site.Taxonomies.tags $tag) }}
+
+{{ $pages := slice }}
+{{ if $tag }}
+  {{ $pages = (index .Page.Site.Taxonomies.tags $tag) }}
+  {{ $pages}}<br>
+{{ else }}
+  {{/* todo: process all pages? */}}
+{{ end }}
+
+{{ with $pages }}
   {{ $table := "" }}
   {{ $itemsFound := false }}
 
