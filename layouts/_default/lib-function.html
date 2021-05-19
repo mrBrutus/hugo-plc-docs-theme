@@ -75,12 +75,24 @@
               </section>
             {{ end }}
 
+
             {{/* source code */}}
             {{ if (and (not .Params.disable_source) (or (hugo.Environment | eq "development") (.Params.open_source)) ) }}
               {{ with $yamlData }}
                 <section>
                   <h2 id="source-code">Source code</h2>
                   {{ partial "lib/function/source-code.html" (dict "ctx" $ "item" . ) }}
+                </section>
+              {{ end }}
+            {{ end }}
+
+
+            {{/* implementation snippet */}}
+            {{ if not .Params.disable_snippet }}
+              {{ with $yamlData }}
+                <section>
+                  <h2 id="implementation">Implementation</h2>
+                  {{ partial "lib/function/snippet.html" (dict "ctx" $ "item" . ) }}
                 </section>
               {{ end }}
             {{ end }}
