@@ -2,12 +2,26 @@
 title: Mathematical
 ---
 
-{{< lib-components tag="mathematical" type="data type" >}}
+## tag: mathematical
 
-{{< lib-components tag="mathematical" type="function" >}}
+### all types
 
-{{< lib-components tag="mathematical" type="function block" >}}
+{{< lib-items tag="mathematical" >}}
 
-{{< lib-components tag="mathematical" >}}
+### per type
 
-{{< lib-components >}}
+{{< lib-items tag="mathematical" type="data type" >}}
+{{< lib-items tag="mathematical" type="function" >}}
+{{< lib-items tag="mathematical" type="function block" >}}
+
+## no tag
+
+### all types
+
+{{< lib-items >}}
+
+### per type
+
+{{< lib-items type="data type" >}}
+{{< lib-items type="function" >}}
+{{< lib-items type="function block" >}}

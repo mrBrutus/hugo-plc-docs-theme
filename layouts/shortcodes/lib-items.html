@@ -3,6 +3,7 @@
 
 {{ $filter := "" }}
 {{ $kind := "item" }}
+{{ $items := slice }}
 
 {{ if eq $type "function" }}
   {{ $filter = "lib-function" }}
@@ -19,13 +20,16 @@
   {{ $kind = $type }}
 {{ end}}
 
-
 {{ $pages := slice }}
 {{ if $tag }}
-  {{ $pages = (index .Page.Site.Taxonomies.tags $tag) }}
+  {{/* all pages of the specified tag */}}
+  {{ $pages = (index .Page.Site.Taxonomies.tags $tag).Pages }}
 {{ else }}
-  {{/* todo: process all pages? */}}
+  {{/* all pages of with a `lib` layout */}}
+  {{ $pages = where .Page.FirstSection.RegularPagesRecursive "Layout" "lib-type" }}
+  {{ $pages = append $pages (where .Page.FirstSection.RegularPagesRecursive "Layout" "lib-function") }}
 {{ end }}
+
 
 {{ with $pages }}
   {{ $table := "" }}
@@ -33,30 +37,33 @@
 
   {{ if ne $kind "item" }}
     {{/* list selected type */}}
-    {{ $table = printf "%s| | |\n" $table }}
-    {{ $table = printf "%s| --- | ----------- |\n" $table }}
-    {{ range where .Pages "Layout" $filter }}
-      {{ $item := partial "lib/lib-item-summary" ( dict "ctx" . ) }}
-      {{ if eq $item.kind $type }}
-        {{ $table = printf "%s | %s | *%s* |\n" $table $item.markdownLink $item.comment }}
-        {{ $itemsFound = true }}
+    {{ $items = where . "Layout" $filter }}
+    {{ if gt (len $items) 0 }}
+      {{ $table = printf "%s| %s | |\n" $table ($type | pluralize | humanize) }}
+      {{ $table = printf "%s| --- | ----------- |\n" $table }}
+      {{ range $items }}
+        {{ $item := partial "lib/lib-item-summary" ( dict "ctx" . ) }}
+        {{ if eq $item.kind $type }}
+          {{ $table = printf "%s | %s | *%s* |\n" $table $item.markdownLink $item.comment }}
+          {{ $itemsFound = true }}
+        {{ end }}
       {{ end }}
     {{ end }}
-  {{ else }}
 
+  {{ else }}
     {{/* list all */}}
-    {{ $table = printf "%s|  |  |  |\n" $table }}
+    {{ $table = printf "%s| Items |  |  |\n" $table }}
     {{ $table = printf "%s| ---- | ---- | ----------- |\n" $table }}
 
     {{/* data types */}}
-    {{ range where .Pages "Layout" "lib-type" }}
+    {{ range where . "Layout" "lib-type" }}
       {{ $itemsFound = true }}
       {{ $item := partial "lib/lib-item-summary" ( dict "ctx" . ) }}
       {{ $table = printf "%s| %s | %s | *%s* |\n" $table $item.kind $item.markdownLink $item.comment }}
     {{ end }}
 
     {{/* function blocks */}}
-    {{ range where .Pages "Layout" "lib-function" }}
+    {{ range where . "Layout" "lib-function" }}
       {{ $item := partial "lib/lib-item-summary" ( dict "ctx" . ) }}
       {{ if eq $item.kind "function block" }}
         {{ $itemsFound = true }}
@@ -65,7 +72,7 @@
     {{ end }}
 
     {{/* functions */}}
-    {{ range where .Pages "Layout" "lib-function" }}
+    {{ range where . "Layout" "lib-function" }}
       {{ $item := partial "lib/lib-item-summary" ( dict "ctx" . ) }}
       {{ if eq $item.kind "function" }}
         {{ $itemsFound = true }}
@@ -78,3 +85,4 @@
     {{ $table | markdownify}}
   {{ end }}
 {{ end }}
+
