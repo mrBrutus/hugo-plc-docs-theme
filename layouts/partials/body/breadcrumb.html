@@ -1,4 +1,4 @@
-<nav class="flex items-center flex-row flex-wrap min-h-8 mb-8 text-sm text-default-light print:hidden">
+<nav class="flex items-center flex-row flex-wrap min-h-8 mb-8 text-sm text-default print:hidden">
   {{ template "breadcrumbnav" (dict "p1" . "p2" .) }}
 
   {{ define "breadcrumbnav" }}
@@ -21,7 +21,7 @@
           <span class="pr-4">
             {{ partial "svgs/heroicons/chevron-right.svg" (dict "class" "h-4" ) }}
           </span>
-          <span class="">{{ .p1.Title }}</span>
+          <span class="text-default-light">{{ .p1.Title }}</span>
         </div>
 
       {{ else }}
