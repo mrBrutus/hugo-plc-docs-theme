@@ -1,0 +1,16 @@
+<figure>
+  {{ $image := .Page.Resources.GetMatch .Destination }}
+  {{ if $image }}
+    {{/* limit size  */}}
+    {{ if (gt $image.Width 1600) }}
+      {{ $image = $image.Resize "1200x" }}
+    {{ end}}
+    <img class="rounded" src="{{ $image.RelPermalink }}" alt="{{ .Text }}" title="{{ .Title }}"/>
+  {{ else }}
+    {{ warnf "Image resource %s not found" $image }}
+  {{ end }}
+
+  {{ with .Title }}
+    <figcaption>{{ . | markdownify }}</figcaption>
+  {{ end }} 
+</figure>
