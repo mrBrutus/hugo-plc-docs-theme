@@ -1,0 +1,65 @@
+{{ $title := "" }}
+{{ $icon := "" }}
+{{ $iconColor := "text-default-light" }}
+{{ $border := "" }}
+
+{{ $type := .Get 0 }}
+{{ with $type }}
+  {{ if eq . "warning" }}
+    {{ $title = . | humanize }}
+    {{ $icon = "exclamation" }}    
+  {{ end }}
+  
+  {{ if eq . "info" }}
+    {{ $title = "Information" }}
+    {{ $icon = "information-circle" }}
+  {{ end }}
+  
+  {{ if eq . "success" }}
+    {{ $title = . | humanize }}
+    {{ $icon = "check-circle" }}
+    {{ $iconColor = "text-green-600" }}
+  {{ end }}
+  
+  {{ if eq . "error" }}
+    {{ $title = . | humanize }}
+    {{ $icon = "x-circle" }}
+    {{ $iconColor = "text-red-600" }}
+  {{ end }}
+  
+  {{ if eq . "do" }}
+    {{ $title = "Do this" }}
+    {{ $icon = "thumb-up" }}
+    {{ $iconColor = "text-green-600" }}
+  {{ end }}
+  
+  {{ if eq . "dont" }}
+    {{ $title = "Don't do this" }}
+    {{ $icon = "thumb-down" }}
+    {{ $iconColor = "text-red-600" }}
+  {{ end }}
+  
+  {{ if eq . "learn" }}
+    {{ $title = "Learn tip" }}
+    {{ $icon = "academic-cap" }}
+  {{ end }}
+  
+  {{ if eq . "dev" }}
+    {{ $title = "Development note" }}
+    {{ $border = "border-8 border-red-600 border-dashed" }}
+  {{ end }}
+{{ end }}
+
+{{ if (or (hugo.Environment | eq "development") ( ne $type "dev")) }}
+  <div class="flex flex-row w-full mt-2 mb-8" {{ with $title }}title="{{ . }}"{{ end }}>
+    {{ if $icon }}
+      <span class="flex justify-center items-start pr-4 py-4 {{ $iconColor }}">
+        {{ partial (printf "svgs/heroicons/%s.svg" $icon) (dict "class" "h-8" ) }}
+      </span>
+    {{ end }}
+    <div class="note flex-grow px-4 py-4 bg-default-soft {{ $border }}">      
+      {{ if eq $type "dev" }}<p class="lead">// Dev note //</p>{{ end }}
+      {{ .Inner | markdownify }}
+    </div>
+  </div>
+{{ end }}
