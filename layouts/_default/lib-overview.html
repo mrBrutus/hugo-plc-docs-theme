@@ -15,8 +15,10 @@
               <h1 class="low-profile-header mr-2 py-0" id="{{ .Title }}">{{ .Title }}</h1>
               {{ partial "lib/latest-version" $yamlData }}
             </div>
-          </header>
-
+            {{ if .Params.featuredImage }}
+              {{ partial "body/featured-image" . }}
+            {{ end }}
+          </header>   
 
           <article>
             {{/* description (or comment) */}}
