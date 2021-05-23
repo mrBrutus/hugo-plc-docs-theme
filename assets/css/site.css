@@ -9,6 +9,16 @@ html, body {
   @apply h-full;
 }
 
+:target:before {
+  content: "";
+  display: block;
+  height: 100px;
+  margin: -100px 0 0;
+}
+
+.note *:first-child {
+  @apply mt-0 !important;
+}
 
 .flat {
   @apply my-0 !important;
