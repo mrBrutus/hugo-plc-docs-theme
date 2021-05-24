@@ -1,6 +1,7 @@
 ---
 title: COMPLEX
-layout: lib-type
+type: lib
+layout: data-type
 tags:
   - mathematical
 ---

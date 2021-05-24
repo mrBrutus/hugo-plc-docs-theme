@@ -1,6 +1,7 @@
 ---
 title: Project
 weight: 50
-layout: lib-type
+type: lib
+layout: data-type
 disable_source: true
 ---

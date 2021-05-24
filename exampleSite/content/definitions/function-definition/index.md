@@ -1,6 +1,7 @@
 ---
 title: "Library: Function"
 weight: 300
-layout: lib-type
+type: lib
+layout: data-type
 disable_source: true
 ---

@@ -1,6 +1,7 @@
 ---
 title: "Markdown: Front matter parameters"
 weight: 100
-layout: lib-type
+type: lib
+layout: data-type
 disable_source: true
 ---

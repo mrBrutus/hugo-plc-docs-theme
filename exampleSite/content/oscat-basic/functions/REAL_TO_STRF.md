@@ -1,6 +1,7 @@
 ---
 title: REAL_TO_STRF
-layout: lib-function
+type: lib
+layout: function
 tags:
  - string
 ---

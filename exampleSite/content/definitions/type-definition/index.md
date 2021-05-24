@@ -1,6 +1,7 @@
 ---
 title: "Library: Type"
 weight: 200
-layout: lib-type
+type: lib
+layout: data-type
 disable_source: true
 ---

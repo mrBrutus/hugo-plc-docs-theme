@@ -1,6 +1,7 @@
 ---
 title: CALENDAR
-layout: lib-type
+type: lib
+layout: data-type
 tags:
   - time & date
 ---

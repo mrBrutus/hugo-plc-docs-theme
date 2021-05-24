@@ -1,6 +1,7 @@
 ---
 title: STRING_TO_BUFFER
-layout: lib-function
+type: lib
+layout: function
 tags:
  - buffer management
 ---

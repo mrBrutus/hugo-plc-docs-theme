@@ -1,6 +1,7 @@
 ---
 title: CEIL
-layout: lib-function
+type: lib
+layout: function
 tags:
  - mathematical
 ---
