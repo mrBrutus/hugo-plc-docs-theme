@@ -1,7 +1,7 @@
 {{/* render variable details */}}
 {{ $name := .key }}
 {{ $data := .value }}
-{{ $collapseId := printf "%s-toggle" ($name | replaceRE "\\." "_") | urlize }}
+{{ $collapseId := printf "%s-toggle" ($name | anchorize )}}
 
 <div class="collapse-card border rounded mb-4">        
   <a class="" data-toggle="collapse" title="toggle details" href="#{{ $collapseId }}">
