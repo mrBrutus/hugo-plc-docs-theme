@@ -1,9 +1,10 @@
 {{ $item := dict }}
 
 {{/* get yaml data */}}
-{{ with .ctx.Parent.Resources.GetMatch (printf "**%s.yaml" .ctx.File.BaseFileName) }}
+{{/* {{ with .ctx.Parent.Resources.GetMatch (printf "**%s.yaml" .ctx.File.BaseFileName) }}
   {{ $item = merge $item ( . | transform.Unmarshal) }}
-{{ end }}
+{{ end }} */}}
+{{ $item := merge $item partial "lib/get-yaml-data" ( dict "ctx" $ "fileName" "definition" ) }}
 
 {{/* name */}}
 {{ with .ctx.Title }}  

@@ -31,7 +31,7 @@
 
 
     {{/* read the YAML data from the project file */}}
-    {{ $projectData := partial "lib/get-yaml-data" ( dict "ctx" $.ctx.Parent "fileName" "project" ) }}
+    {{ $projectData := partial "lib/get-yaml-data" ( dict "ctx" $.ctx.Parent "fileName" "definition" ) }}
 
     {{ $code_header := partial "lib/code-header.html" (dict "name" $name "project" $projectData "description" $description "latestChangelog" $latestChangelog ) }}
     {{ $code_block = printf "%s%s\n" $code_block $code_header }}
@@ -84,7 +84,7 @@
 
 
     {{/* Logic */}}
-    {{ with $.ctx.Parent.Resources.GetMatch (printf "**%s.iecst" $.ctx.Page.File.BaseFileName) }}
+    {{ with $.ctx.Resources.GetMatch "*.iecst" }}
       <h3 id="logic">Logic</h3>
       <div class="overflow-x-auto">
         {{ $code_block := "```iecst\n" }}

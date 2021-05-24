@@ -1,4 +1,4 @@
-{{ if in .Layout "lib-" }}
+{{ if eq .Type "lib" }}
   {{ partial "summary/lib-item" . }}  
 {{ else }}
   {{ partial "summary/classic" . }}

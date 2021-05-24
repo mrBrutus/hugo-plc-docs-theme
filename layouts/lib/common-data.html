@@ -7,14 +7,17 @@
 
           {{ partial "body/breadcrumb" . }}
 
-          {{/* read the YAML data from the parent's resources */}}
-          {{ $yamlData := partial "lib/get-yaml-data" ( dict "ctx" $ "fileName" .Page.File.BaseFileName ) }}
+          {{/* read the YAML data from the page resources */}}
+          {{ $yamlData := partial "lib/get-yaml-data" ( dict "ctx" $ "fileName" "definition" ) }}
 
           <header>
             <div class="flex justify-start items-baseline flex-wrap mb-2">
               <h1 class="low-profile-header mr-2 py-0" id="{{ .Title }}">{{ .Title }}</h1>
               {{ partial "lib/latest-version" $yamlData }}
             </div>
+            {{ if .Params.featuredImage }}
+              {{ partial "body/featured-image" . }}
+            {{ end }}            
           </header>
 
           <div class="mb-8 flex flex-col items-start sm:flex-row sm:items-center sm:flex-wrap sm:flex-grow">

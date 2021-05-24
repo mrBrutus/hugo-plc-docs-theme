@@ -1,6 +1,6 @@
 {{/* read the YAML data from the parent's resources */}}
-{{ $yamlData := partial "lib/get-yaml-data" ( dict "ctx" $ "fileName" .Page.File.BaseFileName ) }}
-{{ $projectData := partial "lib/get-yaml-data" ( dict "ctx" $.Parent "fileName" "project" ) }}
+{{ $yamlData := partial "lib/get-yaml-data" ( dict "ctx" $ "fileName" "definition" ) }}
+{{ $projectData := partial "lib/get-yaml-data" ( dict "ctx" $.Parent "fileName" "definition" ) }}
 
 {{/* item new? */}}
 {{ $new := false }}
