@@ -98,3 +98,75 @@ View the demo of this theme on Netlify: [plc-docs-theme.netlify.app](https://plc
 
     npm run prod
     ```
+
+## Archetypes
+
+The theme comes with a couple of *templates* (called [archetypes](https://gohugo.io/content-management/archetypes/))
+which help to save time when creating new content:
+
+1. Blog post
+1. Library
+1. Function
+1. Data type
+
+The `hugo new` command for creating content should be ran from the *project's root.*
+That's where the *Hugo config* file (e.g. `config.yaml`) resides.
+
+### New library
+
+*Create a new library called `myLib`:*
+
+```sh
+hugo new --kind lib myLib
+```
+
+*Resulting file structure:*
+
+```sh
+myLib # added by above command
+│   definition.yaml
+│   featured-image.jpg
+│   _index.md
+│   
+├───data types
+│   │   _index.md
+│   │   
+│   └───_common
+│           definition.yaml
+│           index.md
+│
+├───features
+│       _index.md
+│
+└───functions
+    │   _index.md
+    │
+    └───_common
+            definition.yaml
+            index.md
+```
+
+### New function
+
+*Create a new function called `myFunction` in library `myLib`:*
+
+```sh
+hugo new --kind lib-function myLib/functions/myFunction
+```
+
+*Files for `myFunction` added:*
+
+```sh
+functions
+│   _index.md
+│   
+├───myFunction # added by above command
+│       definition.yaml
+│       featured-image.jpg
+│       index.md
+│       source.iecst
+│
+└───_common
+        definition.yaml
+        index.md
+```
