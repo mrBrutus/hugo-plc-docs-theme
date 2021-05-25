@@ -2,18 +2,12 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 70px; /* offset for fixed header */
 }
 
 html, body {
   @apply w-full;
   @apply h-full;
-}
-
-:target:before {
-  content: "";
-  display: block;
-  height: 100px;
-  margin: -100px 0 0;
 }
 
 .note *:first-child {
