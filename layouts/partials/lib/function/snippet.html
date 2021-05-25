@@ -1,7 +1,7 @@
 {{/* generate snippet */}}
 {{ with .item }}
   <div class="">
-    {{ $name := $.ctx.Page.File.BaseFileName }}
+    {{ $name := $.ctx.Page.Title }}
     {{ $isFB := not .return }}
     {{ $dummy := "dummy" }}
     {{ $vars := slice }}

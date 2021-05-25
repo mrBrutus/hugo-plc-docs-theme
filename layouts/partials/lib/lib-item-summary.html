@@ -4,7 +4,7 @@
 {{/* {{ with .ctx.Parent.Resources.GetMatch (printf "**%s.yaml" .ctx.File.BaseFileName) }}
   {{ $item = merge $item ( . | transform.Unmarshal) }}
 {{ end }} */}}
-{{ $item := merge $item partial "lib/get-yaml-data" ( dict "ctx" $ "fileName" "definition" ) }}
+{{ $item := merge $item (partial "lib/get-yaml-data" ( dict "ctx" .ctx "fileName" "definition" )) }}
 
 {{/* name */}}
 {{ with .ctx.Title }}  
@@ -19,7 +19,7 @@
 {{/* kind */}}
 {{ with .ctx.Layout }}
   {{ $kind := "" }}
-  {{ if (eq . "lib-type")}}
+  {{ if (eq . "data-type")}}
     {{ $kind = "data type" }}
   {{ else }} 
     {{ if $item.return }}
