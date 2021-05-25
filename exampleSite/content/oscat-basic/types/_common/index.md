@@ -1,5 +1,6 @@
 ---
 title: _common
-layout: lib-common-data
+type: lib
+layout: common-data
 draft: true
 ---
