@@ -8,7 +8,7 @@
           {{ partial "body/breadcrumb" . }}
 
           {{/* read the YAML data from the page resources */}}
-          {{ $yamlData := partial "lib/get-yaml-data" ( dict "ctx" $ "fileName" "definition" ) }}
+          {{ $yamlData := partial "lib/get-yaml-data" ( dict "ctx" $ "fileName" "_lib" ) }}
 
           <header>
             <div class="flex justify-start items-baseline flex-wrap">
