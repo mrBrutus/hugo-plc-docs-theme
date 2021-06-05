@@ -3,17 +3,17 @@
 {{ $data := .value }}
 {{ $collapseId := printf "%s-toggle" ($name | anchorize )}}
 
-<div class="collapse-card border rounded mb-4">        
-  <a class="low-profile-link" data-toggle="collapse" title="toggle details" href="#{{ $collapseId }}">
-    <div class="pl-4 bg-default-soft flex items-baseline">
-      <h3 class="low-profile-header" id="{{ $name | urlize }}">{{ $name }}</h3>
-    {{ with $data.type }}
-      <span class="ml-2">
-        {{ partial "lib/ref-lib-item.html" (dict "ctx" $.ctx.FirstSection "item" . ) }}
-      </span>
-    {{ end }}
+<div class="collapse-card border rounded mb-4">
+  <div class="pl-4 bg-default-soft flex justify-between">
+    <div class="flex justify-start flex-wrap items-baseline">
+      <h3 class="low-profile-header mr-2" id="{{ $name | urlize }}">{{ $name }}</h3>
+      {{ with $data.type }}
+        <span class="mr-2">
+          {{ partial "lib/ref-lib-item.html" (dict "ctx" $.ctx.FirstSection "item" . ) }}
+        </span>
+      {{ end }}
 
-      <div class="ml-2 text-default-light italic">
+      <div class="text-default-light italic">
         {{ with (and ($data.optional) ($data.default_value)) }}
           {{ with $data.default_value }}<span>(optional, default: {{ . }})</span>{{ end }}
         {{ else }}
@@ -22,8 +22,12 @@
         {{ end }}
       </div>
     </div>
-  </a>
-  
+
+    <a class="low-profile-link flex flex-grow justify-end items-center print:hidden" data-toggle="collapse" title="toggle details" href="#{{ $collapseId }}">
+      {{ partial "svgs/heroicons/selector.svg" (dict "class" "h-6 px-2 ml-auto" ) }}
+    </a>
+  </div>
+
   <div class="collapse" id="{{ $collapseId }}">
     <div class="mx-4">
       {{ with $data.description }}<p>{{ . | markdownify }} </p>
@@ -35,5 +39,5 @@
         {{ partial "lib/legend-table.html" . }}
       {{ end }}
     </div>
-  </div>      
+  </div>
 </div>
