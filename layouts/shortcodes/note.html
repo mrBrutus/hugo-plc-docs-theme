@@ -48,6 +48,8 @@
     {{ $title = "Development note" }}
     {{ $border = "border-8 border-red-600 border-dashed" }}
   {{ end }}
+{{ else }}
+  {{ $border = "border-l-4 border-brand" }}
 {{ end }}
 
 {{ if (or (hugo.Environment | eq "development") ( ne $type "dev")) }}

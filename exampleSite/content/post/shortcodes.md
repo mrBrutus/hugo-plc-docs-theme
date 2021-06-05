@@ -31,7 +31,7 @@ The `type` parameter is optional. It supports following values:
 
 ### no type
 
-Using the shortcode without `type` parameter will render just a box.
+Using the shortcode without `type` parameter will render a box with a color accent.
 
 ```md
 {{</* note */>}}
