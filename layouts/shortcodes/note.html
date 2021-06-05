@@ -44,6 +44,24 @@
     {{ $icon = "academic-cap" }}
   {{ end }}
   
+  {{ if eq . "tip" }}
+    {{ $title = "Learn tip" }}
+    {{ $icon = "light-bulb" }}
+    {{ $iconColor = "text-yellow-600" }}
+  {{ end }}
+  
+  {{ if eq . "pro" }}
+    {{ $title = "Pro" }}
+    {{ $icon = "plus-circle" }}
+    {{ $iconColor = "text-green-600" }}
+  {{ end }}
+    
+  {{ if eq . "contra" }}
+    {{ $title = "Contra" }}
+    {{ $icon = "minus-circle" }}
+    {{ $iconColor = "text-red-600" }}
+  {{ end }}
+  
   {{ if eq . "dev" }}
     {{ $title = "Development note" }}
     {{ $border = "border-8 border-red-600 border-dashed" }}
@@ -53,7 +71,7 @@
 {{ end }}
 
 {{ if (or (hugo.Environment | eq "development") ( ne $type "dev")) }}
-  <div class="flex flex-row w-full mt-2 mb-8" {{ with $title }}title="{{ . }}"{{ end }}>
+  <div class="collapse-card flex flex-row w-full mt-2 mb-8" {{ with $title }}title="{{ . }}"{{ end }}>
     {{ if $icon }}
       <span class="flex justify-center items-start pr-4 py-4 {{ $iconColor }}">
         {{ partial (printf "svgs/heroicons/%s.svg" $icon) (dict "class" "h-8" ) }}
