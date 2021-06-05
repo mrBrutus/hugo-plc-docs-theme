@@ -8,7 +8,7 @@ Returns an object with the var data.
 
 {{/* look up in _common.yaml */}}
 {{if not $data.type}}
-  {{ $commonData := partial "lib/get-yaml-data" ( dict "ctx" ($.ctx.CurrentSection.GetPage "_common") "fileName" "definition" ) }}
+  {{ $commonData := partial "lib/get-yaml-data" ( dict "ctx" ($.ctx.Parent) "fileName" "_common" ) }}
   {{ with $commonData }}
     {{ with .var }}
       {{ with index . $.name }}
