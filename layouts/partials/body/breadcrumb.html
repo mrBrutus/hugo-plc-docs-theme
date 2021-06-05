@@ -11,14 +11,14 @@
     <div class="py-2">
       {{ if eq (len .p1.Title) 0 }}
         <div class="flex items-center">
-          <a href="{{ .p1.Permalink }}" class="low-profile-link pr-4">
+          <a href="{{ .p1.Permalink }}" class="low-profile-link pr-1">
             {{ partial "svgs/heroicons/home.svg" (dict "class" "h-4" ) }}
           </a>
         </div>
 
       {{ else if eq .p1 .p2 }}
         <div class="flex items-center">
-          <span class="pr-4">
+          <span class="text-default-light pr-1">
             {{ partial "svgs/heroicons/chevron-right.svg" (dict "class" "h-4" ) }}
           </span>
           <span class="text-default-light">{{ .p1.Title }}</span>
@@ -26,10 +26,10 @@
 
       {{ else }}
         <div class="flex items-center">
-          <span class="pr-4">
+          <span class="text-default-light pr-1">
             {{ partial "svgs/heroicons/chevron-right.svg" (dict "class" "h-4" ) }}
           </span>
-          <a href="{{ .p1.Permalink }}" class="low-profile-link pr-4">{{ .p1.Title }}</a>
+          <a href="{{ .p1.Permalink }}" class="low-profile-link pr-1">{{ .p1.Title }}</a>
         </div>
       {{ end }}
     </div>
