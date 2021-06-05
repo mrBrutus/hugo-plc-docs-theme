@@ -144,3 +144,29 @@ This is a *sample text* for `{{</* note dev */>}}`.
 - item 2
 
 {{< /note >}}
+
+## ref-lib
+
+The `ref-lib` shortcode can be used for creating a link to another page in the same section.
+Since every library item is a page, it can be used for referencing functions and data types.
+
+The resulting hyperlink (or title if page is not found) is rendered as `code` (mono space font).
+
+*syntax:*
+
+```md
+{{</* ref-lib <title of the page> */>}}
+```
+
+*Examles:*
+
+- `{{</* ref-lib "Shortcodes" */>}}` is an existing page and renders
+  as: {{< ref-lib "Shortcodes" >}}
+- `{{</* ref-lib "shortcodes" */>}}` is a non-existing page (while lowercase `S`)
+  and renders as: {{< ref-lib "shortcodes" >}}
+- `{{</* ref-lib "About" */>}}` is a non-existing page (while other section)
+  and renders as: {{< ref-lib "About" >}}
+
+{{< note >}}
+The title is case sensitive.
+{{< /note >}}
