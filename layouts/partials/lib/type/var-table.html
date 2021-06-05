@@ -18,8 +18,11 @@
           {{ $data = partial "lib/read-var-data.html" (dict "ctx" $.ctx "var" . "name" .name ) }}                
 
           <tr class="">
-            <td>{{ with $data.name }}<a class="" href="#{{ $data.id | urlize }}">{{ . }}</a>{{ end }}</td>
-            <td>{{ with $data.type }} {{ . }}{{ end }}</td>
+            <td>{{ with $data.name }}<a class="" href="#{{ $data.name | urlize }}">{{ . }}</a>{{ end }}</td>
+            <td>{{ with $data.type }}
+                  {{ partial "lib/ref-lib-item.html" (dict "ctx" $.ctx.FirstSection "item" . ) }}
+                {{ end }}
+            </td>            
             <td>{{ with $data.default_value}}{{ . }}{{ end }}</td>
             <td class="">{{ with $data.comment}} {{ . }} {{ end }}</td>            
           </tr>

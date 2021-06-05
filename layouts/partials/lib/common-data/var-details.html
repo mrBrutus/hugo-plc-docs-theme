@@ -7,7 +7,12 @@
   <a class="low-profile-link" data-toggle="collapse" title="toggle details" href="#{{ $collapseId }}">
     <div class="pl-4 bg-default-soft flex items-baseline">
       <h3 class="low-profile-header" id="{{ $name | urlize }}">{{ $name }}</h3>
-      {{ with $data.type }}<span class="ml-2 text-brand font-mono">{{ .}} </span>{{ end }}
+    {{ with $data.type }}
+      <span class="ml-2">
+        {{ partial "lib/ref-lib-item.html" (dict "ctx" $.ctx.FirstSection "item" . ) }}
+      </span>
+    {{ end }}
+
       <div class="ml-2 text-default-light italic">
         {{ with (and ($data.optional) ($data.default_value)) }}
           {{ with $data.default_value }}<span>(optional, default: {{ . }})</span>{{ end }}

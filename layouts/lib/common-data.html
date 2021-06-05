@@ -56,7 +56,7 @@
                 </div>
 
                 {{ range $key, $value := . }}
-                  {{ partial "lib/common-data/var-details.html" (dict "key" $key "value" $value ) }}
+                  {{ partial "lib/common-data/var-details.html" (dict "ctx" $ "key" $key "value" $value ) }}
                 {{ end }}
               </section>
             {{ end }}

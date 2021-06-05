@@ -1,0 +1,25 @@
+{{/* create hyperlink for lib item */}}
+{{ $ctx := .ctx }}
+{{ $item := .item }}
+{{ $result := "" }}
+{{ $url := "" }}
+
+{{ $libItem := split $item " " }}
+{{ $libItem = (index $libItem (sub (len $libItem) 1 )) }}
+{{ $prefix := strings.TrimRight $libItem $item }}
+
+{{ range where $ctx.RegularPagesRecursive "Title" $libItem }}
+  {{ $url = .Permalink }}
+{{ end }}
+
+{{ with $url }}
+  {{ $result = printf "[%s](%s)" $libItem $url }}
+  {{ with $prefix }}
+    {{ $result = printf "%s%s" $prefix $result }}
+  {{ end }}
+{{ else }}
+    {{ $result = printf "%s" $item }}
+{{ end }}
+{{ $result = $result | markdownify }}
+
+{{ return $result }}
