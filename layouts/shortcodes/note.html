@@ -48,7 +48,7 @@
   {{ if eq . "tip" }}
     {{ $title = "Learn tip" }}
     {{ $icon = "light-bulb" }}
-    {{ $iconColor = "text-yellow-600" }}
+    {{ $iconColor = "text-yellow-400" }}
   {{ end }}
   
   {{ if eq . "pro" }}
@@ -80,7 +80,7 @@
       </span>
     {{ end }}
     <div class="note flex-grow px-4 py-4 bg-default-soft {{ $border }}">      
-      {{ if eq $type "dev" }}<p class="lead">// Dev note //</p>{{ end }}
+      {{ if eq $type "dev" }}<p class="lead">//Dev note</p>{{ end }}
       {{ .Inner | markdownify }}
     </div>
   </div>
