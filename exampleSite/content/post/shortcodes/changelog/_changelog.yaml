@@ -1,0 +1,10 @@
+- version: 0.2.0
+  date: 2021-01-17
+  author: mrBrutus
+  changed:
+    - "`group` renamed to `vars`"
+- version: 0.1.0
+  date: 2020-12-23
+  author: mrBrutus
+  added:
+    - initial release
