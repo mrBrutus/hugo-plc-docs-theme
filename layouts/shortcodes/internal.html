@@ -1,0 +1,21 @@
+{{ $placeholder := .Get 0 }}
+
+{{ if (hugo.Environment | eq "development") }}
+  {{ .Inner | markdownify }}
+{{ else }}
+  {{ if $placeholder }}
+    {{ $image := .Page.Resources.GetMatch $placeholder }}
+    {{ if $image }}
+      <figure>
+        {{/* limit size  */}}
+        {{ if (gt $image.Width 1600) }}
+          {{ $image = $image.Resize "1200x" }}
+        {{ end}}
+        <img src="{{ $image.RelPermalink }}" alt="{{ $placeholder }}" title="{{ $placeholder }}"/>
+        <figcaption>{{ printf `Screenshot of rendered content` | markdownify }}</figcaption>
+      </figure>
+    {{ else }}
+      {{ warnf "Image resource %s not found" $placeholder }}
+    {{ end }}
+  {{ end }}
+{{ end }}
