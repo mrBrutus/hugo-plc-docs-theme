@@ -1,0 +1,7 @@
+{{ $yamlData := partial "lib/get-yaml-data" ( dict "ctx" .Page "fileName" "_changelog" ) }}
+{{ with $yamlData }}
+  <h2 id="version-history">Version history</h2>
+  {{ partial "lib/version-history.html" . }}
+{{ else }}
+  {{ warnf "Changelog file `_changelog.yaml` not found" }}
+{{ end }}
