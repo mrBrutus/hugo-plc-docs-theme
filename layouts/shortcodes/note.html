@@ -2,6 +2,7 @@
 {{ $icon := "" }}
 {{ $iconColor := "text-default-light" }}
 {{ $border := "" }}
+{{ $hideOnPrint := "" }}
 
 {{ $type := .Get 0 }}
 {{ with $type }}
@@ -65,13 +66,14 @@
   {{ if eq . "dev" }}
     {{ $title = "Development note" }}
     {{ $border = "border-8 border-red-600 border-dashed" }}
+    {{ $hideOnPrint = "print:hidden" }}
   {{ end }}
 {{ else }}
   {{ $border = "border-l-4 border-brand" }}
 {{ end }}
 
 {{ if (or (hugo.Environment | eq "development") ( ne $type "dev")) }}
-  <div class="collapse-card flex flex-row w-full mt-2 mb-8" {{ with $title }}title="{{ . }}"{{ end }}>
+  <div class="collapse-card flex flex-row w-full mt-2 mb-8 {{ $hideOnPrint }}" {{ with $title }}title="{{ . }}"{{ end }}>
     {{ if $icon }}
       <span class="flex justify-center items-start pr-4 py-4 {{ $iconColor }}">
         {{ partial (printf "svgs/heroicons/%s.svg" $icon) (dict "class" "h-8" ) }}
