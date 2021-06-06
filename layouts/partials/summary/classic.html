@@ -14,8 +14,6 @@
     <div class="text-default-light italic">
       {{ with .Params.description }}
         {{ . }}
-      {{ else }}
-        {{ .Summary | safeHTML }}
       {{ end }}
     </div>
   </div>
