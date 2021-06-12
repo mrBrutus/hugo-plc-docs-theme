@@ -1,8 +1,11 @@
 {{ $img := .Page.Resources.GetMatch .Destination }}
-{{ if not $img }}
-  {{/* ugly work around for images in snippets */}}
+{{ if and (not $img) .Page.File }}
+  {{/* work around for images in snippets */}}
   {{ $path := .Page.Site.GetPage "snippets" }}
-  {{ $img = $path.Resources.GetMatch .Destination }}
+  {{ if $path }}
+    {{ $imgPath := path.Join (strings.TrimPrefix $path.File.Dir .Page.File.Dir) .Destination }}
+    {{ $img = $path.Resources.GetMatch $imgPath }}
+  {{ end }}
 {{ end }}
 {{ if $img }}
   {{/* {{ limit size  }} */}}
