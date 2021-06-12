@@ -46,7 +46,7 @@ Array.prototype.forEach.call(blocks, function (block) {
 // by Jiri De Jagere, @JiriDJ
 // https://github.com/jiridj/hugo-collapsible-code
 
-const height = '208px'; // max-h-52
+const height = '320px'; // max-h-80
 
 // inline SVG from https://heroicons.com/
 const svgIconDuplicate = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>';

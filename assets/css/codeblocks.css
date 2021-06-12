@@ -9,7 +9,7 @@
 
 /* collapsed code block */
 .hljs-code.collapsed {
-  @apply max-h-52 overflow-hidden;
+  @apply max-h-80 overflow-hidden;
   @apply print:max-h-full;
 }
 
