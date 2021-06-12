@@ -1,17 +1,15 @@
 {{ $file := .Get 0 }}
 {{ $path := .Site.GetPage "snippets" }}
 {{ $snippets := $path.Resources.Match $file }}
-{{ $str := "" }}
-
 {{ range $snippets }}
   {{ $ext := path.Ext .Name | strings.TrimLeft "." }}
+  {{ $content := .Content }}
   {{ if eq $ext "md" }}
-    {{ $str = printf "%s%s" $str .RawContent }}
-  {{ else }} 
-    {{ $str = printf "%s```%s\n" $str $ext }}
-    {{ $str = printf "%s%s\n" $str .Content }}
+    {{ $content | safeHTML }}
+  {{ else }}
+    {{ $str := printf "```%s\n" $ext }}
+    {{ $str = printf "%s%s\n" $str $content }}
     {{ $str = printf "%s```\n" $str }}
-  {{ end }} 
+    {{ $str | chomp | markdownify }}
+  {{ end }}
 {{ end }}
-
-{{ $str | chomp | markdownify }}
