@@ -157,8 +157,9 @@ overlayButton.addEventListener('click', toggleSidebarState);
 
 
 // expand sidebar for current page
+const pageUrl = location.origin + location.pathname
 $('a').each(function () {
-  if (this.href == window.location.href) {
+  if (this.href == pageUrl ) {
     $(this).addClass('active').parents('.collapse').addClass('show');
   }
 });
