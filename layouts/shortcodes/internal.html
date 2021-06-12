@@ -1,7 +1,7 @@
 {{ $placeholder := .Get 0 }}
 
 {{ if (hugo.Environment | eq "development") }}
-  {{ .Inner | markdownify }}
+  {{ .Inner | .Page.RenderString }}
 {{ else }}
   {{ if $placeholder }}
     {{ $image := .Page.Resources.GetMatch $placeholder }}

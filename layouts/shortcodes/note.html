@@ -81,7 +81,7 @@
     {{ end }}
     <div class="note flex-grow px-4 py-4 bg-default-soft {{ $border }}">      
       {{ if eq $type "dev" }}<p class="lead">//Dev note</p>{{ end }}
-      {{ .Inner | markdownify }}
+      {{ .Inner | .Page.RenderString }}
     </div>
   </div>
 {{ end }}
