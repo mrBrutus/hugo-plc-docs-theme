@@ -1,16 +1,23 @@
-<figure>
-  {{ $image := .Page.Resources.GetMatch .Destination }}
-  {{ if $image }}
-    {{/* limit size  */}}
-    {{ if (gt $image.Width 1600) }}
-      {{ $image = $image.Resize "1200x" }}
-    {{ end}}
-    <img class="rounded" src="{{ $image.RelPermalink }}" alt="{{ .Text }}" title="{{ .Title }}"/>
-  {{ else }}
-    {{ warnf "Image resource %s not found" $image }}
+{{ $img := .Page.Resources.GetMatch .Destination }}
+{{ if not $img }}
+  {{/* ugly work around for images in snippets */}}
+  {{ $path := .Page.Site.GetPage "snippets" }}
+  {{ $img = $path.Resources.GetMatch .Destination }}
+{{ end }}
+{{ if $img }}
+  {{/* {{ limit size  }} */}}
+  {{ if (gt $img.Width 1600) }}
+    {{ $img = $img.Resize "1200x" }}
+  {{ end}}
+{{ else }}
+  {{/* warning if no resource found and not a web image */}}
+  {{ if not (findRE "://" .Destination) }}
+    {{ warnf "Image resource %v not found: %v" .Destination .Page.File }} */}}
   {{ end }}
-
+{{ end }}
+<figure>
+  <img src="{{ if $img }}{{ $img.RelPermalink }}{{ else }}{{ .Destination }}{{ end }}" alt="{{ .Text }}" title="{{ .Title }}" class="rounded" loading="lazy">
   {{ with .Title }}
     <figcaption>{{ . | markdownify }}</figcaption>
-  {{ end }} 
+  {{ end }}
 </figure>
