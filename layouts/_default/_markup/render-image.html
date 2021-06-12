@@ -12,7 +12,7 @@
 {{ else }}
   {{/* warning if no resource found and not a web image */}}
   {{ if not (findRE "://" .Destination) }}
-    {{ warnf "Image resource %v not found: %v" .Destination .Page.File }} */}}
+    {{ warnf "Image resource %v not found: %v" .Destination .Page.File }}
   {{ end }}
 {{ end }}
 <figure>
