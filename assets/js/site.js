@@ -177,7 +177,7 @@ let storedScrollTop = parseInt(sessionStorage.getItem('sidebar-scroll-top'), 10)
 let sidebarScroller = document.getElementById('sidebar');
 let selectedItem = sidebar.querySelector('.sidebar-item.active');
 
-if (sidebarScroller && sidebarScroller) {
+if (sidebarScroller && selectedItem) {
   if (!isNaN(storedScrollTop)) {
     sidebarScroller.scrollTop = storedScrollTop;
     // make sure it's into view
@@ -186,11 +186,11 @@ if (sidebarScroller && sidebarScroller) {
       const scrollTopPos = sidebarScroller.scrollHeight;
 
       if (itemTopPos < sidebarScroller.offsetTop) {
-        console.log("too far up");
+        console.log("sidebar needs scroll down");
       }
 
       if ((itemTopPos + selectedItem.offsetHeight ) > (sidebarScroller.offsetTop + sidebarScroller.offsetHeight)) {
-        console.log("too far down");
+        console.log("sidebar needs scroll up");
       }
 
       // console.log(sidebarScroller.offsetTop);
