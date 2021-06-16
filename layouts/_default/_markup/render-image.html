@@ -1,26 +1,38 @@
-{{ $img := .Page.Resources.GetMatch .Destination }}
-{{ if and (not $img) .Page.File }}
-  {{/* work around for images in snippets */}}
-  {{ $path := .Page.Site.GetPage "snippets" }}
-  {{ if $path }}
-    {{ $imgPath := path.Join (strings.TrimPrefix $path.File.Dir .Page.File.Dir) .Destination }}
-    {{ $img = $path.Resources.GetMatch $imgPath }}
+{{ $url := "" }}
+{{ $path := "" }}
+
+{{ $isRemote := strings.HasPrefix .Destination "http" }}
+
+{{ if not $isRemote}}
+  {{ $img := .Page.Resources.GetMatch .Destination }}
+  {{ if and (not $img) .Page.File }}
+    {{ if strings.HasPrefix .Destination "/"}}
+      {{/* absolute path */}}
+      {{ $path = .Destination }}
+    {{ else }}
+      {{ $path = path.Join .Page.File.Dir .Destination | relURL }}
+      {{ $img = resources.Get $path }}
+    {{ end }}
   {{ end }}
-{{ end }}
-{{ if $img }}
-  {{/* {{ limit size  }} */}}
-  {{ if (gt $img.Width 1600) }}
-    {{ $img = $img.Resize "1200x" }}
-  {{ end}}
+
+  {{ if $img }}
+    {{/* {{ limit size  }} */}}
+    {{ if (gt $img.Width 1600) }}
+      {{ $img = $img.Resize "1200x" }}
+    {{ end}}
+    {{ $url = $img.RelPermalink }}
+
+  {{ else }}
+    {{ $url = $path }}
+  {{ end }}
+
 {{ else }}
-  {{/* warning if no resource found and not a web image */}}
-  {{ if not (findRE "://" .Destination) }}
-    {{ warnf "Image resource %v not found: %v" .Destination .Page.File }}
-  {{ end }}
+    {{ $url = .Destination }}
 {{ end }}
+
 <figure>
-  <img src="{{ if $img }}{{ $img.RelPermalink }}{{ else }}{{ .Destination }}{{ end }}" alt="{{ .Text }}" title="{{ .Title }}" class="rounded" loading="lazy">
-  {{ with .Title }}
+  <img src="{{ $url }}" alt="{{ $.Text }}" title="{{ $.Title }}" class="rounded" loading="lazy">
+  {{ with $.Title }}
     <figcaption>{{ . | markdownify }}</figcaption>
   {{ end }}
 </figure>
