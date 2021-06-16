@@ -1,3 +1,6 @@
+---
+title: md-snippet1
+---
 **Markdown snippet 1**
 
 Magna veniam cupidatat ad eiusmod eu ad anim eu do.

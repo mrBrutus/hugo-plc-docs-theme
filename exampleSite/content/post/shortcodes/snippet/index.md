@@ -9,27 +9,24 @@ tags:
 
 The `snippet` shortcode can be used for re-using snippets or text sections --
 Create a text section once and insert it in many pages.
+Organize these snippets in one or more snippet bundles.
 
 *syntax:*
 
 ```md
-{{</* snippet file="<relative-path-of-the-snippet-file>" <source=true> */>}}
+{{</* snippet bundle="<name-of-the-snippet-bundle>" file="<relative-path-of-the-snippet-file>" */>}}
 ```
 
-- `file` must be passed the path file relative to the snippets folder
-- Set the optional `source=true` if you want to insert a **markdown** snippet as codeblock
-  instead of normal rendered content.
-
-{{< note >}}
-The file name supports [glob](https://en.wikipedia.org/wiki/Glob_(programming)) patterns (wildcards).
-In some of the examples below this is used to insert multiple snippets at once.
-{{< /note >}}
+- `bundle` must be passed the name of the snippets bundle
+- `file` must be passed the file path relative to the snippets bundle:
+  - *Without* file extension for markdown files which shall be rendered as usual.
+  - *With* file extension if the snippet shall be inserted as codeblock.
 
 ## Usage
 
 Place the snippet content in the `snippets` folder:
 
-*snippets/some-folder/my-sample-text.md:*
+*my-snippets/some-folder/my-sample-text.md:*
 
 ```md
 This is a text used in many pages.
@@ -47,7 +44,7 @@ title: some page
 
 ## Inserted text section
 
-{{</* snippet file="some-folder/my-sample-text.md" */>}}
+{{</* snippet bundle="my-snippets" file="some-folder/my-sample-text" */>}}
 
 ```
 
@@ -58,7 +55,6 @@ The shortcode supports Markdown and source code.
 **Markdown snippets:**
 
 - Are rendered as any other markdown content
-- Do not need a front-matter section
 - May contain local images (stored in the snippets folder)
 - May include other shortcodes
 
@@ -70,16 +66,20 @@ The shortcode supports Markdown and source code.
 The language selection for the code block is taken from the file extension (e.g. `yaml` for `<some-file.yaml>`).
 {{< /note >}}
 
-## Snippets folder
+## Snippets bundle
 
-The snippets folder must be setup as a [headless bundle](https://gohugo.io/content-management/page-bundles/#headless-bundle).
-This is a special kind of page bundle -- Files in a headless bundle will not get their own HTML pages.
+The snippets bundle must contain a `_index.md` with below front-matter so that none of the files in this bundle will
+be rendered as HTML pages.
 
-*snippets/index.md:*
+*my-snippets/_index.md:*
 
 ```md
 ---
-headless: true
+title: my-snippets
+cascade:
+  _build:
+    render: false
+    list: false
 ---
 ```
 
@@ -87,52 +87,36 @@ headless: true
 
 ### 1) Simple markdown snippet
 
-The snippet in `{{</* snippet file="shortcode-docs/md-snippet1.md" */>}}` has the following content:
+The snippet in `{{</* snippet bundle="my-snippets" file="shortcode-docs/md-snippet1" */>}}` has the following content:
 
-{{< snippet file="shortcode-docs/md-snippet1.md" source=true >}}
+{{< snippet bundle="my-snippets" file="shortcode-docs/md-snippet1.md" >}}
 
 Which renders as:
 
-{{< snippet file="shortcode-docs/md-snippet1.md" >}}
+{{< snippet bundle="my-snippets" file="shortcode-docs/md-snippet1" >}}
 
 ### 2) Markdown snippet with note shortcode
 
-The snippet in `{{</* snippet file="shortcode-docs/md-snippet2.md" */>}}` has the following content:
+The snippet in `{{</* snippet bundle="my-snippets" file="shortcode-docs/md-snippet2" */>}}` has the following content:
 
-{{< snippet file="shortcode-docs/md-snippet2.md" source=true >}}
+{{< snippet bundle="my-snippets" file="shortcode-docs/md-snippet2.md" >}}
 
 Which renders as:
 
-{{< snippet file="shortcode-docs/md-snippet2.md" >}}
+{{< snippet bundle="my-snippets" file="shortcode-docs/md-snippet2" >}}
 
 ### 3) Markdown snippet with image
 
-The snippet in `{{</* snippet file="shortcode-docs/md-snippet3.md" */>}}` has the following content:
+The snippet in `{{</* snippet bundle="my-snippets" file="shortcode-docs/md-snippet3" */>}}` has the following content:
 
-{{< snippet file="shortcode-docs/md-snippet3.md" source=true >}}
+{{< snippet bundle="my-snippets" file="shortcode-docs/md-snippet3.md" >}}
 
 Which renders as:
 
-{{< snippet file="shortcode-docs/md-snippet3.md" >}}
+{{< snippet bundle="my-snippets" file="shortcode-docs/md-snippet3" >}}
 
-### 4) Multiple markdown snippets at once
+### 4) Source code snippet
 
-`{{</* snippet file="shortcode-docs/md-snippet*.md" */>}}` renders as:
+`{{</* snippet  bundle="my-snippets" file="shortcode-docs/yaml-snippet1.yaml" */>}}` renders as:
 
-{{< snippet file="shortcode-docs/md-snippet*.md" >}}
-
-### 5) Single code snippet
-
-`{{</* snippet  file="shortcode-docs/yaml-snippet1.yaml" */>}}` renders as:
-
-{{< snippet file="shortcode-docs/yaml-snippet1.yaml" >}}
-
-{{< note >}}
-Non-markdown files are rendered as code block.
-{{< /note >}}
-
-### 6) Multiple code snippets at once
-
-`{{</* snippet file="shortcode-docs/yaml-snippet*.yaml" */>}}` renders as:
-
-{{< snippet file="shortcode-docs/yaml-snippet*.yaml" >}}
+{{< snippet bundle="my-snippets" file="shortcode-docs/yaml-snippet1.yaml" >}}

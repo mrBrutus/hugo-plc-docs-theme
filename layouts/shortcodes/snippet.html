@@ -1,22 +1,5 @@
-{{ $file := .Get "file" }}
-{{ $asSourceCode := .Get "source" }}
-{{ $path := .Site.GetPage "snippets" }}
-{{ $snippets := $path.Resources.Match $file }}
-{{ range $snippets }}
-  {{ $ext := path.Ext .Name | strings.TrimLeft "." }}
-  {{ if eq $ext "md" }}
-    {{ if not $asSourceCode }}
-      {{ .Content | safeHTML }}
-    {{ else }}
-      {{ $str := printf "```%s\n" $ext }}
-      {{ $str = printf "%s%s\n" $str .RawContent }}
-      {{ $str = printf "%s```\n" $str }}
-      {{ $str | markdownify }}
-    {{ end }}
-  {{ else }}
-    {{ $str := printf "```%s\n" $ext }}
-    {{ $str = printf "%s%s\n" $str .Content }}
-    {{ $str = printf "%s```\n" $str }}
-    {{ $str | chomp | markdownify }}
-  {{ end }}
-{{ end }}
+{{ partial "body/snippet" 
+  (dict
+  "ctx" $ "bundle" (.Get "bundle" | default "snippets" )
+  "file" (.Get "file")
+  ) }}

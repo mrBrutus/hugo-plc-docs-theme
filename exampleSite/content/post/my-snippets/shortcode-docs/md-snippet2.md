@@ -1,3 +1,6 @@
+---
+title: md-snippet2
+---
 **Markdown snippet 2**
 
 Nostrud ipsum nulla adipisicing cillum non anim veniam.
