@@ -1,0 +1,33 @@
+<nav class="flex items-center print:hidden">
+  {{ with .NextInSection }}
+    <a class="low-profile-link" id="prev" title="{{ .Title }}" href="{{ .Permalink }}">
+      {{ partial "svgs/heroicons/chevron-left.svg" (dict "class" "h-6 px-2" ) }}
+    </a>
+  {{ else }}
+    <span class="text-default-light">
+      {{ partial "svgs/heroicons/chevron-left.svg" (dict "class" "h-6 px-2" ) }}
+    </span>
+  {{ end }}
+
+  {{ with .PrevInSection }}
+    <a class="low-profile-link" id="next" title="{{ .Title }}" href="{{ .Permalink }}">
+      {{ partial "svgs/heroicons/chevron-right.svg" (dict "class" "h-6 px-2" ) }}
+    </a>
+  {{ else }}
+    <span class="text-default-light">
+      {{ partial "svgs/heroicons/chevron-right.svg" (dict "class" "h-6 px-2" ) }}
+    </span>
+  {{ end }}
+</nav>
+
+{{/* map CTRL + arrow keys */}}
+<script>
+  let p=document.getElementById('prev');
+  let n=document.getElementById('next');
+  document.onkeyup=function(e){
+    var e = e || window.event;
+    if(e.ctrlKey && e.which == 37 && p) {p.click();
+    }else if(e.ctrlKey && e.which == 39 && n) {n.click();
+  }
+}
+</script>

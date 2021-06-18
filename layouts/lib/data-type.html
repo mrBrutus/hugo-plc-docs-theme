@@ -5,7 +5,10 @@
       <div class="pt-16 md:mx-auto px-4 lg:px-20 xl:px-20 min-h-full prose prose-sm md:prose max-w-none lg:max-w-3xl xl:max-w-4xl print:py-0 print:px-0 print:max-w-none print:prose">
         <main class="min-h-screen">
 
-          {{ partial "body/breadcrumb" . }}
+          <div class="flex justify-between">
+            {{ partial "body/breadcrumb" . }}
+            {{ partial "body/page-buttons.html" . }}
+          </div>
 
           {{/* read the YAML data from the page resources */}}
           {{ $yamlData := partial "lib/get-yaml-data" ( dict "ctx" $ "fileName" "definition" ) }}
