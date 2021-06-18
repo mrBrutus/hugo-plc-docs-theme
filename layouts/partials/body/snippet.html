@@ -19,7 +19,7 @@
     {{ end }}
   {{ else }}
     {{/*  other code block */}}
-    {{ with readFile (path.Join $path.File.Dir $file | relURL) }}
+    {{ with readFile (path.Join $path.File.Dir $file ) }}
       {{ $str := printf "```%s\n" $ext }}
       {{ $str = printf "%s%s\n" $str . }}
       {{ $str = printf "%s```\n" $str }}
