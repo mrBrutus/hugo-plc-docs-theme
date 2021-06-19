@@ -23,6 +23,8 @@ The `type` parameter is optional. Supported types:
 [info](#info), [warning](#warning), [success](#success), [error](#error), [do](#do),
 [dont](#dont), [learn](#learn), [tip](#tip), [pro](#pro), [contra](#contra), [dev](#dev)
 
+## Examples
+
 ### without type
 
 {{< note >}}
