@@ -8,7 +8,7 @@
       <div class="flex justify-between items-center px-2 py-1 {{if ne $index 1 }}border-t{{ end }}">
 
         {{ with $value.url}}
-          <a class="low-profile-link" title="download" target="_blank" href={{.}}>
+          <a class="low-profile-link" title="download" target="_blank" rel="noopener" href={{.}}>
             <span class="flex justify-start items-center">
               {{ partial "svgs/heroicons/cube.svg" (dict "class" "h-4 mr-2" ) }}
               {{ $value.name }}&nbsp
