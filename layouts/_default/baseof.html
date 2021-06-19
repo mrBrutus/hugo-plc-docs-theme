@@ -5,7 +5,7 @@
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <title>{{ block "title" . }}{{ .Title }}{{ end }}</title>
+      <title>{{ block "title" . }}{{ with .Title }}{{ printf "%s · " . }}{{ end }}{{ .Site.Title }}{{ end }}</title>
       {{ partial "head/styles" . }}
       {{ partial "head/scripts" . }}    
       {{ partial "head/theming" . }}
