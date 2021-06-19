@@ -1,15 +1,21 @@
 
 <nav class="flex fixed w-full items-center justify-between h-16 bg-background shadow md:shadow-none md:border-b z-40 print:hidden">
 
-  {{ partial "nav/logo-title" . }}
-
-  <div class="flex items-center ">
-
+  <div class="flex justify-start items-center">
+    {{ partial "nav/logo-title" . }}
     {{ with $.Param "debug" }}
       <span title="debug mode active">
         {{ partial "svgs/heroicons/beaker.svg" (dict "class" "text-red-600 mr-2 w-8 h-8" ) }}          
       </span>
     {{ end }}
+  </div>
+
+  <div class="flex justify-end items-center" title="toggle light/dark">
+    <label for="theme-switch" class="mr-2 cursor-pointer">
+      <input id="theme-switch" type="checkbox" class="hidden" />
+      {{ partial "svgs/heroicons/sun.svg" (dict "class" "w-8 h-8 icon-theme-dark" ) }}
+      {{ partial "svgs/heroicons/moon.svg" (dict "class" "w-8 h-8 icon-theme-light" ) }}
+    </label>
 
     <button id="toggleMenu" aria-label="Open Menu" class="mr-2 focus:outline-none md:hidden">
       {{ partial "svgs/heroicons/menu.svg" (dict "class" "w-8 h-8" ) }}

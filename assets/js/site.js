@@ -104,6 +104,28 @@ addEventListener('load', function () {
 
 
 // ============================================================================
+// light/dark theme toggle
+// ============================================================================
+
+// set switch state at load
+var checkbox = document.getElementById('theme-switch');
+if (checkbox) {
+  checkbox.checked = (document.documentElement.classList.contains('dark'))
+}
+
+// watch for changes
+addEventListener('load', function () {
+  ts = document.getElementById('theme-switch');
+  ts.addEventListener('change', function (e) {
+    theme = (e.target.checked) ? 'dark' : 'light';
+    localStorage.setItem('theme', theme);
+    activateTheme(theme)
+  });
+});
+
+
+
+// ============================================================================
 // side bar
 // ============================================================================
 

@@ -3,12 +3,7 @@
 
 <aside id="sidebar" class="pb-16 bg-background fixed overflow-auto overflow-x-hidden z-30 overflow-y-scroll border-t md:border-none top-16 bottom-0 left-0 w-5/6 md:w-80 xl:w-96 transition-all duration-300 transform -translate-x-full md:translate-x-0 print:hidden">
 
-  <div class="min-h-16 p-4 flex flex-col space-y-2 items-end border-b">
-    {{/* theme switch */}}
-    {{ partial "nav/toggle-switch.html" (dict "id" "theme-switch" "text" "Dark theme") }}
-  </div>
-
-  <div class="">
+  <div class="pt-16">
     {{/* sidebar always build from the root level */}}
     {{ with .Site.GetPage "/" }}
       {{ range .Pages }}

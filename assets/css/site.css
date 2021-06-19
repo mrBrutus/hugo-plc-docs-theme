@@ -50,13 +50,15 @@ html:not(.dark) {
 }
 
 /* ============================================================================
- * toggle switch
- * https://codepen.io/lhermann/pen/EBGZRZ
+ * theme toggle switch
  * ========================================================================= */
 
- input:checked ~ .toggle__dot {
-  transform: translateX(100%);
-  @apply bg-green-400;
+#theme-switch:not(:checked) ~ .icon-theme-dark {
+  @apply hidden;
+}
+
+#theme-switch:checked ~ .icon-theme-light {
+  @apply hidden;
 }
 
 

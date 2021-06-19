@@ -1,33 +1,11 @@
 // ============================================================================
-// Light/Dark Theme toggle switch
-//
-// ============================================================================
-
-// set switch state at load
-var checkbox = document.getElementById('theme-switch');
-if (checkbox) {
-  checkbox.checked = (document.documentElement.classList.contains('dark'))
-}
-
-// watch for changes
-addEventListener('load', function () {
-  ts = document.getElementById('theme-switch');
-  ts.addEventListener('change', function (e) {
-    theme = (e.target.checked) ? 'dark' : 'light';
-    localStorage.setItem('theme', theme);
-    activateTheme(theme)
-  });
-});
-
-
-// ============================================================================
 // Highlight.js code blocks
 //
-// todo: some description.
+// This adds the following to code blocks:
 //  - copy button
 //  - collapse larger code blocks
 //  - bottom fade effect in collapsed state
-//  - todo: language label
+//  - language label
 //
 // ============================================================================
 hljs.initHighlightingOnLoad();
