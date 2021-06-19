@@ -78,25 +78,13 @@ rssLimit: 100
 outputs:
   home:
     - HTML
-    # - RSS
-    # - SearchIndex
+    - RSS
   section:
     - HTML
-    # - RSS
-    # - SearchIndex
+    - RSS
   taxonomyTerm:
     - HTML
-    # - RSS
-    # - SearchIndex
+    - RSS
   taxonomy:
     - HTML
-    # - RSS
-    # - SearchIndex
-
-outputFormats:
-  SearchIndex:
-    mediaType: application/json
-    baseName: index
-    isPlainText: true
-    notAlternative: true
-
+    - RSS
