@@ -120,6 +120,7 @@ function processCodeBlocks() {
       // add expand/collapse button
       var btn = document.createElement('button');
       btn.className = "collapse-btn";
+      btn.setAttribute('aria-label', 'expand/collapse');
       btn.innerHTML = svgSelector;
       btn.addEventListener('click', toggleCodeblock);
       bw.appendChild(btn);
@@ -128,6 +129,7 @@ function processCodeBlocks() {
     // add copy button
     var btn = document.createElement('button');
     btn.className = "copy-btn";
+    btn.setAttribute('aria-label', 'copy source');
     btn.innerHTML = svgIconDuplicate;
     btn.addEventListener('click', copyToClipboard);
     bw.appendChild(btn);
