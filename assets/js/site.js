@@ -1,6 +1,6 @@
 
 // ============================================================================
-// Branche selection (for imported sections)
+// Branch selection (for imported sections)
 // ============================================================================
 
 document.querySelectorAll('.branch-select').forEach(sel => {
@@ -22,7 +22,6 @@ function branchSelectChanged(sel) {
   // simply reloading the page to reflect the new branch
   window.location.reload()
 }
-
 
 
 /**
@@ -58,7 +57,6 @@ function initializeBranchSelect(sel) {
 }
 
 
-
 // ============================================================================
 // page animations
 // ============================================================================
@@ -66,6 +64,20 @@ addEventListener('load', function () {
   // enable transitions after page is loaded
   document.body.classList.remove('notransition');
 })
+
+
+// ============================================================================
+// keyboard bindings
+// ============================================================================
+document.onkeyup = function (e) {
+  if (e.ctrlKey) {
+    // page navigation using CTRL + arrow keys
+    if (e.key == 'ArrowLeft') { clickElementById('prev') }
+    if (e.key == 'ArrowRight') { clickElementById('next') }
+    // focus search input
+    if (e.key == '/') { focusElementById('search-input') }
+  }
+}
 
 
 // ============================================================================
@@ -159,7 +171,7 @@ overlayButton.addEventListener('click', toggleSidebarState);
 // expand sidebar for current page
 const pageUrl = location.origin + location.pathname
 $('a').each(function () {
-  if (this.href == pageUrl ) {
+  if (this.href == pageUrl) {
     $(this).addClass('active').parents('.collapse').addClass('show');
   }
 });
@@ -189,7 +201,7 @@ if (sidebarScroller && selectedItem) {
         console.log("sidebar needs scroll down");
       }
 
-      if ((itemTopPos + selectedItem.offsetHeight ) > (sidebarScroller.offsetTop + sidebarScroller.offsetHeight)) {
+      if ((itemTopPos + selectedItem.offsetHeight) > (sidebarScroller.offsetTop + sidebarScroller.offsetHeight)) {
         console.log("sidebar needs scroll up");
       }
 
@@ -214,6 +226,26 @@ window.addEventListener('pagehide', () => {
 // ============================================================================
 // helpers
 // ============================================================================
+
+/**
+ * Invoke `click` method for DOM element
+ * @param {string} id
+ */
+ function clickElementById(id) {
+  const l = document.getElementById(id)
+  if (l) { l.click() }
+}
+
+
+/**
+ * Invoke `focus` method for DOM element
+ * @param {string} id
+ */
+function focusElementById(id) {
+  const l = document.getElementById(id)
+  if (l) { l.focus() }
+}
+
 
 /**
  * Checks if the option exists in the HTML <select> element
