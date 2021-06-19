@@ -11,7 +11,7 @@
     <div class="py-2">
       {{ if eq (len .p1.Title) 0 }}
         <div class="flex items-center">
-          <a href="{{ .p1.Permalink }}" class="low-profile-link pr-1">
+          <a href="{{ .p1.Permalink }}" class="low-profile-link pr-1" aria-label="home">
             {{ partial "svgs/heroicons/home.svg" (dict "class" "h-4" ) }}
           </a>
         </div>
