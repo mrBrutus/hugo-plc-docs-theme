@@ -13,7 +13,7 @@
 
   --color-brand-soft: #E0E7FF;          /* # indigo-100 */
   --color-brand-light: #A5B4FC;         /* # indigo-300 */
-  --color-brand: #6366F1;               /* # indigo-500 */
+  --color-brand: #4F46E5;               /* # indigo-600 */
   --color-brand-dark: #4338CA;          /* # indigo-700 */
   --color-brand-inverse: #fff;          /* # white */
 
@@ -41,7 +41,7 @@ html.dark {
 
   --color-brand-soft: #E0E7FF;          /* # indigo-100 */
   --color-brand-light: #A5B4FC;         /* # indigo-300 */
-  --color-brand: #6366F1;               /* # indigo-500 */
+  --color-brand: #4F46E5;               /* # indigo-600 */
   --color-brand-dark: #4338CA;          /* # indigo-700 */
   --color-brand-inverse: #fff;          /* # white */
 
