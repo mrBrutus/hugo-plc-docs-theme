@@ -11,6 +11,6 @@
   /* [multiple], */
   /* textarea, */
   select {
-    @apply bg-background cursor-pointer py-1 border-soft focus:border-primary focus:ring-primary rounded-lg shadow-sm;
+    @apply bg-background cursor-pointer py-1 border-soft focus:border-brand focus:ring-brand rounded-lg shadow-sm;
   }
 }

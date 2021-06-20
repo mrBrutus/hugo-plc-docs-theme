@@ -1,0 +1,22 @@
+{{ if (ne (len .Site.Taxonomies.categories) 0) }}
+  {{ $collapseId := printf "_%s" (substr (md5 ("/categories/" | relURL)) 0 5) }}
+
+  <section class="px-4">
+    <a href="{{printf "#%s" $collapseId}}" data-toggle="collapse" class="sidebar-item italic">
+      {{ partial "svgs/heroicons/bookmark.svg" (dict "class" "h-4 mr-1" ) }}
+      <span class="">Categories</span>
+    </a>
+    <div id="{{ $collapseId }}" class="collapse flex flex-row flex-wrap">
+      {{ range $index, $element := .Site.Taxonomies.categories }}
+        <a href="{{ $element.Page.RelPermalink }}" class="mr-2 mb-2 flex flex-row items-center rounded bg-default-soft shadow-sm text-xs text-default hover:text-default-dark">
+          <span class="pl-1 pr-1 py-0.5">
+            {{ $element.Page.Title }}
+          </span>
+          <span class="pr-1 pl-1 py-0.5 rounded-r bg-brand text-brand-inverse">
+            {{ printf "%#v" (len $element) }}
+          </span>
+        </a>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}

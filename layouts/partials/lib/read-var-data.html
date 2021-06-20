@@ -8,16 +8,17 @@ Returns an object with the var data.
 
 {{/* look up in _common.yaml */}}
 {{if not $data.type}}
-  {{ with $.ctx.Parent.Resources.GetMatch "_common.yaml" | transform.Unmarshal }}
-  {{ with .var }}
-    {{ with index . $.name }}
-      {{ $data = . }}
+  {{ $commonData := partial "lib/get-yaml-data" ( dict "ctx" ($.ctx.Parent) "fileName" "_common" ) }}
+  {{ with $commonData }}
+    {{ with .var }}
+      {{ with index . $.name }}
+        {{ $data = . }}
+      {{ else }}
+        {{ warnf "[%q] Key %q not found in %q." $.ctx.Page.RelPermalink $.name "_common.yaml"}}
+      {{end}}
     {{ else }}
-      {{ warnf "[%q] Key %q not found in %q." $.ctx.Page.RelPermalink $.name "_common.yaml"}}
+      {{ errorf "[%q] File %q not found." $.ctx.Page.RelPermalink "_common.yaml"}}
     {{end}}
-  {{ else }}
-    {{ errorf "[%q] File %q not found." $.ctx.Page.RelPermalink "_common.yaml"}}
-  {{end}}
   {{end}}
 {{end}}
 

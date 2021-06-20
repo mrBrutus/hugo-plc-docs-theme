@@ -7,7 +7,7 @@ module.exports = {
   plugins: [
     require('@tailwindcss/forms'),
     require('@tailwindcss/typography')
-  ],  
+  ],
   purge: {
     enabled: process.env.HUGO_ENVIRONMENT === 'production',
     rejected: true,
@@ -26,7 +26,7 @@ module.exports = {
       'exampleSite/content/**/*.yaml',
     ],
     options: {
-      // safelisting is needed in case of dynamic classes (e.g. `pl-{{ mul $someVariable 2 }}` ==> pl-0, pl-2 etc.)
+      // safelisting needed for dynamic classes (e.g. `pl-{{ mul $someVariable 2 }}` ==> pl-0, pl-2 etc.)
       safelist: [/^pl-/, /^ml-/],
     }
   },
@@ -35,15 +35,15 @@ module.exports = {
       borderColor: {
         DEFAULT: 'var(--color-default-soft)',
         soft: 'var(--color-default-soft)',
-        primary: 'var(--color-primary)',
+        brand: 'var(--color-brand)',
       },
-  
+
       ringColor: {
         DEFAULT: 'var(--color-default-soft)',
         soft: 'var(--color-default-soft)',
-        primary: 'var(--color-primary)',
+        brand: 'var(--color-brand)',
       },
-      
+
       colors: {
         background: {
           soft: 'var(--color-background-soft)',
@@ -63,12 +63,12 @@ module.exports = {
           dark: 'var(--color-default-dark)',
         },
 
-        primary: {
-          soft: 'var(--color-primary-soft)',
-          light: 'var(--color-primary-light)',
-          DEFAULT: 'var(--color-primary)',
-          dark: 'var(--color-primary-dark)',
-          inverse: 'var(--color-primary-inverse)',
+        brand: {
+          soft: 'var(--color-brand-soft)',
+          light: 'var(--color-brand-light)',
+          DEFAULT: 'var(--color-brand)',
+          dark: 'var(--color-brand-dark)',
+          inverse: 'var(--color-brand-inverse)',
         },
       },
 
@@ -79,12 +79,12 @@ module.exports = {
           DEFAULT: 'var(--color-default)',
           dark: 'var(--color-default-dark)',
         },
-        primary: {
-          soft: 'var(--color-primary-soft)',
-          light: 'var(--color-primary-light)',
-          DEFAULT: 'var(--color-primary)',
-          dark: 'var(--color-primary-dark)',
-          inverse: 'var(--color-primary-inverse)',
+        brand: {
+          soft: 'var(--color-brand-soft)',
+          light: 'var(--color-brand-light)',
+          DEFAULT: 'var(--color-brand)',
+          dark: 'var(--color-brand-dark)',
+          inverse: 'var(--color-brand-inverse)',
         },
       },
 
@@ -160,7 +160,6 @@ module.exports = {
             },
             h1: {
               fontWeight: '500',
-              // marginBottom: '0'
             },
             blockquote: {
               color: 'var(--color-default-dark)',
@@ -171,7 +170,7 @@ module.exports = {
               color: 'var(--color-default-light)',
             },
             'ul > li::before': {
-              backgroundColor: 'var(--color-default-soft)',
+              backgroundColor: 'var(--color-default-light)',
             },
             hr: {
               borderColor: 'var(--color-default-soft)',
@@ -184,31 +183,33 @@ module.exports = {
               borderBottomColor: 'var(--color-default-soft)',
             },
             a: {
-              color: 'var(--color-primary)',
-              // textDecoration: false,
+              color: 'var(--color-brand)',
               '&:hover': {
-                color: 'var(--color-primary-light)',
+                color: 'var(--color-brand-light)',
               },
             },
 
             'figure figcaption': {
               color: 'var(--color-default-light)',
-            },                 
+            },
             
             code: null,
+            'code::before': null,
+            'code::after': null,
             'pre code': null,
 
             ':not(pre)>code, a code': {
-              color: 'var(--color-primary)',
-              fontWeight: '600',
+              color: 'var(--color-brand)',
+              fontWeight: '400',
+              fontSize: '1rem'
             },
-               
+
             pre: {
               color: "unset",
               padding: "unset",
               backgroundColor: "transparent"
             },
-                                  
+
           },
         },
       }),

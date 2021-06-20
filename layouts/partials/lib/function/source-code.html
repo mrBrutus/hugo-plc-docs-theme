@@ -1,7 +1,5 @@
 {{/* generate source code */}}
 {{ with .item }}
-  {{/* <details> */}}
-  {{/* <summary>Show source code</summary> */}}
   <div class="">
 
     {{/* Declaration */}}
@@ -26,12 +24,16 @@
 
 
     {{/* insert code header */}}
-    {{ $family := $.ctx.Parent.Title }}
     {{ $latestChangelog := dict }}
     {{ with .changelog }}
       {{ range first 1 . }}{{$latestChangelog = . }}{{ end }}
     {{ end }}
-    {{ $code_header := partial "lib/code-header.html" (dict "name" $name "family" $family "description" $description "latestChangelog" $latestChangelog ) }}
+
+
+    {{/* read the YAML data from the project file */}}
+    {{ $projectData := partial "lib/get-yaml-data" ( dict "ctx" $.ctx.Parent "fileName" "definition" ) }}
+
+    {{ $code_header := partial "lib/code-header.html" (dict "name" $name "project" $projectData "description" $description "latestChangelog" $latestChangelog ) }}
     {{ $code_block = printf "%s%s\n" $code_block $code_header }}
 
     {{/* insert variables */}}
@@ -82,16 +84,15 @@
 
 
     {{/* Logic */}}
-    {{ with $.ctx.Parent.Resources.GetMatch (printf "**%s.iecst" $.ctx.Page.File.BaseFileName) }}
+    {{ with $.ctx.Resources.GetMatch "*.iecst" }}
       <h3 id="logic">Logic</h3>
       <div class="overflow-x-auto">
         {{ $code_block := "```iecst\n" }}
         {{/* insert code */}}
-        {{ $code_block = printf "%s%s\n" $code_block .Content }}
+        {{ $code_block = printf "%s%s" $code_block .Content }}
         {{ printf "%s\n```" $code_block | markdownify }}
       </div>
     {{ end }}
 
   </div>
-{{/* </details> */}}
 {{ end }}

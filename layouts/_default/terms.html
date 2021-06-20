@@ -1,0 +1,42 @@
+{{ define "main" }}
+    {{ partial "nav/main" . }}
+
+    <section class="md:ml-80 xl:ml-96">
+      <div class="pt-16 md:mx-auto px-4 lg:px-20 xl:px-20 min-h-full prose prose-sm md:prose max-w-none lg:max-w-3xl xl:max-w-4xl print:py-0 print:px-0 print:max-w-none print:prose">
+        <main class="min-h-screen">
+        
+          {{ partial "body/breadcrumb" . }}
+
+          <header>
+            <h1>{{ .Title }}</h1>
+          </header>
+
+          <article>
+            {{ .Content }}
+          </article>
+
+          <div class="flex flex-row flex-wrap">
+            {{ range $index, $element := .Data.Terms }}
+              {{ if $index }}
+                <a href="{{ .Page.RelPermalink }}" class="low-profile-link mr-2 mb-2 flex flex-row items-center rounded bg-default-soft shadow-sm text-sm text-default hover:text-default-dark">
+                  <span class="pl-1 pr-1 py-0.5">
+                    {{ $element.Page.Title }}
+                  </span>
+                  <span class="pr-1 pl-1 py-0.5 rounded-r bg-brand text-brand-inverse">
+                    {{ printf "%#v" (len $element) }}
+                  </span>
+                </a>
+              {{ end }}
+            {{ end }}
+          </div>
+
+          {{ partial "footer/page-footer.html" . }}          
+
+        </main>
+      </div>
+
+      {{ partial "nav/sidebar/main" . }}
+
+    </section>
+
+{{ end }}

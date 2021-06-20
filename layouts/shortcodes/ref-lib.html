@@ -1,0 +1,2 @@
+{{ $item := .Get 0 }}
+{{ partial "lib/ref-lib-item.html" (dict "ctx" $.Page.FirstSection "item" $item ) }}

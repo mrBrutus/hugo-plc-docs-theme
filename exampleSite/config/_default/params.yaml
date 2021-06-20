@@ -1,0 +1,22 @@
+# theme:
+#   light:
+#     color-background: '#f88'
+#   dark:
+#     color-background: '#88f'
+
+# Plugins specified as `optional` (see `data/plugins.yaml`) can be activated
+# here site wise (will be loaded for every page).
+# NOTE: This is not recommended; better specify page wise  (in page's front-matter)
+plugins:
+#   - mermaid
+#   - fullcalendar
+
+navBar:
+  # kind of logo [ false / inline (default) / <logo file name> ]
+  logo: logo.svg    
+  
+  # setting this to true will increase the vertical padding for the logo
+  wide_logo: false
+  
+  # kind of text [ false / title (default) / <some custom text> ]
+  text: title

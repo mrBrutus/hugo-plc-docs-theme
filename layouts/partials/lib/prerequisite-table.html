@@ -10,8 +10,8 @@
     <tbody>
       {{ range $key, $value := . }}
         <tr>
-          <td>{{ with $key }}{{ humanize . }}{{ end }}</td>
-          <td>{{ with $value }}{{ . }}{{ end }}</td>
+          <td>{{ with $key }}{{ . | markdownify }}{{ end }}</td>
+          <td>{{ with $value }}{{ . | markdownify }}{{ end }}</td>
         </tr>
       {{ end }}
     </tbody>

@@ -1,0 +1,14 @@
+[build]
+publish = "exampleSite/public"
+command = "hugo -s exampleSite --themesDir=../.. -t repo --minify --gc --enableGitInfo"
+
+[build.environment]
+HUGO_VERSION = "0.81.0"
+HUGO_ENV = "production"
+HUGO_BASEURL = "https://plc-docs-theme.netlify.app"
+
+
+[[headers]]
+for = "/*"
+[headers.values]
+Access-Control-Allow-Origin = "*"

@@ -1,0 +1,90 @@
+company: OSCAT
+author: The OSCAT community
+since: 0.13.0
+description: |
+  `REAL_TO_STRF` converts a REAL value to a string with a fixed number of
+  decimals. 
+
+  Examples:
+
+  ```iecst
+  REAL_TO_STRF(3.14159, 4, '.')   // '3.1416'
+  REAL_TO_STRF(3.14159, 0, '.')   // '3'
+  REAL_TO_STRF(0.04159, 3, '.')   // '0.042'
+  REAL_TO_STRF(0.001, 2, ',')     // '0,00'
+  ```
+
+comment: Converts a Real to a fixed length String
+changelog:
+  - version: 1.8.0
+    date: 2012-01-02
+    author: hm
+    added:
+      - "input parameter `D` to specify decimal separator"
+  - version: 1.7.0
+    date: 2009-02-27
+    author: hm
+    changed:
+      - "added missing zero for `IN < 1`"
+  - version: 1.6.0
+    date: 2008-04-04
+    author: hm
+    added:
+      - "added variable `O` to avoid an error under CoDeSys SP PLCWinNT V2.4"
+  - version: 1.5.0
+    date: 2008-03-29
+    author: hm
+    changed:
+      - "changed `STRING` to `STRING(20)`"
+  - version: 1.4.0
+    date: 2008-03-20
+    author: hm
+    changed:
+      - "changed `trunc` to `real_to_dint` because trunc was generating wrong values on wago 842"
+  - version: 1.3.0
+    date: 2008-03-04
+    author: hm
+    changed:
+      - "result is now rounded instead of truncated"
+  - version: 1.2.0
+    date: 2007-12-15
+    author: hm
+    changed:
+      - "changed code for better performance"
+  - version: 1.1.0
+    date: 2007-11-20
+    author: hm
+    changed:
+      - "when `N = 0` there will be no dot at the end of the string"
+  - version: 1.0.0
+    date: 2007-01-26
+    author: hm
+    added:
+      - "original version"
+return: "STRING(20)"
+var:
+  - kind: input
+    var:
+      - name: IN
+        description: |
+          Input value.
+        type: REAL
+        comment: input value
+      - name: "N"
+        description: |
+          Number of decimal places.
+        type: INT
+        comment: number of decimal places
+        legend:
+          0..7: 'range for N'
+      - name: D
+        description: |
+          Decimal punctuation character.
+          Depending on your country/region this usually is either a dot (`.`) or a comma (`,`).
+        type: "STRING(1)"
+        comment: decimal punctuation character
+  - kind: var
+    var:
+      - name: O
+        type: REAL
+      - name: i

@@ -1,58 +1,57 @@
-/** purgecss start ignore */
 :root {
-  --color-background-soft: #F3F4F6;   /* gray-100 */
-  --color-background: #fff;           /* white */
-  --color-background-inverse: #000;   /* black */
+  --color-background-soft: #F3F4F6;     /* # gray-100 */
+  --color-background: #fff;             /* # white */
+  --color-background-inverse: #111827;  /* # gray-900 */
 
-  --color-hljs: #FFFFFFFF;            /* color taken from the Highlight.js theme */
-  --color-hljs-transparent: #FFFFFF00;/* color taken from the Highlight.js theme, transparent */
-  
-  --color-default-soft: #E5E7EB;      /* gray-200 */
-  --color-default-light: #6B7280;     /* gray-500 */
-  --color-default: #374151;           /* gray-700 */
-  --color-default-dark: #111827;      /* gray-900 */
+  --color-hljs: #FFFFFFFF;              /* # color taken from the Highlight.js theme */
+  --color-hljs-transparent: #FFFFFF00;  /* # color taken from the Highlight.js theme, transparent */
 
-  --color-primary-soft: #E0E7FF;      /* indigo-100 */
-  --color-primary-light: #A5B4FC;     /* indigo-300 */
-  --color-primary: #6366F1;           /* indigo-500 */
-  --color-primary-dark: #4338CA;      /* indigo-700 */
-  --color-primary-inverse: #fff;      /* white */
+  --color-default-soft: #E5E7EB;        /* # gray-200 */
+  --color-default-light: #6B7280;       /* # gray-500 */
+  --color-default: #374151;             /* # gray-700 */
+  --color-default-dark: #111827;        /* # gray-900 */
+
+  --color-brand-soft: #E0E7FF;          /* # indigo-100 */
+  --color-brand-light: #A5B4FC;         /* # indigo-300 */
+  --color-brand: #4F46E5;               /* # indigo-600 */
+  --color-brand-dark: #4338CA;          /* # indigo-700 */
+  --color-brand-inverse: #fff;          /* # white */
 
   --font-display: Verdana, Arial, Helvetica, sans-serif;
   --font-body: Verdana, Arial, Helvetica, sans-serif;
-  /* todo */
+
   --font-weight-normal: 400;
   --font-weight-display: 400;
   --font-weight-btn: 600;
   --rounded-btn: 0.25rem;
 }
 
-  html.dark { 
-  --color-background-soft: #111827;   /* gray-900 */
-  --color-background: #000;           /* black */
-  --color-background-inverse: #fff;   /* white */
-  
-  --color-hljs: #1E1E1EFF;            /* color taken from the Highlight.js theme */
-  --color-hljs-transparent: #1E1E1E00;/* color taken from the Highlight.js theme, transparent */  
+html.dark {
+  --color-background-soft: #1F2937;     /* # gray-800 */
+  --color-background: #111827;          /* # gray-900 */
+  --color-background-inverse: #fff;     /* # white */
 
-  --color-default-soft: #1F2937;      /* gray-800 */
-  --color-default-light: #6B7280;     /* gray-500 */
-  --color-default: #D1D5DB;           /* gray-300 */
-  --color-default-dark: #F3F4F6;      /* gray-100 */
+  --color-hljs: #1E1E1EFF;              /* # color taken from the Highlight.js theme */
+  --color-hljs-transparent: #1E1E1E00;  /* # color taken from the Highlight.js theme, transparent */
 
-  --color-primary-soft: #E0E7FF;      /* indigo-100 */
-  --color-primary-light: #A5B4FC;     /* indigo-300 */
-  --color-primary: #6366F1;           /* indigo-500 */
-  --color-primary-dark: #4338CA;      /* indigo-700 */
-  --color-primary-inverse: #fff;      /* white */
+  --color-default-soft: #1F2937;        /* # gray-800 */
+  --color-default-light: #6B7280;       /* # gray-500 */
+  --color-default: #D1D5DB;             /* # gray-300 */
+  --color-default-dark: #F3F4F6;        /* # gray-100 */
+
+  --color-brand-soft: #E0E7FF;          /* # indigo-100 */
+  --color-brand-light: #A5B4FC;         /* # indigo-300 */
+  --color-brand: #4F46E5;               /* # indigo-600 */
+  --color-brand-dark: #4338CA;          /* # indigo-700 */
+  --color-brand-inverse: #fff;          /* # white */
 
   --font-display: Verdana, Arial, Helvetica, sans-serif;
-  --font-body: Verdana, Arial, Helvetica, sans-serif;
-  /* todo */
   --font-weight-normal: 400;
   --font-weight-display: 400;
   --font-weight-btn: 600;
-  --rounded-btn: 0;
-
+  --rounded-btn: 0.25rem;
 }
-/** purgecss end ignore */
+
+
+
+

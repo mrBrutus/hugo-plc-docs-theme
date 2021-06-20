@@ -1,0 +1,71 @@
+{{ define "main" }}
+    {{ partial "nav/main" . }}
+
+    <section class="md:ml-80 xl:ml-96">
+      <div class="pt-16 md:mx-auto px-4 lg:px-20 xl:px-20 min-h-full prose prose-sm md:prose max-w-none lg:max-w-3xl xl:max-w-4xl print:py-0 print:px-0 print:max-w-none print:prose">
+        <main class="min-h-screen">
+
+          {{ partial "body/breadcrumb" . }}
+
+          {{/* read the YAML data from the page resources */}}
+          {{ $yamlData := partial "lib/get-yaml-data" ( dict "ctx" $.Parent "fileName" "_common" ) }}
+
+          <header>
+            <div class="flex justify-start items-baseline flex-wrap mb-2">
+              <h1 class="low-profile-header mr-2 py-0" id="{{ .Title }}">{{ .Title }}</h1>
+              {{ partial "lib/latest-version" $yamlData }}
+            </div>
+            {{ if .Params.featuredImage }}
+              {{ partial "body/featured-image" . }}
+            {{ end }}            
+          </header>
+
+          <div class="mb-8 flex flex-col items-start sm:flex-row sm:items-center sm:flex-wrap sm:flex-grow">
+            {{ partial "lib/infos" $yamlData }}
+            {{ partial "body/tags" . }}
+          </div>
+
+          <article>
+            {{/* description (or comment) */}}
+            <div>
+              {{ partial "lib/description.html" $yamlData }}
+            </div>
+
+            {{/* changelog */}}
+            {{ if not .Params.disable_changelog }}
+              {{ with $yamlData.changelog }}
+      
+                <section>
+                  <h2 id="version-history">Version history</h2>
+                  {{ partial "lib/version-history.html" . }}
+                </section>
+
+              {{ end }}
+            {{ end }}
+
+
+            {{/* variable details */}}
+            {{ with $yamlData.var }}
+              <section id="accordion">
+                <div class="flex justify-between items-baseline">
+                  <h2 class="" id="content">Content</h2>
+                  <div class="flex justify-end">
+                    <a class="ml-2 print:hidden" href="javascript:void(0)" onclick="$('#accordion .collapse').collapse('show')">expand all</a>
+                    <a class="ml-2 print:hidden" href="javascript:void(0)" onclick="$('#accordion .collapse').collapse('hide')">collapse all</a>
+                  </div>
+                </div>
+
+                {{ range $key, $value := . }}
+                  {{ partial "lib/common-data/var-details.html" (dict "ctx" $ "key" $key "value" $value ) }}
+                {{ end }}
+              </section>
+            {{ end }}
+
+          </article>
+          {{ partial "footer/page-footer.html" . }}
+        </main>
+      </div>
+      {{ partial "nav/sidebar/main" . }}
+    </section>
+
+{{ end }}

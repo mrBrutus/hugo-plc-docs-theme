@@ -1,0 +1,8 @@
+{{/* read the YAML data from the resources */}}
+{{ $yamlData := dict}}
+
+{{ with .ctx.Resources.GetMatch (printf "**%s.yaml" .fileName) }}
+    {{ $yamlData = . | transform.Unmarshal }}
+{{ end }}
+
+{{ return $yamlData }}

@@ -1,0 +1,29 @@
+{{ $bundle := .bundle | default "snippets" }}
+{{ $file := .file }}
+{{ $path := $.ctx.Site.GetPage $bundle }}
+{{ $ext := path.Ext $file | strings.TrimLeft "." }}
+
+{{ if not $ext }}
+  {{/* rendered markdownn */}}
+  {{ with $path.GetPage $file }}
+    {{ .Content }}
+  {{ end }}
+{{ else }}
+  {{ if (eq $ext "md") }}
+    {{/*  markdown code block */}}
+    {{ with $path.GetPage $file }}
+      {{ $str := printf "```%s\n" "md" }}
+      {{ $str = printf "%s%s\n" $str .RawContent }}
+      {{ $str = printf "%s```\n" $str }}
+      {{ $str | markdownify }}
+    {{ end }}
+  {{ else }}
+    {{/*  other code block */}}
+    {{ with readFile (path.Join $path.File.Dir $file ) }}
+      {{ $str := printf "```%s\n" $ext }}
+      {{ $str = printf "%s%s\n" $str . }}
+      {{ $str = printf "%s```\n" $str }}
+      {{ $str | chomp | markdownify }}
+    {{ end }}
+  {{ end }}
+{{ end }}

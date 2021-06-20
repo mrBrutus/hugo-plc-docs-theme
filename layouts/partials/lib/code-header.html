@@ -6,10 +6,11 @@ Returns a string with the header text.
 (*
  * -----------------------------------------------------------------------------
  * Name               : AddNumbers
- * Family             : Library A functions
  * Version            : 0.2.0
  * Date               : 2020-11-25
  * Author             : Brutus
+ * Family             : Library A
+ * Organisation       : Foo Bar inc.
  * 
  * -----------------------------------------------------------------------------
  * Adds two **numbers** and rounds the result.
@@ -25,10 +26,11 @@ Returns a string with the header text.
 {{ $l0 := "(*" }}
 {{ $ln := " * -----------------------------------------------------------------------------" }}
 {{ $l1 := " * Name               : " }}
-{{ $l2 := " * Family             : " }}
-{{ $l3 := " * Version            : " }}
-{{ $l4 := " * Date               : " }}
-{{ $l5 := " * Author             : " }}
+{{ $l2 := " * Version            : " }}
+{{ $l3 := " * Date               : " }}
+{{ $l4 := " * Author             : " }}
+{{ $l5 := " * Family             : " }}
+{{ $l6 := " * Organisation       : " }}
 {{ $l8 := " * " }}
 {{ $l9 := " *)" }}
 
@@ -36,13 +38,15 @@ Returns a string with the header text.
 {{ $code_header = printf "%s%s\n" $code_header $l0 }}
 {{ $code_header = printf "%s%s\n" $code_header $ln}}}}
 {{ with .name }}{{ $code_header = printf "%s%s%s\n" $code_header $l1 . }}{{ end }}
-{{ with .family }}{{ $code_header = printf "%s%s%s\n" $code_header $l2 . }}{{ end }}
 
 {{ with .latestChangelog }}
-  {{ with .version }}{{ $code_header = printf "%s%s%s\n" $code_header $l3 . }}{{ end }}
-  {{ with .date }}{{ $code_header = printf "%s%s%s\n" $code_header $l4 . }}{{ end }}
-  {{ with .author }}{{ $code_header = printf "%s%s%s\n" $code_header $l5 . }}{{ end }}
+  {{ with .version }}{{ $code_header = printf "%s%s%s\n" $code_header $l2 . }}{{ end }}
+  {{ with .date }}{{ $code_header = printf "%s%s%s\n" $code_header $l3 . }}{{ end }}
+  {{ with .author }}{{ $code_header = printf "%s%s%s\n" $code_header $l4 . }}{{ end }}
 {{ end }}
+
+{{ with .project.name }}{{ $code_header = printf "%s%s%s\n" $code_header $l5 . }}{{ end }}
+{{ with .project.company }}{{ $code_header = printf "%s%s%s\n" $code_header $l6 . }}{{ end }}
 
 {{ $code_header = printf "%s%s\n" $code_header $l8 }}
 {{ $code_header = printf "%s%s\n" $code_header $ln}}

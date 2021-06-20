@@ -1,0 +1,41 @@
+{{ define "main" }}
+    {{ partial "nav/main" . }}
+
+    <section class="md:ml-80 xl:ml-96">
+      <div class="pt-16 md:mx-auto px-4 lg:px-20 xl:px-20 min-h-full prose prose-sm md:prose max-w-none lg:max-w-3xl xl:max-w-4xl print:py-0 print:px-0 print:max-w-none print:prose">
+        <main class="min-h-screen">
+        
+          {{ partial "body/breadcrumb" . }}
+
+          <header>
+            <h1>{{ .Title }}</h1>
+          </header>
+
+          <article>
+            {{ .Content }}
+          </article>
+
+          <div class="flex flex-wrap">
+            {{ range .Pages.GroupBy "Section" }}
+              {{ with $.Site.GetPage "section" .Key }}
+                <h2>{{.Title}}</h2>
+              {{ else }}
+                <h2>{{ .Key | title }}</h2>
+              {{ end }}
+
+              {{ range .Pages }}
+                {{ .Render "summary" }}
+              {{ end }}
+            {{ end }}
+          </div>
+
+          {{ partial "footer/page-footer.html" . }}          
+
+        </main>
+      </div>
+
+      {{ partial "nav/sidebar/main" . }}
+
+    </section>
+
+{{ end }}

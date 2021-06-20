@@ -1,0 +1,43 @@
+{{/* render variable details */}}
+{{ $name := .key }}
+{{ $data := .value }}
+{{ $collapseId := printf "%s-toggle" ($name | anchorize )}}
+
+<div class="collapse-card border rounded mb-4">
+  <div class="pl-4 bg-default-soft flex justify-between">
+    <div class="flex justify-start flex-wrap items-baseline">
+      <h3 class="low-profile-header mr-2" id="{{ $name | urlize }}">{{ $name }}</h3>
+      {{ with $data.type }}
+        <span class="mr-2">
+          {{ partial "lib/ref-lib-item.html" (dict "ctx" $.ctx.FirstSection "item" . ) }}
+        </span>
+      {{ end }}
+
+      <div class="text-default-light italic">
+        {{ with (and ($data.optional) ($data.default_value)) }}
+          {{ with $data.default_value }}<span>(optional, default: {{ . }})</span>{{ end }}
+        {{ else }}
+          {{ if $data.optional }}<span>(optional)</span>{{ end }}
+          {{ with $data.default_value }}<span>(default: {{ . }})</span>{{ end }}
+        {{ end }}
+      </div>
+    </div>
+
+    <a class="low-profile-link flex flex-grow justify-end items-center print:hidden" data-toggle="collapse" title="toggle details" href="#{{ $collapseId }}">
+      {{ partial "svgs/heroicons/selector.svg" (dict "class" "h-6 px-2 ml-auto" ) }}
+    </a>
+  </div>
+
+  <div class="collapse" id="{{ $collapseId }}">
+    <div class="mx-4">
+      {{ with $data.description }}<p>{{ . | markdownify }} </p>
+      {{ else }}
+        {{ with $data.comment}}<p>{{ . }} </p>{{ end }}
+      {{ end }}
+
+      {{ with $data.legend }}
+        {{ partial "lib/legend-table.html" . }}
+      {{ end }}
+    </div>
+  </div>
+</div>

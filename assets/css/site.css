@@ -2,6 +2,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 70px; /* offset for fixed header */
 }
 
 html, body {
@@ -9,10 +10,32 @@ html, body {
   @apply h-full;
 }
 
+.note *:first-child {
+  @apply mt-0 !important;
+}
 
 .flat {
   @apply my-0 !important;
 }
+
+.low-profile-header {
+  @apply my-0 !important;  
+  color: inherit !important;
+}
+
+.low-profile-link {
+  @apply no-underline !important;
+  color: inherit !important;
+  @apply hover:text-brand !important;
+}
+
+.button-a {
+  @apply no-underline !important;
+  @apply text-default hover:text-default-dark !important;
+  @apply px-1 py-0.5 print:p-0;
+  @apply rounded bg-default-soft shadow-sm print:bg-background print:shadow-none;
+}
+
 
 /* ============================================================================
  * color schemes
@@ -27,13 +50,15 @@ html:not(.dark) {
 }
 
 /* ============================================================================
- * toggle switch
- * https://codepen.io/lhermann/pen/EBGZRZ
+ * theme toggle switch
  * ========================================================================= */
 
- input:checked ~ .toggle__dot {
-  transform: translateX(100%);
-  @apply bg-green-400;
+#theme-switch:not(:checked) ~ .icon-theme-dark {
+  @apply hidden;
+}
+
+#theme-switch:checked ~ .icon-theme-light {
+  @apply hidden;
 }
 
 
@@ -42,7 +67,7 @@ html:not(.dark) {
  * ========================================================================= */
 
 kbd {
-  @apply inline-block px-1 mx-1 bg-background-soft text-default rounded border shadow-sm font-mono;
+  @apply inline-block px-1 mx-1 bg-background-soft text-default rounded border border-default-light shadow-inner font-mono tracking-wider uppercase;
 }
 
 
@@ -61,13 +86,13 @@ kbd {
  * sidebar
  * ========================================================================= */
 
-.sb-btn {
-  @apply flex-grow flex items-start;
-  @apply p-4 min-h-12;
+.sidebar-item {
+  @apply flex-grow flex items-center;
+  @apply py-4 md:py-2 pr-4 min-h-12 md:min-h-8;
 }
 
-.sb-btn.active {
-  @apply font-semibold;
+.sidebar-item.active {
+  @apply bg-default-soft;
 }
 
 .collapse {
@@ -113,13 +138,16 @@ kbd {
   .collapse-card {
     page-break-inside: avoid;
   }
+  summary {
+    display: none;
+  }
 }
 
 
 /* ============================================================================
  * skip transitions at page load
  * ========================================================================= */
- 
+
 .notransition * {
   @apply transition-none !important;
   @apply duration-0 !important;
@@ -129,7 +157,7 @@ kbd {
 /* ============================================================================
  * scroll back to top
  * ========================================================================= */
- 
+
 #scrollTopButton {
   @apply flex items-center justify-center;
   @apply cursor-pointer fixed z-10 bottom-0 right-0 mb-6 mr-4 w-12 h-12 rounded-full;
@@ -148,24 +176,8 @@ kbd {
  * mobile menu
  * ========================================================================= */
 
-#overlay {
-  @apply fixed inset-0 top-16 z-20;
-  @apply bg-background-inverse opacity-0 invisible;
-  @apply cursor-pointer;
-  @apply transition-all duration-300;
-  @apply print:hidden;
-}
-
 #overlay.show {
-  @apply opacity-50 visible;
-}
-
-#sidebar {
-  @apply bg-background fixed h-full overflow-auto overflow-x-hidden z-30;
-  @apply overflow-y-scroll border-t md:border-none top-16 left-0 w-5/6 md:w-80 xl:w-96;
-  @apply transition-all duration-300;
-  @apply transform -translate-x-full md:translate-x-0;
-  @apply print:hidden;
+  @apply opacity-60 visible;
 }
 
 #sidebar.show {

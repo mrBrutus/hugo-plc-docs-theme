@@ -1,0 +1,134 @@
+company: OSCAT
+author: The OSCAT community
+since: 3.1.0
+description: |
+  A variable type `CALENDAR` can be used for to provide module wide calendar
+  data. In the section date and time functions are various functions to
+  update the calendar continuously.
+
+comment: Data type for module wide calendar data
+changelog:
+  - version: 1.3.0
+    date: 2010-01-23
+    author: hm
+    changed:
+      - "`sun_rise`, `sun_set` and `sun_midday` are now calculated in local time"
+  - version: 1.2.0
+    date: 2009-03-10
+    author: hm
+    added:
+      - "`work_week`"
+      - "`sun_midday`"
+      - "`sun_heigth`"
+  - version: 1.1.0
+    date: 2009-02-08
+    author: hm
+    added:
+      - "sun position data"
+  - version: 1.0.0
+    date: 2008-11-21
+    author: hm
+    added:
+      - "original version"
+var:
+  - name: UTC
+    description: World time UTC.
+    type: DT
+    comment: World time UTC
+  - name: LDT
+    description: Local time.
+    type: DT
+    comment: Local time
+  - name: LDATE
+    description: Local date.
+    type: DATE
+    comment: Local date
+  - name: LTOD
+    description: Local time of day.
+    type: TOD
+    comment: Local time of day
+  - name: YEAR
+    description: Year of LDATE.
+    type: INT
+    comment: Year of LDATE
+  - name: MONTH
+    description: Month of LDATE.
+    type: INT
+    comment: Month of LDATE
+  - name: DAY
+    description: Day of LDATE.
+    type: INT
+    comment: Day of LDATE
+  - name: WEEKDAY
+    description: Weekday of LDATE.
+    type: INT
+    comment: Weekday of LDATE
+  - name: OFFSET
+    description: Time Zone Offset for Local time in minutes.
+    type: INT
+    comment: Time Zone Offset for Local time in minutes
+  - name: DST_EN
+    description: Daylight savings time enable.
+    type: BOOL
+    comment: Daylight savings time enable
+  - name: DST_ON
+    description: True when daylight savings time os on.
+    type: BOOL
+    comment: True when daylight savings time os on
+  - name: "NAME"
+    description: Name of time zone.
+    type: "STRING(5)"
+    comment: Name of time zone
+  - name: LANGUAGE
+    description: Location number pls see location setup.
+    type: INT
+    comment: Location number pls see location setup
+  - name: LONGITUDE
+    description: Longitude of current location.
+    type: REAL
+    comment: Longitude of current location
+  - name: LATITUDE
+    description: Latitude of current location.
+    type: REAL
+    comment: Latitude of current location
+  - name: SUN_RISE
+    description: Sun_rise for current location.
+    type: TOD
+    comment: Sun_rise for current location
+  - name: SUN_SET
+    description: Sun_set for current location.
+    type: TOD
+    comment: Sun_set for current location
+  - name: SUN_MIDDAY
+    description: Worldtime when sun stands at south position.
+    type: TOD
+    comment: Worldtime when sun stands at south position
+  - name: SUN_HEIGTH
+    description: Suns heigth at midday, south position.
+    type: REAL
+    comment: Suns heigth at midday, south position
+  - name: SUN_HOR
+    description: Sun angle horizontal 0 = north in degrees.
+    type: REAL
+    comment: Sun angle horizontal 0 = north in degrees
+  - name: SUN_VER
+    description: Sun angle vertical above horizon in degrees.
+    type: REAL
+    comment: Sun angle vertical above horizon in degrees
+  - name: NIGHT
+    description: True between `sun_set` and `sun_rise`.
+    type: BOOL
+    comment: True between sun_set and sun_rise
+  - name: HOLIDAY
+    description: True when holiday.
+    type: BOOL
+    comment: True when holiday
+  - name: HOLY_NAME
+    description: Name of holiday.
+    type: STRING(30)
+    comment: Name of holiday
+  - name: WORK_WEEK
+    description: Current work week.
+    type: INT
+    comment: Current work week
+

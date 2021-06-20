@@ -1,0 +1,38 @@
+{{ $url := "" }}
+{{ $path := "" }}
+
+{{ $isRemote := strings.HasPrefix .Destination "http" }}
+
+{{ if not $isRemote}}
+  {{ $img := .Page.Resources.GetMatch .Destination }}
+  {{ if and (not $img) .Page.File }}
+    {{ if strings.HasPrefix .Destination "/"}}
+      {{/* absolute path */}}
+      {{ $path = .Destination }}
+    {{ else }}
+      {{ $path = path.Join .Page.File.Dir .Destination | relURL }}
+      {{ $img = resources.Get $path }}
+    {{ end }}
+  {{ end }}
+
+  {{ if $img }}
+    {{/* {{ limit size  }} */}}
+    {{ if (gt $img.Width 1600) }}
+      {{ $img = $img.Resize "1200x" }}
+    {{ end}}
+    {{ $url = $img.RelPermalink }}
+
+  {{ else }}
+    {{ $url = $path }}
+  {{ end }}
+
+{{ else }}
+    {{ $url = .Destination }}
+{{ end }}
+
+<figure>
+  <img src="{{ $url }}" alt="{{ $.Text }}" title="{{ $.Title }}" class="rounded" loading="lazy">
+  {{ with $.Title }}
+    <figcaption>{{ . | markdownify }}</figcaption>
+  {{ end }}
+</figure>

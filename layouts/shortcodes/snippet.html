@@ -1,0 +1,5 @@
+{{ partial "body/snippet" 
+  (dict
+  "ctx" $ "bundle" (.Get "bundle" | default "snippets" )
+  "file" (.Get "file")
+  ) }}

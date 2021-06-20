@@ -1,0 +1,57 @@
+<div class="flex items-center">
+  {{ with .Site.Params.navBar.wide_logo }}
+    <a href="{{ $.Site.Home.Permalink }}" class="flex items-baseline h-16 px-2 py-4 text-brand hover:text-brand-dark text-2xl font-semibold">
+  {{ else }} 
+    <a href="{{ $.Site.Home.Permalink }}" class="flex items-center h-16 px-2 py-2 text-brand hover:text-brand-dark text-2xl font-semibold">
+  {{ end }}
+
+    {{/* home: logo */}}
+    {{ if (isset .Site.Params.navBar "logo") }}
+      {{ with .Site.Params.navBar.logo }}
+        {{ if ne . false }}
+          {{ if eq . "inline" }}
+            {{/* logo as inline svg */}}
+            {{ partial "svgs/theme/icon-solid.svg" (dict "class" "hidden sm:block h-full mr-2" ) }}
+          {{ else }}
+            {{/* logo as img */}}
+            <img src="{{ printf "/%s" . | relURL }}" alt="Home" class="hidden sm:block h-full mr-2">
+          {{ end }}
+        {{ end }}
+      {{ end }}
+    {{ else }}
+      {{/* default: logo as inline svg */}}
+      {{ partial "svgs/theme/icon-solid.svg" (dict "class" "hidden sm:block h-full mr-2" ) }}
+    {{ end }}
+
+    <span class="mr-2">
+      {{/* home: label */}}
+      {{ if (isset .Site.Params.navBar "text") }}
+        {{ with .Site.Params.navBar.text }}
+          {{ if ne . false }}                
+            {{ if eq . "title" }}
+              {{/* title from config.yaml */}}
+              {{ with $.Site.Title }}{{ . }}{{ end }}
+            {{ else }}
+              {{/* text from params.yaml */}}
+              {{ . }}
+            {{ end }}
+          {{ end }}
+        {{ end }}
+      {{ else }}
+        {{/* default: title from config.yaml */}}
+        {{ with $.Site.Title }}
+          {{ . }}
+        {{else}}
+          no title...
+        {{ end }}
+      {{ end }}  
+    </span>
+
+    {{ if (hugo.Environment | eq "development") }}  
+      <span class="">
+        {{ print "(DEV)" }}
+      </span>
+    {{ end }}
+
+  </a>       
+ </div>

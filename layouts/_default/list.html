@@ -1,13 +1,39 @@
 {{ define "main" }}
-  {{/* {{ range .Pages }}    
-    <article>
-      <h1><a href="{{.Permalink}}">{{ .Title }}</a></h1>
-      {{ .Summary }}
-    </article>
-  {{ end }} */}}
+    {{ partial "nav/main" . }}
 
-  <article>
-    <h1>{{ .Title }}</h1>
-    {{ .Content }}
-  </article>
+    <section class="md:ml-80 xl:ml-96">
+      <div class="pt-16 md:mx-auto px-4 lg:px-20 xl:px-20 min-h-full prose prose-sm md:prose max-w-none lg:max-w-3xl xl:max-w-4xl print:py-0 print:px-0 print:max-w-none print:prose">
+        <main class="min-h-screen">
+
+          <div class="flex justify-between">
+            {{ partial "body/breadcrumb" . }}
+            {{ partial "body/page-buttons.html" . }}
+          </div>
+
+          <header>
+            <h1>{{ .Title }}</h1>
+            {{ if .Params.featuredImage }}
+              {{ partial "body/featured-image" . }}
+            {{ end }}
+          </header>
+
+          <article>
+            {{ .Content }}
+          </article>
+
+          <div class="flex flex-wrap">
+            {{ range .Pages }}
+              {{ .Render "summary" }}
+            {{ end }}
+          </div>
+
+          {{ partial "footer/page-footer.html" . }}
+
+        </main>
+      </div>
+
+      {{ partial "nav/sidebar/main" . }}
+
+    </section>
+
 {{ end }}

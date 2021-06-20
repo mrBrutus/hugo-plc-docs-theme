@@ -1,0 +1,83 @@
+{{/* generate snippet */}}
+{{ with .item }}
+  <div class="">
+    {{ $name := $.ctx.Page.Title }}
+    {{ $isFB := not .return }}
+    {{ $dummy := "dummy" }}
+    {{ $vars := slice }}
+
+    {{ with .var }}
+      {{ printf "*Snippet of the function call:*" | markdownify }}      
+        <div class="overflow-x-auto">
+          {{ $code_block := "```iecst\n" }}
+
+          {{ if $isFB }}
+            {{/* Declaration */}}
+            {{ $varName := printf "FB_%s" $name }}
+            {{ $code_block = printf "%s%s : ARRAY[0..0] OF %s;\n\n" $code_block $varName $name }}
+
+              {{/* parameters */}}
+              {{ $vars = where . "kind" "input" }}
+              {{ if gt (len $vars) 0 }}
+                {{ range $vars }}
+                  {{ with .var }}
+                    {{ range  . }}
+                      {{ $code_block = printf "%s// %s[0].%s := ;\n" $code_block $varName .name }}
+                    {{ end }}
+                  {{ end }}
+                {{ end }}
+              {{ end }}
+
+              {{/* function block call */}}
+              {{ $code_block = printf "%s%s[0](" $code_block $varName }}
+              {{ $vars = where . "kind" "in_out" }}
+              {{ if gt (len $vars) 0 }}
+                {{ range $vars }}
+                  {{ with .var }}
+                    {{ range  . }}
+                      {{ $code_block = printf "%s %s := %s, " $code_block .name $dummy }}
+                    {{ end }}
+                  {{ end }}
+                {{ end }}
+              {{ end }}
+              {{ $code_block = printf "%s);\n" $code_block }}
+
+              {{/* outputs */}}
+              {{ $vars = where . "kind" "output" }}
+              {{ if gt (len $vars) 0 }}
+                {{ range $vars }}
+                  {{ with .var }}
+                    {{ range  . }}
+                      {{ $code_block = printf "%s//  := %s[0].%s;\n" $code_block $varName .name  }}
+                    {{ end }}
+                  {{ end }}
+                {{ end }}
+              {{ end }}
+
+            {{ else }}
+              {{/* function call */}}
+              {{ $code_block = printf "%s%s := %s(" $code_block $dummy $name }}
+
+              {{/* parameters */}}
+              {{ $vars = where . "kind" "input" }}
+              {{ if gt (len $vars) 0 }}
+                {{ range $vars }}
+                  {{ with .var }}
+                    {{ range  first 1 . }}
+                      {{ $code_block = printf "%s\n           %s := " $code_block .name }}                    
+                    {{ end }}
+                    {{ range  after 1 . }}
+                      {{ $code_block = printf "%s,\n           %s := " $code_block .name }}                    
+                    {{ end }}
+                  {{ end }}
+                {{ end }}
+              {{ end }}
+
+              {{ $code_block = printf "%s);" $code_block }}
+            {{ end }}
+
+        {{ printf "%s\n```" $code_block | markdownify }}
+      </div>
+    {{ end }}
+  </div>
+{{ end }}

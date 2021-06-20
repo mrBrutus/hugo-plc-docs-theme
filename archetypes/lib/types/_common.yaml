@@ -1,0 +1,30 @@
+# definition file for the common data used by the data types
+description: |
+  Common data for the data types.
+company: Foo Bar inc.
+author: John Doe
+changelog:
+  # order: new to old
+  - version: 0.1.0
+    date: 2021-01-18
+    author: John Doe
+#   added:
+    changed:
+      - "Some description of a change"
+      - "And *another* one"
+#   fixed:
+#   deprecated:
+#   removed:
+#   security:      
+var:
+  buffer:
+    description: |
+      Ex elit occaecat aute aliquip do incididunt culpa quis.
+      In velit excepteur amet dolore nulla laboris exercitation non
+      esse magna duis ipsum est id.
+      
+      Eiusmod reprehenderit ipsum esse id.
+      Sit irure non voluptate sit ad duis elit eiusmod.
+      Lorem quis esse cupidatat non commodo cillum incididunt. 
+    type: "ARRAY [0..99] OF DINT"
+    comment: data buffer

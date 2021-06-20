@@ -1,0 +1,34 @@
+
+{{ range first 1 . }}
+  <div class="mb-10">
+    {{ with .version }}
+    <h3 id="{{ . | urlize }}">{{ . }}</h3>
+    {{ end }}
+    <div class="">
+      {{ partial "lib/version-info.html" . }}
+      {{ partial "lib/changes.html" . }}
+    </div>
+  </div>
+{{ end }}
+
+{{/* older versions collapsed */}}
+{{ if gt (len .) 1 }}
+  <details>
+    <summary class="-mt-10 cursor-pointer">show full history</summary>
+{{end}}
+
+{{ range after 1 . }}
+  <div class="mb-10">
+    {{ with .version }}
+    <h3 id="{{ . | urlize }}">{{ . }}</h3>
+    {{ end }}
+    <div class="">
+      {{ partial "lib/version-info.html" . }}
+      {{ partial "lib/changes.html" . }}
+    </div>
+  </div>
+{{ end }}
+
+{{ if gt (len .) 1 }}
+  </details>
+{{ end }}

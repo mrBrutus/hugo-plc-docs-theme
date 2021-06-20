@@ -1,6 +1,6 @@
 
 // ============================================================================
-// Branche selection (for imported sections)
+// Branch selection (for imported sections)
 // ============================================================================
 
 document.querySelectorAll('.branch-select').forEach(sel => {
@@ -22,7 +22,6 @@ function branchSelectChanged(sel) {
   // simply reloading the page to reflect the new branch
   window.location.reload()
 }
-
 
 
 /**
@@ -58,10 +57,85 @@ function initializeBranchSelect(sel) {
 }
 
 
+// ============================================================================
+// page animations
+// ============================================================================
+addEventListener('load', function () {
+  // enable transitions after page is loaded
+  document.body.classList.remove('notransition');
+})
+
+
+// ============================================================================
+// keyboard bindings
+// ============================================================================
+document.onkeyup = function (e) {
+  if (e.ctrlKey) {
+    // page navigation using CTRL + arrow keys
+    if (e.key == 'ArrowLeft') { clickElementById('prev') }
+    if (e.key == 'ArrowRight') { clickElementById('next') }
+    // focus search input
+    if (e.key == '/') { focusElementById('search-input') }
+  }
+}
+
+
+// ============================================================================
+// scroll back to top button
+// ============================================================================
+
+addEventListener('load', function () {
+  let scrollTopButton = document.getElementById('scrollTopButton');
+  scrollTopButton.addEventListener('click', function () {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  });
+
+  // show when page is scrolled away from top
+  window.onscroll = function () {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+      scrollTopButton.classList.add('show');
+    } else {
+      scrollTopButton.classList.remove('show');
+    }
+  };
+
+})
+
+
+// ============================================================================
+// light/dark theme toggle
+// ============================================================================
+
+// set switch state at load
+var checkbox = document.getElementById('theme-switch');
+if (checkbox) {
+  checkbox.checked = (document.documentElement.classList.contains('dark'))
+}
+
+// watch for changes
+addEventListener('load', function () {
+  ts = document.getElementById('theme-switch');
+  ts.addEventListener('change', function (e) {
+    theme = (e.target.checked) ? 'dark' : 'light';
+    localStorage.setItem('theme', theme);
+    activateTheme(theme)
+  });
+});
+
+
 
 // ============================================================================
 // side bar
 // ============================================================================
+
+/**
+* Update sidebar
+*/
+let updateSidebar = function () {
+  sidebarShouldBeShown() ? showSidebar() : hideSidebar();
+};
+
 
 /**
  * Toggle the sidebar state 
@@ -108,109 +182,92 @@ let sidebarShouldBeShown = function () {
 };
 
 
-/**
-* Update sidebar
-*/
-let updateSidebar = function () {
-  if (sidebarShouldBeShown()) {
-    showSidebar();
-  } else {
-    hideSidebar();
+
+// Toggle mobile sidebar by menu button or overlay button
+let toggleMenuButton = document.getElementById('toggleMenu');
+toggleMenuButton.addEventListener('click', toggleSidebarState);
+let overlayButton = document.getElementById('overlay');
+overlayButton.addEventListener('click', toggleSidebarState);
+
+
+// expand sidebar for current page
+const pageUrl = location.origin + location.pathname
+$('a').each(function () {
+  if (this.href == pageUrl) {
+    $(this).addClass('active').parents('.collapse').addClass('show');
   }
-};
-
-
-addEventListener('load', function () {
-  // toggle mobile sidebar state
-  // - by menu button
-  // - by overlay button
-  let toggleMenuButton = document.getElementById('toggleMenu');
-  toggleMenuButton.addEventListener('click', toggleSidebarState);
-
-  let overlayButton = document.getElementById('overlay');
-  overlayButton.addEventListener('click', toggleSidebarState);
-
-  // show/hide the sidebar based on the sessionStorage variable
-  updateSidebar();
-})
-
-
-// scroll back to top button
-addEventListener('load', function () {
-  // show when page is scrolled away from top
-  window.onscroll = function () {
-    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-      scrollTopButton.classList.add('show');
-    } else {
-      scrollTopButton.classList.remove('show');
-    }
-  };
-
-  // button action
-  let scrollTopButton = document.getElementById('scrollTopButton');
-  scrollTopButton.addEventListener('click', function () {
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
-
-  });
-})
-
-$(function () {
-  // enable transitions after page is loaded
-  $('body').removeClass('notransition');
-
-
-  // expand sidebar for current page
-  $('a').each(function () {
-    if (this.href == window.location.href) {
-      // show content
-      $(this).addClass('active').parents('.collapse').addClass('show');
-
-      // class for rotating the arrow
-      // $(this).parents('.collapse').prev('a').removeClass('collapsed');
-
-    }
-  });
-
-
-
-
-  // memorize sidebar scroll position
-
-  // Remember the sidebar scroll position between page loads
-  let storedScrollTop = parseInt(sessionStorage.getItem('sidebar-scroll-top'), 10);
-  // let sidebarScroller = document.querySelector('.sidebar-scroller');
-  let sidebarScroller = document.getElementById('sidebar');
-
-  // let selectedItem = sidebar.querySelector('.sb-btn.active');
-  // //console.log(sidebarScroller.offsetHeight);
-
-  if (sidebarScroller) {
-    if (!isNaN(storedScrollTop)) {
-      sidebarScroller.scrollTop = storedScrollTop;
-    }
-    else {
-      let selectedItem = sidebar.querySelector('.sb-btn.active');
-      // if (selectedItem.offsetTop > sidebarScroller.offsetHeight * 0.8) {
-      // sidebarScroller.scrollTop = selectedItem.offsetTop - sidebarScroller.offsetHeight * 0.8;
-      sidebarScroller.scrollTop = selectedItem.offsetTop + sidebarScroller.offsetHeight * 0.8;
-      // }
-    }
-  }
-
-  window.addEventListener('pagehide', () => {
-    sessionStorage.setItem('sidebar-scroll-top', sidebarScroller.scrollTop);
-  });
-
-  // }
-
 });
 
+// initial update
+updateSidebar();
+
+
+// ============================================================================
+// side bar scroll position
+//  - Remember the sidebar scroll position between page loads
+// ============================================================================
+
+let storedScrollTop = parseInt(sessionStorage.getItem('sidebar-scroll-top'), 10);
+let sidebarScroller = document.getElementById('sidebar');
+let selectedItem = sidebar.querySelector('.sidebar-item.active');
+
+if (sidebarScroller && selectedItem) {
+  if (!isNaN(storedScrollTop)) {
+    sidebarScroller.scrollTop = storedScrollTop;
+    // make sure it's into view
+    if (selectedItem) {
+      const itemTopPos = selectedItem.getBoundingClientRect().top;
+      const scrollTopPos = sidebarScroller.scrollHeight;
+
+      if (itemTopPos < sidebarScroller.offsetTop) {
+        console.log("sidebar needs scroll down");
+      }
+
+      if ((itemTopPos + selectedItem.offsetHeight) > (sidebarScroller.offsetTop + sidebarScroller.offsetHeight)) {
+        console.log("sidebar needs scroll up");
+      }
+
+      // console.log(sidebarScroller.offsetTop);
+      // console.log(sidebarScroller.offsetHeight);
+      // console.log(sidebarScroller.scrollHeight);
+      // console.log(sidebarScroller.scrollTop);
+      // console.log(itemTopPos);
+    }
+  }
+  else {
+    // let selectedItem = sidebar.querySelector('.sidebar-item.active');
+    sidebarScroller.scrollTop = selectedItem.offsetTop + sidebarScroller.offsetHeight * 0.8;
+  }
+}
+
+window.addEventListener('pagehide', () => {
+  sessionStorage.setItem('sidebar-scroll-top', sidebarScroller.scrollTop);
+});
 
 
 // ============================================================================
 // helpers
 // ============================================================================
+
+/**
+ * Invoke `click` method for DOM element
+ * @param {string} id
+ */
+ function clickElementById(id) {
+  const l = document.getElementById(id)
+  if (l) { l.click() }
+}
+
+
+/**
+ * Invoke `focus` method for DOM element
+ * @param {string} id
+ */
+function focusElementById(id) {
+  const l = document.getElementById(id)
+  if (l) { l.focus() }
+}
+
 
 /**
  * Checks if the option exists in the HTML <select> element

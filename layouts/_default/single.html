@@ -1,6 +1,39 @@
 {{ define "main" }}
-  <article>
-    <h1>{{ .Title }}</h1>
-    {{ .Content }}
-  </article>
+    {{ partial "nav/main" . }}
+
+    <section class="md:ml-80 xl:ml-96">
+      <div class="pt-16 md:mx-auto px-4 lg:px-20 xl:px-20 min-h-full prose prose-sm md:prose max-w-none lg:max-w-3xl xl:max-w-4xl print:py-0 print:px-0 print:max-w-none print:prose">
+        <main class="min-h-screen">
+
+          <div class="flex justify-between">
+            {{ partial "body/breadcrumb" . }}
+            {{ partial "body/page-buttons.html" . }}
+          </div>
+
+          <header>
+            <h1>{{ .Title }}</h1>
+            {{ if .Params.featuredImage }}
+              {{ partial "body/featured-image" . }}
+            {{ end }}
+          </header>
+
+          <div class="mb-8 flex flex-col items-start sm:flex-row sm:items-center sm:flex-wrap sm:flex-grow">
+            {{ partial "body/infos" . }}
+            {{ partial "body/tags" . }}
+          </div>
+
+          <article>
+            {{ .Content }}
+          </article>
+
+          {{ partial "footer/page-footer.html" . }}
+
+        </main>
+      </div>
+
+      {{ partial "nav/sidebar/main" . }}
+
+    </section>
+
+
 {{ end }}

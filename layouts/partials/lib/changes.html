@@ -1,0 +1,59 @@
+<div class="mb-10 pb-2">
+  <h4>Changes</h4>
+  <div class="px-2 py-1 border rounded-lg">
+    {{ with .added }}
+      <span class="">Added:</span>
+      <ul>
+        {{ range . }}
+          <li class="">{{ printf "%s" . | markdownify }}</li>
+        {{ end }}
+      </ul>
+    {{ end }}
+
+    {{ with .changed }}
+      <span class="">Changed:</span>
+      <ul>
+        {{ range . }}
+          <li class="">{{ printf "%s" . | markdownify }}</li>
+        {{ end }}
+      </ul>
+    {{ end }}
+
+    {{ with .deprecated }}
+      <span class="">Deprecated:</span>
+      <ul>
+        {{ range . }}
+          <li class="">{{ printf "%s" . | markdownify }}</li>
+        {{ end }}
+      </ul>
+    {{ end }}
+
+    {{ with .removed }}
+      <span class="">Removed:</span>
+      <ul>
+        {{ range . }}
+          <li class="">{{ printf "%s" . | markdownify }}</li>
+        {{ end }}
+      </ul>
+    {{ end }}
+
+    {{ with .fixed }}
+      <span class="">Fixed:</span>
+      <ul>
+        {{ range . }}
+          <li class="">{{ printf "%s" . | markdownify }}</li>
+        {{ end }}
+      </ul>
+    {{ end }}
+
+    {{ with .security }}
+      <span class="">Security:</span>
+      <ul>
+        {{ range . }}
+          <li class="">{{ printf "%s" . | markdownify }}</li>
+        {{ end }}
+      </ul>
+    {{ end }}
+
+  </div>
+</div>

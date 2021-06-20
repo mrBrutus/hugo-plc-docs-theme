@@ -1,0 +1,23 @@
+<div class="bg-default-soft flex items-center flex-wrap text-xs px-1">
+  {{ with .date }}
+    <time class="py-0.5 flex items-center mr-2" title="release date">
+      {{ partial "svgs/heroicons/calendar.svg" (dict "class" "h-4 mr-1" ) }}
+
+      {{ if or (eq ( . | lower) "unreleased" (eq ( . | lower) "draft"))  }}
+        <span class="text-brand">
+          unreleased
+        </span>
+      {{ else }}
+        {{ dateFormat "02 Jan 2006" . }}
+      {{ end }}
+    </time>&nbsp
+  {{ end }}
+
+  {{ with .author }}
+    <span class="py-0.5 flex items-center mr-2" title="author">
+      {{ partial "svgs/heroicons/user.svg" (dict "class" "h-4 mr-1" ) }}
+      {{ . }}
+    </span>
+  {{ end }}
+
+</div>

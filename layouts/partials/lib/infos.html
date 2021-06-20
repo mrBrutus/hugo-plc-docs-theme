@@ -1,0 +1,8 @@
+<div class="flex items-center flex-wrap mr-2 text-xs">
+  {{ with .since }}
+    <span class="py-0.5 flex items-center" title="lib version of introduction">
+      {{ partial "svgs/heroicons/information-circle.svg" (dict "class" "h-4 mr-1" ) }}
+      {{ printf "since lib: v%v" . }}
+    </span>&nbsp
+  {{ end }}
+</div>

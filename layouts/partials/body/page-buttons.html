@@ -1,0 +1,21 @@
+<nav class="flex items-center print:hidden">
+  {{ with .NextInSection }}
+    <a class="low-profile-link" id="prev" title="{{ printf `%s (CTRL + Left)` .Title }}" href="{{ .Permalink }}">
+      {{ partial "svgs/heroicons/chevron-left.svg" (dict "class" "h-6 px-2" ) }}
+    </a>
+  {{ else }}
+    <span class="text-default-light">
+      {{ partial "svgs/heroicons/chevron-left.svg" (dict "class" "h-6 px-2" ) }}
+    </span>
+  {{ end }}
+
+  {{ with .PrevInSection }}
+    <a class="low-profile-link" id="next" title="{{ printf `%s (CTRL + Right)` .Title }}" href="{{ .Permalink }}">
+      {{ partial "svgs/heroicons/chevron-right.svg" (dict "class" "h-6 px-2" ) }}
+    </a>
+  {{ else }}
+    <span class="text-default-light">
+      {{ partial "svgs/heroicons/chevron-right.svg" (dict "class" "h-6 px-2" ) }}
+    </span>
+  {{ end }}
+</nav>

@@ -1,0 +1,18 @@
+{{ "<!-- plugin: scripts -->" | safeHTML }}
+{{ range $plugin, $settings := $.Site.Data.plugins }}
+  {{/* optional plugins are activated by site- or page parameter */}}
+  {{ if (or (not .optional) (in $.Site.Params.plugins $plugin) (in $.Params.plugins $plugin)) }}
+    {{ with .scripts.head }}
+      {{ range . }}
+        {{/* CDN scripts */}}
+        {{ if findRE "^http" . }}
+          <script src="{{ . | absURL }}"></script>
+        {{/* served scripts */}}
+        {{ else }}
+          {{ $singleJS := resources.Get . | fingerprint "sha512" }}
+          <script src="{{ $singleJS.RelPermalink }}" integrity="{{ $singleJS.Data.Integrity }}"></script>
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}

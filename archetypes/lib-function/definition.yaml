@@ -1,0 +1,55 @@
+# definition file for a library function
+company: Foo Bar inc.
+author: John Doe
+since:
+description: |
+  <p class="lead">Insert Lead paragraph here.</p>
+
+  Cillum excepteur ex aliquip esse deserunt ullamco aliquip incididunt
+  exercitation ex pariatur Lorem magna. Velit dolore deserunt esse esse
+  eu duis fugiat exercitation. Elit exercitation tempor eu laboris
+  exercitation culpa duis elit ad adipisicing anim. Excepteur sunt
+  consectetur deserunt dolore proident aute anim. Eu officia culpa duis
+  veniam minim excepteur.
+
+comment: add short description here
+changelog:
+  # order: new to old
+  - version: 0.1.0
+    date: 2021-01-05
+    author: John Doe
+    added:
+      - initial release
+#   changed:
+#   fixed:
+#   deprecated:
+#   removed:
+#   security:
+var:
+  - kind: input
+    var:
+      - name: loremIpsum
+        description: |
+          Consectetur ad laborum voluptate reprehenderit voluptate qui.
+          Nisi est incididunt voluptate pariatur aliquip laboris est.
+
+          Aute consectetur minim minim labore laboris sit est exercitation
+          aliqua sit esse deserunt.
+
+        type: DINT
+        comment: lorem ipsum [mm/s]
+        legend:
+          "0.0 to 100.0": "range in `[mm/s]`"
+          "9999.9": special value
+
+  - kind: output
+    var:
+      - name: i
+
+# - kind: in_out
+#   var:
+#     - name:
+
+# - kind: var
+#   var:
+#     - name:

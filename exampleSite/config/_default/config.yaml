@@ -1,0 +1,90 @@
+baseURL: 'https://example.com'
+title: PLC docs theme
+theme: hugo-plc-docs-theme
+author: John Doe
+copyright: 'Copyright © {year}, John Doe; all Rights Reserved'
+paginate: 3
+languageCode: en
+DefaultContentLanguage: en
+enableInlineShortcodes: true
+# prevent build failures when using Hugo's Instagram shortcode due to deprecated Instagram API.
+# See https://github.com/gohugoio/hugo/issues/7228#issuecomment-714490456
+ignoreErrors:
+  - error-remote-getjson
+
+menu:
+  main:
+    - identifier: about
+      name: About
+      url: /about/
+      weight: 10
+
+taxonomies:
+  category: categories
+  tag: tags
+  series: series
+
+privacy:
+  vimeo:
+    disabled: false
+    simple: true
+
+  twitter:
+    disabled: false
+    enableDNT: true
+    simple: true
+
+  instagram:
+    disabled: false
+    simple: true
+
+  youtube:
+    disabled: false
+    privacyEnhanced: true
+
+services:
+  instagram:
+    disableInlineCSS: true
+
+  twitter:
+    disableInlineCSS: true
+    
+enableEmoji: true
+enableGitInfo: true
+googleAnalytics: ''
+
+markup:
+  goldmark:
+    renderer:
+      # hardWraps: true
+      unsafe: true
+      # xHTML: true
+  highlight:
+    codeFences: false     # we use Highlight.js   
+  tableOfContents:
+    endLevel: 4
+    ordered: false
+    startLevel: 2
+
+# ======
+
+
+
+summaryLength: 70
+buildFuture: true
+timeout: 10000
+rssLimit: 100
+
+outputs:
+  home:
+    - HTML
+    - RSS
+  section:
+    - HTML
+    - RSS
+  taxonomyTerm:
+    - HTML
+    - RSS
+  taxonomy:
+    - HTML
+    - RSS

@@ -1,0 +1,22 @@
+{{ $fileName := "" }}      
+{{ with .Params.featuredImage }}
+  {{ if eq . true }}
+        {{ $fileName = "featured-image*" }}      
+  {{ else }}
+        {{ $fileName = . }}      
+  {{ end }}
+
+  {{ with $.Resources.GetMatch $fileName }}
+    {{ $image := .  }}
+    {{ $image = $image.Fill "1600x1000" }}
+    <figure>
+      <img class="md:rounded" src="{{ $image.Permalink }}" alt="featured image"/>
+      {{ with $.Params.featuredImageCaption  }}
+        <figcaption>{{ . | markdownify }}</figcaption>
+      {{ end }} 
+   
+    </figure>
+  {{ else }}
+    {{ warnf "Image resource '%q' not found for page: %v" $fileName $.Permalink }}
+  {{ end}}
+{{ end}}

@@ -1,0 +1,38 @@
+{{/* read the YAML data from the parent's resources */}}
+{{ $yamlData := partial "lib/get-yaml-data" ( dict "ctx" $ "fileName" "definition" ) }}
+{{ $projectData := partial "lib/get-yaml-data" ( dict "ctx" $.Parent "fileName" "definition" ) }}
+
+{{/* item new? */}}
+{{ $new := false }}
+{{ with $projectData.releases }}
+  {{ range first 1 . }}
+    {{ with .version }}
+    {{ $new = eq . $yamlData.since }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+
+<div class="w-full border-t pt-4 mb-4">
+  <div class="">
+    {{ if $new }}
+      <span class="text-brand font-semibold italic" title="this item is new">new: </span>
+    {{ end }}
+    <span class="text-xl">
+      <a href='{{ .Permalink }}' class="low-profile-link">
+        {{ .Title }}
+        {{ with $yamlData.changelog }}
+          {{ range first 1 . }}
+            {{ with .version }}
+              <span class="text-sm tracking-wider" title="latest version">{{ printf "%v" . }}</span>
+            {{ end }}
+          {{ end }}
+        {{ end }}
+      </a>
+    </span>  
+
+    {{ with $yamlData.comment }}
+      <span class="text-default-light italic"> - {{ . }}</span>
+    {{ end }}
+  </div>
+</div>

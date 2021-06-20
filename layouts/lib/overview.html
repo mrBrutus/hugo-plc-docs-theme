@@ -1,0 +1,45 @@
+{{ define "main" }}
+    {{ partial "nav/main" . }}
+
+    <section class="md:ml-80 xl:ml-96">
+      <div class="pt-16 md:mx-auto px-4 lg:px-20 xl:px-20 min-h-full prose prose-sm md:prose max-w-none lg:max-w-3xl xl:max-w-4xl print:py-0 print:px-0 print:max-w-none print:prose">
+        <main class="min-h-screen">
+
+          {{ partial "body/breadcrumb" . }}
+
+          {{/* read the YAML data from the page resources */}}
+          {{ $yamlData := partial "lib/get-yaml-data" ( dict "ctx" $ "fileName" "_lib" ) }}
+
+          <header>
+            <div class="flex justify-start items-baseline flex-wrap">
+              <h1 class="low-profile-header mr-2 py-0" id="{{ .Title }}">{{ .Title }}</h1>
+              {{ partial "lib/latest-version" $yamlData }}
+            </div>
+            {{ if .Params.featuredImage }}
+              {{ partial "body/featured-image" . }}
+            {{ end }}
+          </header>   
+
+          <article>
+            {{/* description (or comment) */}}
+            <div>
+              {{ partial "lib/description.html" $yamlData }}
+            </div>
+
+
+            {{/* releases */}}
+            {{ with $yamlData.releases }}
+              <section>
+                <h2 id="releases">Releases</h2>
+                {{ partial "lib/overview/releases.html" . }}
+              </section>
+            {{ end }}
+
+          </article>
+          {{ partial "footer/page-footer.html" . }}
+        </main>
+      </div>
+      {{ partial "nav/sidebar/main" . }}
+    </section>
+
+{{ end }}
