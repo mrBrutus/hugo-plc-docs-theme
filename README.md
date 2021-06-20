@@ -51,13 +51,12 @@ View the demo of this theme on Netlify: [plc-docs-theme.netlify.app](https://plc
 ## What's next
 
 **This project is still in early stages** and there is some work to do until the `0.1.0` release.
-Some
 
 - [ ] Add more content to this README.
   - [ ] describe parameters
   - [ ] describe shortcodes
 - [ ] Create a nice layout for the landing page
-- [ ] Some housekeeping for the ExampleSite
+- [ ] Lots of housekeeping 😅
 
 ## Get started
 
@@ -82,13 +81,21 @@ Some
     hugo new site my-plc-website
     ```
 
-1. Add the PLC docs theme as a GIT submodule:
+1. Add the PLC docs theme:
+
+   **Option 1:** As a GIT submodule (recommended, as it lets you benefit from future updates):
 
     ```sh
     cd my-plc-website
     git init
     git submodule add https://github.com/mrBrutus/hugo-plc-docs-theme.git themes/hugo-plc-docs-theme
     ```
+
+   **Option 2:** As static files:
+
+   - Download the archive from [https://github.com/mrBrutus/hugo-plc-docs-theme/archive/main.zip](https://github.com/mrBrutus/hugo-plc-docs-theme/archive/main.zip).
+   - Extract that .zip file to get a `hugo-plc-docs-theme-main` folder.
+   - Rename it to `hugo-plc-docs-theme` and move it into the `themes/` folder.
 
 1. Install the theme's dependencies:
 
@@ -114,10 +121,6 @@ Some
 
     # added items
     theme: "hugo-plc-docs-theme"
-    author: John Doe
-    copyright: 'Copyright © {year}, John Doe; all Rights Reserved'
-    enableEmoji: true
-    enableGitInfo: true
     markup:
       goldmark:
         renderer:
