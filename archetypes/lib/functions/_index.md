@@ -1,4 +1,4 @@
 ---
-title: Function blocks
+title: Functions
 weight: 30
 ---

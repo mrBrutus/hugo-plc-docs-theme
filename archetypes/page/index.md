@@ -3,10 +3,6 @@ title: "{{ replace .Name "-" " " | title }}"
 # The description is important for list pages but also
 # for SEO (search engine optimization).
 description: Some description here.
-type: post
-# Pages are by default sorted by date.
-# Remove this date to sort by title.
-date: {{ .Date }}
 # Drafts are only visible when running the development server
 draft: true
 # Add one or more tags to make it easy to find related content 
