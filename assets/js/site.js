@@ -58,6 +58,23 @@ function initializeBranchSelect(sel) {
 
 
 // ============================================================================
+// adjustments for print
+// ============================================================================
+var details = document.getElementsByTagName('details')
+window.onbeforeprint = (e) => {
+  Array.prototype.forEach.call(details, function (detail) {
+    detail.open = true
+  })
+}
+
+window.onafterprint = (e) => {
+  Array.prototype.forEach.call(details, function (detail) {
+    detail.open = false
+  })
+}
+
+
+// ============================================================================
 // page animations
 // ============================================================================
 addEventListener('load', function () {
