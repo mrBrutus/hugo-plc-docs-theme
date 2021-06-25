@@ -36,6 +36,9 @@ html, body {
   @apply rounded bg-default-soft shadow-sm print:bg-background print:shadow-none;
 }
 
+summary {
+  @apply cursor-pointer;
+}
 
 /* ============================================================================
  * color schemes
