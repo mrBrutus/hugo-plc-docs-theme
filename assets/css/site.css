@@ -38,6 +38,61 @@ html, body {
 
 
 /* ============================================================================
+ * header anchor tags
+ * ========================================================================= */
+
+.anchor {
+  @apply invisible;
+  @apply no-underline !important;
+  @apply pl-1;
+  @apply print:hidden;  
+}
+
+h1:hover a,
+h2:hover a,
+h3:hover a,
+h4:hover a {
+  @apply visible;
+}
+
+
+/* ============================================================================
+ * table of contents
+ * ========================================================================= */
+#toc-wrapper {
+  overflow-y: scroll;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+}
+#toc-wrapper::-webkit-scrollbar { /* WebKit */
+  width: 0;
+  height: 0;
+}
+
+
+ /* .toc {
+} */
+
+.toc a {
+  @apply no-underline !important;
+  color: inherit !important;
+  @apply hover:text-brand !important;
+}
+
+.toc_h2 {
+  @apply pl-1 mt-1;
+}
+
+.toc_h3 {
+  @apply pl-2;
+}
+
+.toc_h4 {
+  @apply pl-3;
+}
+
+
+/* ============================================================================
  * color schemes
  * ========================================================================= */
 

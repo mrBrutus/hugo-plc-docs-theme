@@ -1,7 +1,7 @@
 {{ define "main" }}
     {{ partial "nav/main" . }}
 
-    <section class="md:ml-80 xl:ml-96">
+    <section class="md:ml-80 xl:ml-96 xl:mr-56">    
       <div class="pt-16 md:mx-auto px-4 lg:px-20 xl:px-20 min-h-full prose prose-sm md:prose max-w-none lg:max-w-3xl xl:max-w-4xl print:py-0 print:px-0 print:max-w-none print:prose">
         <main class="min-h-screen">
 
@@ -66,6 +66,7 @@
         </main>
       </div>
       {{ partial "nav/sidebar/main" . }}
+      {{ partial "nav/toc" . }}
     </section>
 
 {{ end }}
