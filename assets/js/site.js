@@ -58,6 +58,19 @@ function initializeBranchSelect(sel) {
 
 
 // ============================================================================
+// page animations
+// ============================================================================
+addEventListener('load', function () {
+  // enable transitions after page is loaded
+  document.body.classList.remove('notransition');
+})
+
+
+// ============================================================================
+// toc + header anchor tags
+// ============================================================================
+addEventListener('load', function () {
+  htmlTableOfContents();
 // adjustments for print
 // ============================================================================
 var details = document.getElementsByTagName('details')
@@ -359,4 +372,46 @@ function branchFromUrl(section) {
   const re = section + '-(.*?)\/'
   const m = url.match(re);
   return m ? m[1] : null;
+}
+
+
+/**
+ * Generates a table of contents for your document based on the headings
+ *  present. Anchors are injected into the document and the
+ *  entries in the table of contents are linked to them. 
+ *   - This is based on the code from Matthew Christopher Kastor-Inare III
+ */
+function htmlTableOfContents() {
+  var doc = document;
+  var toc = doc.getElementById('toc');
+  var headings = [].slice.call(doc.body.querySelectorAll('h1, h2, h3, h4'));
+  headings.forEach(function (heading) {
+    var id = heading.id;
+    if (id) {
+      // add target to toc
+      if (toc) {
+        var link = doc.createElement('a');
+        link.setAttribute('href', '#' + id);
+        link.textContent = heading.textContent;
+        var div = doc.createElement('div');
+        div.setAttribute('class', 'toc_' + heading.tagName.toLowerCase());
+        div.append(link);
+        toc.append(div);
+      }
+
+      // insert anchor link
+      var anchor = doc.createElement('a');
+      anchor.setAttribute('aria-hidden', 'true');
+      anchor.setAttribute('href', '#' + id);
+      anchor.setAttribute('class', 'anchor');
+      anchor.textContent = '#';
+      heading.append(anchor);
+    }
+  });
+}
+
+try {
+  module.exports = htmlTableOfContents;
+} catch (e) {
+  // module.exports is not defined
 }
