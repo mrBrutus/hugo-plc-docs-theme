@@ -71,6 +71,28 @@ addEventListener('load', function () {
 // ============================================================================
 addEventListener('load', function () {
   htmlTableOfContents();
+// adjustments for print
+// ============================================================================
+var details = document.getElementsByTagName('details')
+window.onbeforeprint = (e) => {
+  Array.prototype.forEach.call(details, function (detail) {
+    detail.open = true
+  })
+}
+
+window.onafterprint = (e) => {
+  Array.prototype.forEach.call(details, function (detail) {
+    detail.open = false
+  })
+}
+
+
+// ============================================================================
+// page animations
+// ============================================================================
+addEventListener('load', function () {
+  // enable transitions after page is loaded
+  document.body.classList.remove('notransition');
 })
 
 
@@ -261,7 +283,7 @@ window.addEventListener('pagehide', () => {
  * Invoke `click` method for DOM element
  * @param {string} id
  */
-function clickElementById(id) {
+ function clickElementById(id) {
   const l = document.getElementById(id)
   if (l) { l.click() }
 }
