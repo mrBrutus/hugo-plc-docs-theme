@@ -71,6 +71,10 @@ addEventListener('load', function () {
 // ============================================================================
 addEventListener('load', function () {
   htmlTableOfContents();
+})
+
+
+// ============================================================================
 // adjustments for print
 // ============================================================================
 var details = document.getElementsByTagName('details')
