@@ -19,6 +19,7 @@
       {{ partial "footer/scroll-to-top" . }}
       {{ with .Param `debug` }}{{ partial "footer/dev-size-indicator.html" . }}{{ end }}
     </div>
+    {{ partial "footer/main" . }}
   </body>
 
 </html>

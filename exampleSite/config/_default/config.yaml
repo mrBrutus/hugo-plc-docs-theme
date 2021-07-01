@@ -2,7 +2,7 @@ baseURL: 'https://example.com'
 title: PLC docs theme
 theme: hugo-plc-docs-theme
 author: John Doe
-copyright: 'Copyright © {year}, John Doe; all Rights Reserved'
+copyright: 'Copyright © 2021 John Doe; all Rights Reserved'
 paginate: 3
 languageCode: en
 DefaultContentLanguage: en

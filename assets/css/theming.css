@@ -17,6 +17,9 @@
   --color-brand-dark: #4338CA;          /* # indigo-700 */
   --color-brand-inverse: #fff;          /* # white */
 
+  --color-footer: #4F46E5;              /* # indigo-600 */
+  --color-footer-inverse: #fff;         /* # white */
+
   --font-display: Verdana, Arial, Helvetica, sans-serif;
   --font-body: Verdana, Arial, Helvetica, sans-serif;
 
@@ -25,6 +28,7 @@
   --font-weight-btn: 600;
   --rounded-btn: 0.25rem;
 }
+
 
 html.dark {
   --color-background-soft: #1F2937;     /* # gray-800 */
@@ -44,6 +48,9 @@ html.dark {
   --color-brand: #4F46E5;               /* # indigo-600 */
   --color-brand-dark: #4338CA;          /* # indigo-700 */
   --color-brand-inverse: #fff;          /* # white */
+
+  --color-footer: #4F46E5;              /* # indigo-600 */
+  --color-footer-inverse: #fff;         /* # white */
 
   --font-display: Verdana, Arial, Helvetica, sans-serif;
   --font-weight-normal: 400;

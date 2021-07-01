@@ -70,6 +70,11 @@ module.exports = {
           dark: 'var(--color-brand-dark)',
           inverse: 'var(--color-brand-inverse)',
         },
+
+        footer: {
+          DEFAULT: 'var(--color-footer)',
+          inverse: 'var(--color-footer-inverse)',
+        },
       },
 
       textColor: {
@@ -85,6 +90,10 @@ module.exports = {
           DEFAULT: 'var(--color-brand)',
           dark: 'var(--color-brand-dark)',
           inverse: 'var(--color-brand-inverse)',
+        },
+        footer: {
+          DEFAULT: 'var(--color-footer-inverse)',
+          inverse: 'var(--color-footer)',
         },
       },
 
@@ -192,7 +201,7 @@ module.exports = {
             'figure figcaption': {
               color: 'var(--color-default-light)',
             },
-            
+
             code: null,
             'code::before': null,
             'code::after': null,
