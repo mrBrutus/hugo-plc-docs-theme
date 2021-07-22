@@ -31,7 +31,7 @@
 {{ end }}
 
 <figure>
-  <img src="{{ $url }}" alt="{{ $.Text }}" title="{{ $.Title }}" class="rounded" loading="lazy">
+  <img src="{{ $url }}" alt="{{ $.Text }}" title="{{ $.Title }}" class="rounded">
   {{ with $.Title }}
     <figcaption>{{ . | markdownify }}</figcaption>
   {{ end }}
