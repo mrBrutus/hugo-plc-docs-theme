@@ -8,11 +8,13 @@
 {{ else }}
   {{ with .releases }}
     {{ range first 1 . }}
-      {{ with .version }}{{ $version = . }}{{ end }}      
+      {{ with .version }}{{ $version = . }}{{ end }}
     {{ end }}
   {{ end }}
 {{ end }}
 
-<a class="{{ $classes }}" title="latest version" href="{{ (printf "#%s" $version) | urlize }}">
-  {{ $version }}
-</a>
+{{ if $version }}
+  <a class="{{ $classes }}" title="latest version" href="{{ (printf "#%s" $version) | urlize }}">
+    {{ $version }}
+  </a>
+{{ end }}
