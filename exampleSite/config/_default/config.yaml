@@ -79,6 +79,10 @@ outputs:
   home:
     - HTML
     - RSS
+  page:
+    - HTML
+    - RSS
+    - cleanup
   section:
     - HTML
     - RSS
@@ -88,3 +92,14 @@ outputs:
   taxonomy:
     - HTML
     - RSS
+
+mediaTypes:
+  text/cleanup:
+    suffixes:
+      - txt
+
+outputFormats:
+  cleanup:
+    baseName: cleanup
+    mediaType: text/cleanup
+    isPlainText: true
