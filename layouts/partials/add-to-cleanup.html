@@ -1,0 +1,9 @@
+{{ $img := .img }}
+
+{{ if not ($.ctx.Page.Scratch.Get "cleanup") }}
+  {{ $.ctx.Page.Scratch.Set "cleanup" (slice) }}
+{{ end }}
+{{ with $img.RelPermalink }}  
+  {{ $path := path.Split . }}
+  {{ $.ctx.Page.Scratch.Add "cleanup" $path.File }}
+{{ end }}

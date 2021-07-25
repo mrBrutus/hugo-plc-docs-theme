@@ -4,28 +4,44 @@
 {{ $isRemote := strings.HasPrefix .Destination "http" }}
 
 {{ if not $isRemote}}
-  {{ $img := .Page.Resources.GetMatch .Destination }}
-  {{ if and (not $img) .Page.File }}
+  {{ $original := .Page.Resources.GetMatch .Destination }}
+  {{ if and (not $original) .Page.File }}
     {{ if strings.HasPrefix .Destination "/"}}
       {{/* absolute path */}}
       {{ $path = .Destination }}
     {{ else }}
       {{ $path = path.Join .Page.File.Dir .Destination | relURL }}
-      {{ $img = resources.Get $path }}
+      {{/* {{ warnf "--> $path: %s" $path }} */}}
+      {{ $original = resources.Get $path }}
     {{ end }}
   {{ end }}
 
-  {{ if $img }}
-    {{/* {{ limit size  }} */}}
-    {{ if (gt $img.Width 1600) }}
-      {{ $img = $img.Resize "1200x" }}
-    {{ end}}
-    {{ $url = $img.RelPermalink }}
+  {{ if $original }}
+    {{ $process := $original }}
+    {{ if (gt $process.Width 1200) }}
+      {{ $process = $process.Resize "1200x" }}
+    {{ end }}
+    {{/* {{ $process = $process | images.Filter (images.Pixelate 8) }} */}}
+    {{ $imgFileExt := path.Ext $original.RelPermalink }}
 
+    {{ $imgFileName := replace $original.RelPermalink $imgFileExt (printf "-web%s" $imgFileExt) }}
+    {{ $renderImg := slice $process | resources.Concat $imgFileName }}
+    {{ partial "add-to-cleanup" ( dict "ctx" $ "img" $process ) }}
+    {{ $url = $renderImg.Permalink }}
+
+    {{/* thumbnail */}}
+    {{ $process = $original.Resize "x240" }}
+    {{ $imgFileName := replace $original.RelPermalink $imgFileExt (printf "-web-tn%s" $imgFileExt) }}
+    {{ $renderImg := slice $process | resources.Concat $imgFileName }}
+    {{ partial "add-to-cleanup" ( dict "ctx" $ "img" $process ) }}
+    {{ $thumbnailUrl := $renderImg.Permalink }}
+
+    {{ partial "add-to-cleanup" ( dict "ctx" $ "img" $original ) }}
   {{ else }}
+    {{/* {{ warnf "--> not an image resource: %s" $path }} */}}
     {{ $url = $path }}
   {{ end }}
-
+  
 {{ else }}
     {{ $url = .Destination }}
 {{ end }}

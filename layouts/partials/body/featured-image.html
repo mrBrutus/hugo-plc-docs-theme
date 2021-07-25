@@ -1,21 +1,33 @@
 {{ $fileName := "" }}      
 {{ with .Params.featuredImage }}
   {{ if eq . true }}
-        {{ $fileName = "featured-image*" }}      
+    {{ $fileName = "featured-image*" }}      
   {{ else }}
-        {{ $fileName = . }}      
+    {{ $fileName = . }}      
   {{ end }}
 
   {{ with $.Resources.GetMatch $fileName }}
-    {{ $image := .  }}
-    {{ $image = $image.Fill "1600x1000" }}
+    {{ $original := .  }}
+    {{ $process := $original.Fill "1600x1000" }}
+    {{ $imgFileExt := path.Ext $original.RelPermalink }}
+    {{ $imgFileName := path.Join $.Page.File.Dir (printf "/hero-image%s" $imgFileExt) }}
+    {{ $img := slice $process | resources.Concat $imgFileName }}
+    {{ partial "add-to-cleanup" ( dict "ctx" $ "img" $process ) }}
     <figure>
-      <img class="md:rounded" src="{{ $image.Permalink }}" alt="featured image"/>
+      <img class="md:rounded" src="{{ $img.Permalink }}" alt="featured image"/>
       {{ with $.Params.featuredImageCaption  }}
         <figcaption>{{ . | markdownify }}</figcaption>
       {{ end }} 
-   
     </figure>
+
+    {{/* thumbnail */}}
+    {{ $process = $original.Resize "x240" }}
+    {{ $imgFileName := path.Join $.Page.File.Dir (printf "/hero-image-tn%s" $imgFileExt) }}
+    {{ $img := slice $process | resources.Concat $imgFileName }}
+    {{ partial "add-to-cleanup" ( dict "ctx" $ "img" $process ) }}
+    {{ $thumbnailUrl := $img.Permalink }}
+
+    {{ partial "add-to-cleanup" ( dict "ctx" $ "img" $original ) }}
   {{ else }}
     {{ warnf "Image resource '%q' not found for page: %v" $fileName $.Permalink }}
   {{ end}}
