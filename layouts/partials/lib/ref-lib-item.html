@@ -19,10 +19,15 @@
   {{ $anchor = $anchor | urlize  }}
 {{ end }}
 
-{{ range where $ctx.RegularPagesRecursive "Title" $libItem }}
+{{ range where $ctx.RegularPagesRecursive "Slug" $libItem }}
   {{ $url = .Permalink }}
 {{ end }}
 
+{{ if not $url}}
+  {{ range where $ctx.RegularPagesRecursive "Title" $libItem }}
+    {{ $url = .Permalink }}
+  {{ end }}
+{{ end }}
 
 {{ if $url }}
   {{ if $anchor }}
