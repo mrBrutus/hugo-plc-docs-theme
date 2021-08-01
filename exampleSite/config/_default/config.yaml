@@ -103,3 +103,5 @@ outputFormats:
     baseName: cleanup
     mediaType: text/cleanup
     isPlainText: true
+
+enableRobotsTXT: true
