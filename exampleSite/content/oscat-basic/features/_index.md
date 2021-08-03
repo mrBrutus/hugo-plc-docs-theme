@@ -1,5 +1,5 @@
 ---
 title: Features
-_build:
-  publishResources: true
+description: Overview of the library features.
+weight: -800
 ---

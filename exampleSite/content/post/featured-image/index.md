@@ -1,5 +1,6 @@
 ---
 title: Featured image
+description: Add a hero image to an article.
 author: mrBrutus
 date: 2021-05-23
 featuredImage: true

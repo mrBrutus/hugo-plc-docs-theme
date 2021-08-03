@@ -1,5 +1,6 @@
 ---
 title: Mathematical
+description: Information about the Mathematical feature.
 ---
 
 ## tag: mathematical

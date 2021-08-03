@@ -1,4 +1,5 @@
 ---
 title: Functions
-weight: 110
+description: Overview of the library functions.
+weight: -700
 ---

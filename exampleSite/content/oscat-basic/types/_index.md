@@ -1,4 +1,5 @@
 ---
 title: Data types
-weight: 100
+description: Overview of the library data types.
+weight: -600
 ---
