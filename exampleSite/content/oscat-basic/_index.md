@@ -1,7 +1,6 @@
 ---
 title: OSCAT basic
-type: lib
-layout: overview
+description: Description of the library.
 cascade:
   _build:
     publishResources: false
