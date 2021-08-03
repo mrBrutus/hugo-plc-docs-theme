@@ -1,21 +1,26 @@
-<article class="w-full border-t pt-8 mb-8">
+<article class="border-2 shadow-xs py-4 px-4 md:px-8">
   <header>
-    <span class="text-xl">
+    <span class="text-2xl text-brand-dark">
       <a href='{{ .Permalink }}'  class="low-profile-link">{{- with .Params.pinned -}}{{ ($.Site.Params.pinIcon | safeHTML) | default "📌" }}&nbsp;{{- end -}}{{ .Title }}</a>
     </span>  
 
-    <div class="mb-8 flex flex-col items-start sm:flex-row sm:items-center sm:flex-wrap sm:flex-grow">
-      {{ partial "body/infos" . }}
-      {{ partial "body/tags" . }}
-    </div>
+    {{ if eq .Section "news" }}
+      <div class="mt-2 flex flex-col items-start sm:flex-row sm:items-center sm:flex-wrap sm:flex-grow">
+        {{ partial "body/infos" . }}
+        {{ partial "body/tags" . }}
+      </div>
+    {{ end }}
   </header>
 
-  <div>
-    <div class="text-default-light italic">
-      {{ with .Params.description }}
-        {{ . }}
-      {{ end }}
+  {{ if .Params.description }}
+    <div>
+      <div class="text-default-light mt-4">
+        {{ .Params.description }}
+      </div>
+      <p class="text-sm mt-2 text-brand-dark print:hidden">
+        <a href='{{ .Permalink }}'  class="low-profile-link">{{ printf "Read more >>" | markdownify }}</a>
+      </p>  
     </div>
-  </div>
+  {{ end }}
 
 </article>

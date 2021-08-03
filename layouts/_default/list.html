@@ -1,39 +1,42 @@
 {{ define "main" }}
-    {{ partial "nav/main" . }}
+  {{ partial "nav/main" . }}
 
-    <section class="md:ml-80 xl:ml-96">
-      <div class="pt-16 md:mx-auto px-4 lg:px-20 xl:px-20 min-h-full prose prose-sm md:prose max-w-none lg:max-w-3xl xl:max-w-4xl print:py-0 print:px-0 print:max-w-none print:prose">
-        <main class="min-h-screen">
+  <section class="md:ml-80 xl:ml-96">
+    <div class="pt-16 px-4 lg:pl-8 lg:pr-20 w-full min-h-full print:py-0 print:px-0 print:max-w-none">
+      <main class="min-h-screen prose prose-sm md:prose min-w-full print:prose">
+        <div class="flex justify-between">
+          {{ partial "body/breadcrumb" . }}
+        </div>
 
-          <div class="flex justify-between">
-            {{ partial "body/breadcrumb" . }}
-            {{ partial "body/page-buttons.html" . }}
-          </div>
+        <header>
+          <h1>{{ .Title }}</h1>
+          {{ if .Params.featuredImage }}
+            {{ partial "body/featured-image" . }}
+          {{ end }}
+        </header>
 
-          <header>
-            <h1>{{ .Title }}</h1>
-            {{ if .Params.featuredImage }}
-              {{ partial "body/featured-image" . }}
-            {{ end }}
-          </header>
+        <article>
+          {{ with .Params.description }}
+            <p class="lead">
+              {{ . }}
+            </p>
+          {{ end }}
 
-          <article>
-            {{ .Content }}
-          </article>
+          {{ .Content }}
+        </article>
 
-          <div class="flex flex-wrap">
-            {{ range .Pages }}
-              {{ .Render "summary" }}
-            {{ end }}
-          </div>
+        <div class="grid grid-cols-1 xl:grid-cols-2 print:grid-cols-2 gap-4 mb-8 mt-4 lg:mt-12">
+          {{ range .Pages }}
+            {{ .Render "summary" }}
+          {{ end }}
+        </div>
 
-          {{ partial "footer/page-footer.html" . }}
+        {{ partial "footer/page-footer.html" . }}
+      </main>
+    </div>
 
-        </main>
-      </div>
+    {{ partial "nav/sidebar/main" . }}
 
-      {{ partial "nav/sidebar/main" . }}
-
-    </section>
+  </section>
 
 {{ end }}
