@@ -1,0 +1,15 @@
+{{ $leadText := "" }}
+
+{{ with .Inner }}
+  {{$leadText = . }}
+{{ else }}
+  {{ with $.Page.Params.description }}
+    {{$leadText = . }}
+  {{ end }}
+{{ end }}
+
+{{ with $leadText }}
+  <p class="lead">
+    {{ . }}
+  </p>
+{{ end }}
