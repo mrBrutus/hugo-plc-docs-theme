@@ -19,6 +19,8 @@
 {{ end }}
 {{ with $.Param "contact" }}<meta name="contact" content="{{ . }}">{{ end }}
 
+{{/* Robots */}}
+{{ with .Params.robotsdisallow }}<meta name="robots" content="noindex, nofollow, noarchive">{{ else }}<meta name="robots" content="index, follow, archive">{{ end }}
 
 {{/* Open Graph (social card) */}}
 <meta property="og:site_name" content="{{ .Site.Title }}">

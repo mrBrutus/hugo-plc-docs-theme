@@ -1,0 +1,51 @@
+baseURL:
+languageCode: 'en-us'
+title: 'MotoLogix'
+theme: 'hugo-plc-docs-theme'
+author: Yaskawa Europe GmbH
+copyright: 'Copyright © 2021 Yaskawa Europe GmbH'
+
+resourceDir: '_temp/resources/'
+
+markup:
+  highlight:
+    codeFences: false
+
+  goldmark:
+    renderer:
+      unsafe: true
+
+# output format creating cleanup files
+#  - cleanup.txt (contains file names of superfluous images)
+mediaTypes:
+  text/cleanup:
+    suffixes:
+      - txt
+
+outputFormats:
+  cleanup:
+    baseName: cleanup
+    isPlainText: true
+    mediaType: text/cleanup
+
+outputs:
+  page:
+    - HTML
+    - cleanup
+  home:
+    - HTML
+  section:
+    - HTML
+  taxonomy:
+    - HTML
+  term:
+    - HTML
+
+enableRobotsTXT: true
+enableGitInfo: true
+enableEmoji : true
+
+sitemap:
+  changefreq: weekly
+  filename: sitemap.xml
+  priority: 0.5
