@@ -3,8 +3,8 @@
   --color-background: #fff;             /* # white */
   --color-background-inverse: #111827;  /* # gray-900 */
 
-  --color-hljs: #FFFFFFFF;              /* # color taken from the Highlight.js theme */
-  --color-hljs-transparent: #FFFFFF00;  /* # color taken from the Highlight.js theme, transparent */
+  --color-hljs: #1E1E1EFF;              /* # color taken from the Highlight.js theme */
+  --color-hljs-transparent: #1E1E1E00;  /* # color taken from the Highlight.js theme, transparent */
 
   --color-default-soft: #E5E7EB;        /* # gray-200 */
   --color-default-light: #6B7280;       /* # gray-500 */
@@ -35,8 +35,8 @@ html.dark {
   --color-background: #111827;          /* # gray-900 */
   --color-background-inverse: #fff;     /* # white */
 
-  --color-hljs: #1E1E1EFF;              /* # color taken from the Highlight.js theme */
-  --color-hljs-transparent: #1E1E1E00;  /* # color taken from the Highlight.js theme, transparent */
+  --color-hljs: #282C34FF;              /* # color taken from the Highlight.js theme */
+  --color-hljs-transparent: #282C3400;  /* # color taken from the Highlight.js theme, transparent */
 
   --color-default-soft: #1F2937;        /* # gray-800 */
   --color-default-light: #6B7280;       /* # gray-500 */

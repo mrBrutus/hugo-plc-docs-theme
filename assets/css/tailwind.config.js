@@ -216,7 +216,8 @@ module.exports = {
             pre: {
               color: "unset",
               padding: "unset",
-              backgroundColor: "transparent"
+              backgroundColor: "transparent",
+              borderRadius: '0'
             },
 
           },

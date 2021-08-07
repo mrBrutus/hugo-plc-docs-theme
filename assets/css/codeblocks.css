@@ -3,7 +3,8 @@
 .hljs-code {
   @apply relative;
   @apply flex flex-col justify-start;  
-  @apply border dark:border-transparent;
+  @apply print:rounded-l-lg !important print:border-l-4;
+  @apply print:pl-2 !important;
   @apply print:whitespace-pre-wrap;
 }
 
@@ -16,7 +17,7 @@
 /* bottom fade effect */
 .hljs-code.collapsed .bottom-fade {
   @apply absolute bottom-0 z-10 left-0 pb-1 pt-24 w-full;
-  @apply rounded-b-md cursor-pointer;
+  @apply cursor-pointer;
   @apply bg-gradient-to-t from-hljs to-hljs-transparent;
   @apply print:hidden;
 }
@@ -32,17 +33,18 @@
 
 /* wrapper for code block header items such as buttons */
 .hljs-code .btn-wrapper {
-  @apply order-1 pt-0.5;
+  @apply order-1 mb-1;
   @apply w-full;
   @apply flex justify-end items-center space-x-4 xl:space-x-2;  
   @apply bg-hljs;
-  @apply rounded-t-md;
   @apply print:hidden;
   @apply text-default-light;
+  @apply bg-background;
 }
 
 .hljs-code .btn-wrapper > button {
-  @apply h-6 w-6 xl:h-5 xl:w-5;
+  @apply h-8 w-8 xl:h-7 xl:w-7;
+  @apply bg-default-soft rounded-full p-1;
   @apply focus:outline-none;
   @apply hover:text-background-inverse;
 }
