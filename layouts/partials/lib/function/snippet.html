@@ -7,7 +7,7 @@
     {{ $vars := slice }}
 
     {{ with .var }}
-      {{ printf "*Snippet of the function call:*" | markdownify }}      
+      {{ printf "*Snippet of the function call:*" | markdownify }}
         <div class="overflow-x-auto">
           {{ $code_block := "```iecst\n" }}
 
@@ -22,7 +22,7 @@
                 {{ range $vars }}
                   {{ with .var }}
                     {{ range  . }}
-                      {{ $code_block = printf "%s// %s[0].%s := ;\n" $code_block $varName .name }}
+                      {{ $code_block = printf "%s// %s[0].%s := ;\n" $code_block $varName ( partial "trim" .name ) }}
                     {{ end }}
                   {{ end }}
                 {{ end }}
@@ -35,7 +35,7 @@
                 {{ range $vars }}
                   {{ with .var }}
                     {{ range  . }}
-                      {{ $code_block = printf "%s %s := %s, " $code_block .name $dummy }}
+                      {{ $code_block = printf "%s %s := %s, " $code_block ( partial "trim" .name ) $dummy }}
                     {{ end }}
                   {{ end }}
                 {{ end }}
@@ -48,7 +48,7 @@
                 {{ range $vars }}
                   {{ with .var }}
                     {{ range  . }}
-                      {{ $code_block = printf "%s//  := %s[0].%s;\n" $code_block $varName .name  }}
+                      {{ $code_block = printf "%s//  := %s[0].%s;\n" $code_block $varName ( partial "trim" .name )  }}
                     {{ end }}
                   {{ end }}
                 {{ end }}
@@ -64,10 +64,10 @@
                 {{ range $vars }}
                   {{ with .var }}
                     {{ range  first 1 . }}
-                      {{ $code_block = printf "%s\n           %s := " $code_block .name }}                    
+                      {{ $code_block = printf "%s\n           %s := " $code_block ( partial "trim" .name ) }}
                     {{ end }}
                     {{ range  after 1 . }}
-                      {{ $code_block = printf "%s,\n           %s := " $code_block .name }}                    
+                      {{ $code_block = printf "%s,\n           %s := " $code_block ( partial "trim" .name ) }}
                     {{ end }}
                   {{ end }}
                 {{ end }}
@@ -80,4 +80,9 @@
       </div>
     {{ end }}
   </div>
+{{ end }}
+
+{{/* inline partial for trimming the variable name */}}
+{{ define "partials/trim" }}
+  {{ return (index (split . ".") 0) }}
 {{ end }}
