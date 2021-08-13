@@ -29,7 +29,11 @@
           </div>
 
           <article>
-            {{/* description (or comment) */}}
+            {{/* description from front matter as lead text */}}
+            {{ with .Params.description }}
+              <p class="lead">{{ . }}</p>
+            {{ end }}
+            {{/* description from yaml */}}
             <div>
               {{ partial "lib/description.html" $yamlData }}
             </div>
