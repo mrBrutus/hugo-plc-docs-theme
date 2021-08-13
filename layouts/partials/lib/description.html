@@ -1,12 +1,6 @@
-{{/* description (or comment) */}}
+{{/* description */}}
 {{ with .description }}
   <section class="mt-8">
     <span>{{ . | markdownify }}</span>
   </section>
-{{ else }}
-  {{ with .comment}}
-    <section>
-      <span>{{ . }}</span>
-    </section>
-  {{ end }}
 {{ end }}
