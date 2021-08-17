@@ -8,7 +8,7 @@
           {{ partial "body/breadcrumb" . }}
 
           {{/* read the YAML data from the page resources */}}
-          {{ $yamlData := partial "lib/get-yaml-data" ( dict "ctx" $ "fileName" "_lib" ) }}
+          {{ $yamlData := partial "lib/get-yaml-data" ( dict "ctx" $.Parent "fileName" "definition" ) }}
 
           <header>
             <div class="flex justify-start items-baseline flex-wrap">
@@ -18,7 +18,7 @@
             {{ if .Params.featuredImage }}
               {{ partial "body/featured-image" . }}
             {{ end }}
-          </header>   
+          </header>
 
           <article>
             {{/* description (or comment) */}}
