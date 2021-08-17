@@ -1,120 +1,98 @@
-{{ define "main" }}
-    {{ partial "nav/main" . }}
+{{/* generate source code */}}
+{{ with .item }}
+  <div class="">
 
-    <section class="md:ml-80 xl:ml-96 xl:mr-56">    
-      <div class="pt-16 md:mx-auto px-4 lg:px-20 xl:px-20 min-h-full prose prose-sm md:prose max-w-none lg:max-w-3xl xl:max-w-4xl print:py-0 print:px-0 print:max-w-none print:prose">
-        <main class="min-h-screen">
+    {{/* Declaration */}}
+    {{ $name := $.ctx.Page.Title }}
+    {{ $description := "" }}
+    {{ with .comment }}{{ $description = . }}{{ end }}
+    {{ $code_block := "```iecst\n" }}
 
-          <div class="flex justify-between">
-            {{ partial "body/breadcrumb" . }}
-            {{ partial "body/page-buttons.html" . }}
-          </div>
+    {{/* comment */}}
+    {{ with $description }}
+      {{ $code_block = printf "%s(*%s*)\n" $code_block . }}
+    {{ end }}
 
-          {{/* read the YAML data from the page resources */}}
-          {{ $yamlData := partial "lib/get-yaml-data" ( dict "ctx" $ "fileName" "definition" ) }}
-          
-          <header>
-            <div class="flex justify-start items-baseline flex-wrap mb-2">
-              <h1 class="low-profile-header mr-2 py-0" id="{{ .Title }}">{{ .Title }}</h1>
-              {{ partial "lib/latest-version" $yamlData }}
-            </div>
-            {{ if .Params.featuredImage }}
-              {{ partial "body/featured-image" . }}
+    {{/* insert construct */}}
+    {{ with .return }}
+      {{/* Function */}}
+      {{ $code_block = printf "%sFUNCTION %s : %s\n\n" $code_block $name . }}
+    {{ else }}
+      {{/* Function Block */}}
+      {{ $code_block = printf "%sFUNCTION_BLOCK %s\n\n" $code_block $name }}
+    {{ end }}
+
+
+    {{/* insert code header */}}
+    {{ $latestChangelog := dict }}
+    {{ with .changelog }}
+      {{ range first 1 . }}{{$latestChangelog = . }}{{ end }}
+    {{ end }}
+
+
+    {{/* read the YAML data from the project file */}}
+    {{ $projectData := partial "lib/get-yaml-data" ( dict "ctx" $.ctx.FirstSection "fileName" "definition" ) }}
+
+    {{ $code_header := partial "lib/code-header.html" (dict "name" $name "project" $projectData "description" $description "latestChangelog" $latestChangelog ) }}
+    {{ $code_block = printf "%s%s\n" $code_block $code_header }}
+
+    {{/* insert variables */}}
+    {{ with .var }}
+      <h3 id="declarations">Declarations</h3>
+      <div class="overflow-x-auto">
+        {{ $kind := "" }}
+        {{ $firstVar := true }}
+        {{ range  . }}
+          {{ with .kind}}{{ $kind = . | upper }}{{ end }}
+            {{/* insert some white space between groups */}}
+            {{ if not $firstVar }}
+              {{ $code_block = printf "%s\n" $code_block }}
             {{ end }}
-          </header>
-
-          <div class="mb-8 flex flex-col items-start sm:flex-row sm:items-center sm:flex-wrap sm:flex-grow">
-            {{ partial "lib/infos" $yamlData }}
-            {{ partial "body/tags" . }}
-          </div>
-
-          <article>
-            {{/* description from front matter as lead text */}}
-            {{ with .Params.description }}
-              <p class="lead">{{ . }}</p>
-            {{ end }}
-            {{/* description from yaml */}}
-            <div>
-              {{ partial "lib/description.html" $yamlData }}
-            </div>
-
-            {{/* changelog */}}
-            {{ if not .Params.disable_changelog }}
-              {{ with $yamlData.changelog }}
-      
-                <section>
-                  <h2 id="version-history">Version history</h2>
-                  {{ partial "lib/version-history.html" . }}
-                </section>
-
+            {{/* start of a group */}}
+            {{ if (or (eq $kind "CONSTANT") (eq $kind "VAR") ) }}
+              {{ if (eq $kind "VAR") }}
+                {{ $code_block = printf "%sVAR\n" $code_block }}
+              {{ else }}
+                {{ $code_block = printf "%sVAR %s\n" $code_block $kind }}
               {{ end }}
+            {{ else }}
+              {{ $code_block = printf "%sVAR_%s\n" $code_block $kind }}
             {{ end }}
+            {{ with .var }}
+              {{ range  . }}
 
+                {{/* get the var data */}}
+                {{ $data := dict }}
+                {{ $data = partial "lib/read-var-data.html" (dict "ctx" $.ctx "var" . "name" .name ) }}
+                {{ $type := "" }}
+                {{ $default_value := "" }}
+                {{ $comment := "" }}
 
-            {{/* controller support */}}
-            {{ with $yamlData.controller }}
-              <section>
-                <h2 id="controller-support">Controller support</h2>
-                {{ partial "lib/controller-table.html" . }}
-              </section>
-            {{ end }}
-
-            {{/* prerequisites */}}
-            {{ with $yamlData.prerequisite }}
-              <section>
-                <h2 id="prerequisites">Prerequisites</h2>
-                {{ partial "lib/prerequisite-table.html" . }}
-              </section>
-            {{ end }}
-
-            {{/* variable overview */}}
-            {{ if not .Params.disable_overview }}
-              {{ with $yamlData.var }}
-                <section>
-                  <h2 id="overview">Overview</h2>
-                  {{ partial "lib/function/var-table.html" (dict "ctx" $ "var" . ) }}
-                </section>
+                {{ with $data.type }}{{$type = printf " : %s" . }}{{end}}
+                {{ with $data.default_value }}{{$default_value = printf " := %v" . }}{{end}}
+                {{ with $data.comment }}{{$comment = printf " (*%s*)" . }}{{end}}
+                {{ $code_block = printf "%s  %s%s%v;%s\n" $code_block $data.name $type $default_value $comment}}
               {{ end }}
-            {{ end }}
-
-            {{/* variable details */}}
-            {{ with $yamlData.var }}
-              <section>
-                <h2 id="details">Details</h2>
-                {{ partial "lib/function/var-details.html" (dict "ctx" $ "var" . ) }}
-              </section>
-            {{ end }}
-
-
-            {{/* source code */}}
-            {{ if (and (not .Params.disable_source) (or (hugo.Environment | eq "development") (.Params.open_source)) ) }}
-              {{ with $yamlData }}
-                <section>
-                  <h2 id="source-code">Source code</h2>
-                  {{ partial "lib/function/source-code.html" (dict "ctx" $ "item" . ) }}
-                </section>
-              {{ end }}
-            {{ end }}
-
-
-            {{/* implementation snippet */}}
-            {{ if not .Params.disable_snippet }}
-              {{ with $yamlData }}
-                <section>
-                  <h2 id="implementation">Implementation</h2>
-                  {{ partial "lib/function/snippet.html" (dict "ctx" $ "item" . ) }}
-                </section>
-              {{ end }}
-            {{ end }}
-
-            {{/* followed by the markdown content */}}
-            {{ .Content }}
-          </article>
-          {{ partial "footer/page-footer.html" . }}
-        </main>
+              {{/* end of a group */}}
+              {{ $code_block = printf "%sEND_VAR\n" $code_block }}
+              {{ $firstVar = false }}
+          {{ end }}
+        {{ end }}
+        {{ printf "%s\n```" $code_block | markdownify }}
       </div>
-      {{ partial "nav/sidebar/main" . }}
-      {{ partial "nav/toc" . }}
-    </section>
+    {{ end }}
 
+
+    {{/* Logic */}}
+    {{ with $.ctx.Resources.GetMatch "*.iecst" }}
+      <h3 id="logic">Logic</h3>
+      <div class="overflow-x-auto">
+        {{ $code_block := "```iecst\n" }}
+        {{/* insert code */}}
+        {{ $code_block = printf "%s%s" $code_block .Content }}
+        {{ printf "%s\n```" $code_block | markdownify }}
+      </div>
+    {{ end }}
+
+  </div>
 {{ end }}
