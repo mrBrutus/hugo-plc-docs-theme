@@ -30,7 +30,7 @@
 {{ else }}
   {{ $follow = "noindex, nofollow" }}
 {{ end }}
-<meta name="robots" content="{{ $follow }}, noarchive, nosnippet">
+<meta name="robots" content="{{ $follow }}, noarchive, max-snippet:160">
 
 {{/* Open Graph (social card) */}}
 <meta property="og:site_name" content="{{ .Site.Title }}">
