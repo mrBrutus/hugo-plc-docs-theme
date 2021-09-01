@@ -1,16 +1,37 @@
-<!DOCTYPE html>
-<html lang="{{ .Site.LanguageCode }}">
+{{ define "main" }}
+    {{ partial "nav/main" . }}
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Branch redirect</title>
+    <section class="md:ml-80 xl:ml-96 xl:mr-56">
+      <div class="pt-16 md:mx-auto px-4 lg:px-20 xl:px-20 min-h-full prose prose-sm md:prose max-w-none lg:max-w-3xl xl:max-w-4xl print:py-0 print:px-0 print:max-w-none print:prose">
+        <main class="min-h-screen">
 
-  {{ with .Site.Param (printf "imported_sections.%s" .Title) }}
+          <div class="flex justify-between">
+            {{ partial "body/breadcrumb" . }}
+            {{/* {{ partial "body/page-buttons.html" . }} */}}
+          </div>
+
+          <header>
+            <h1>{{ .Title }}</h1>
+            {{ if .Params.featuredImage }}
+              {{ partial "body/featured-image" . }}
+            {{ end }}
+          </header>
+
+          <article>
+            {{ "*This is the redirect page for a versioned section*" | markdownify  }}
+          </article>
+          {{ partial "footer/page-footer.html" . }}
+        </main>
+      </div>
+    </section>
+{{ end }}
+
+{{ define "head" }}
+  {{ with index .Site.Data.import .Title }}
     <script>
-      const branchArray = {{ .branches | jsonify | safeJS }}
-// console.log(branch);
-      // branch from query string
+      const branchArray = {{ . | jsonify | safeJS }}
+      
+      // branch from query string: <page url>?branch=<branch name>
       const urlParams = new URLSearchParams(window.location.search)
       const urlBranch = urlParams.get('branch')
 
@@ -28,11 +49,4 @@
         location.reload()
     </script>
   {{ end }}
-
-</head>
-
-<body>
-
-</body>
-
-</html>
+{{ end }}

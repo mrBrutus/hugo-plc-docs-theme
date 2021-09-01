@@ -5,11 +5,12 @@
 
   <div class="pt-16">
     {{/* sidebar always build from the root level */}}
-    {{ with .Site.GetPage "/" }}
-      {{ range .Pages }}
-        {{ partial "nav/sidebar/sidebar.html" (dict "ctx" . "depth" 0 "Page" $.Page ) }}
-      {{ end }}
-    {{ end }}
+    {{/* {{ with .Site.GetPage "/" }} */}}
+      {{/* {{ range .Pages }} */}}
+        {{/* {{ partial "nav/sidebar/sidebar.html" (dict "ctx" . "depth" 0 "Page" $.Page ) }} */}}
+      {{/* {{ end }} */}}
+      {{ partial "nav/sidebar/sidebar2.html" . }}
+    {{/* {{ end }} */}}
   </div>
 
   <div class="border-t">
