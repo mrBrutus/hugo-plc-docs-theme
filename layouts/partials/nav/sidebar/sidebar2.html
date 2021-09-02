@@ -30,51 +30,48 @@
   {{/* page is part of a versioned section */}}
   {{ $isVersioned := false }}
   {{ $branches := dict }}
-  {{ if not $isBranchRedirect }}
-    {{ with index .p1.Site.Data.import .p1.Title }}
-      {{ $isVersioned = true}}
-      {{/* variable for populating the dropdown */}}
-      {{ $branches = . }}
-    {{end}}
+  {{ with index .p1.Site.Data.import .p1.Title }}
+    {{ $isVersioned = true}}
+    {{ $branches = . }}
   {{end}}
 
   {{ $padding := printf "pl-%v" (add (mul $level 2) 2) }}
 
   {{/* item has a <select> for selecting the branch */}}
-  {{ $hasBranchSelector := (and $isTopLevel $isVersioned (not $isBranchRedirect)) }}
+  {{ $hasBranchSelector := (and $isTopLevel $isVersioned ) }}
 
-  {{/* 
-  - isHidden: item has to be hidden in this context  
+  {{/*
+  - isHidden: item has to be hidden in this context
   - isCollapsible: make bundle collapsible
   */}}
   {{ $isHidden := false }}
   {{ if not $isTopLevel }}
     {{ if (not $isSameSection) }}{{ $isHidden = true }}{{ end}}
   {{ else }}
-    {{ if and ($isVersioned) (not $isSameSection) }}{{ $isHidden = true }}{{ end}}
+    {{ if and ($isVersioned) (not $isSameSection) (not $isBranchRedirect) }}{{ $isHidden = true }}{{ end}}
     {{ if and ($isBranchRedirect) ($hideBranchRedirect) }}{{ $isHidden = true }}{{ end}}
   {{ end}}
   {{/* {{ $isHidden := false }} */}}
 
 
   {{ if not $isHidden }}
+    <div class="sidebar-item flex justify-between w-full {{if $isActivePage}}active{{ end }} {{printf `level-%v` $level }}">
+      <a href="{{ .p1.Permalink }}" class="w-full py-4 md:py-2 {{ $padding }}">
+        {{ $title := .p1.Title }}
+        {{ if .org.Param "debug" }}{{ $title = printf "%v-%v" $level $title }}{{end}}
+        <span class="mr-2">{{ $title }}</span>
+      </a>
+
+      {{if $hasBranchSelector }}
+        {{ partial "nav/sidebar/branch-selector.html" (dict
+          "branches" $branches
+          "label" (.p1.Title | urlize)
+          )
+        }}
+      {{end}}
+    </div>
+
     <div class="{{ if .org.Param `debug` }}m-1 border border-black{{end}}">
-      <div class="sidebar-item flex justify-between w-full {{if $isActivePage}}active{{ end }}">
-        <a href="{{ .p1.Permalink }}" class="w-full py-4 md:py-2 {{ $padding }}"> 
-          {{ $title := .p1.Title }}
-          {{ if .org.Param "debug" }}{{ $title = printf "%v-%v" $level $title }}{{end}}
-          <span class="mr-2">{{ $title }}</span>
-        </a>
-
-        {{if $hasBranchSelector }}
-          {{ partial "nav/sidebar/branch-selector.html" (dict
-            "branches" $branches
-            "label" (.p1.Title | urlize)
-            )
-          }}
-        {{end}}
-      </div>
-
       {{ if .org.Param "debug" }}
         <div class="{{ $padding }}">
           <p class="text-xs text-brand" title="p1-item url">{{printf "%v" .p1.Permalink }}</p>

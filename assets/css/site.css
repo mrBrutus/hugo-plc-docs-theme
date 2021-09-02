@@ -150,8 +150,28 @@ kbd {
   @apply min-h-12 md:min-h-8;
 }
 
+.sidebar-item:not(.active) > a {
+  @apply hover:text-brand hover:bg-default-soft transition-colors;
+}
+
 .sidebar-item.active {
   @apply bg-default-soft;
+}
+
+.sidebar-item.level-0 {
+  @apply font-semibold;
+}
+
+.sidebar-item.level-1,
+.sidebar-item.level-2,
+.sidebar-item.level-3,
+.sidebar-item.level-4,
+.sidebar-item.level-5,
+.sidebar-item.level-6,
+.sidebar-item.level-7,
+.sidebar-item.level-8
+ {
+  @apply font-normal text-sm;
 }
 
 .collapse {
