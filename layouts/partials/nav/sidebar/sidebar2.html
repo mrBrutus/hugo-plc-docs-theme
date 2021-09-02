@@ -2,70 +2,70 @@
 {{ $org := .Page }}
 
 {{ with .Site.GetPage "/" }}
-  {{/* <p class="lead">{{printf "%v" $p2.Permalink }}</p> */}}
   {{ range $p := .Pages }}
-    {{/* <div class="m-1 p-1 border border-black"> */}}
-      {{ template "sidebar" (dict "p1" $p "p2" .Page "org" $org "level" $level ) }}
-    {{/* </div> */}}
+    {{ template "sidebar" (dict "p1" $p "p2" .Page "org" $org "level" $level ) }}
   {{ end }}
 {{ end }}
 
+
 {{ define "sidebar" }}
   {{ $level := .level }}
-  {{ $class := "" }}
-  {{ $padding := "" }}
 
   {{/* active page */}}
   {{ $isActivePage := eq .p1.Permalink .org.Permalink }}
 
   {{/* active tree */}}
   {{ $isActiveTree := or (.org.IsDescendant .p1) (.p1.IsDescendant .org) }}
-  {{/* {{ $isActiveTree := (.p1.IsDescendant .org) }} */}}
 
   {{/* top level page */}}
   {{ $isTopLevel := eq $level 0 }}
 
-  {{/* Branch redirecting page */}}
+  {{/* branch redirecting page */}}
   {{ $isBranchRedirect := (eq (.p1.Param "layout") "branch-redirect")}}
+  {{ $hideBranchRedirect := (and (not .org.Page.IsHome) (in .org.Permalink (.p1.Permalink | strings.TrimSuffix "/" ) )) }}
 
   {{/* same section */}}
   {{ $isSameSection := (eq (.p1.Section) (.org.Section)) }}
-
 
   {{/* page is part of a versioned section */}}
   {{ $isVersioned := false }}
   {{ $branches := dict }}
   {{ if not $isBranchRedirect }}
     {{ with index .p1.Site.Data.import .p1.Title }}
-      {{/* {{if gt (len .) 1 }} */}}
-        {{ $isVersioned = true}}
-        {{/* variable for populating the dropdown */}}
-        {{ $branches = . }}
-      {{/* {{end}} */}}
+      {{ $isVersioned = true}}
+      {{/* variable for populating the dropdown */}}
+      {{ $branches = . }}
     {{end}}
   {{end}}
+
+  {{ $padding := printf "pl-%v" (add (mul $level 2) 2) }}
 
   {{/* item has a <select> for selecting the branch */}}
   {{ $hasBranchSelector := (and $isTopLevel $isVersioned (not $isBranchRedirect)) }}
 
-  {{ $padding = printf "pl-%v" (add (mul $level 2) 2) }}
+  {{/* 
+  - isHidden: item has to be hidden in this context  
+  - isCollapsible: make bundle collapsible
+  */}}
+  {{ $isHidden := false }}
+  {{ if not $isTopLevel }}
+    {{ if (not $isSameSection) }}{{ $isHidden = true }}{{ end}}
+  {{ else }}
+    {{ if and ($isVersioned) (not $isSameSection) }}{{ $isHidden = true }}{{ end}}
+    {{ if and ($isBranchRedirect) ($hideBranchRedirect) }}{{ $isHidden = true }}{{ end}}
+  {{ end}}
+  {{/* {{ $isHidden := false }} */}}
 
-  {{/* set classes on <div> */}}
-  {{ $class = printf "%s sidebar-item %s" $class $padding }}
-  {{if $isActivePage}}
-    {{ $class = printf "%s active" $class }}
-  {{end}}
 
-  <div class="{{ if .org.Param `debug` }}m-1 border border-black{{end}}">
-    <div class="{{ $class }}">
-      <div class="flex justify-between w-full">
-        <a href="{{ .p1.Permalink }}" class="">
+  {{ if not $isHidden }}
+    <div class="{{ if .org.Param `debug` }}m-1 border border-black{{end}}">
+      <div class="sidebar-item flex justify-between w-full {{if $isActivePage}}active{{ end }}">
+        <a href="{{ .p1.Permalink }}" class="w-full py-4 md:py-2 {{ $padding }}"> 
           {{ $title := .p1.Title }}
-          {{ if .org.Param "debug" }}
-            {{ $title = printf "%v-%v" $level $title }}
-          {{end}}
-          <span class="">{{ $title }}</span>
+          {{ if .org.Param "debug" }}{{ $title = printf "%v-%v" $level $title }}{{end}}
+          <span class="mr-2">{{ $title }}</span>
         </a>
+
         {{if $hasBranchSelector }}
           {{ partial "nav/sidebar/branch-selector.html" (dict
             "branches" $branches
@@ -74,41 +74,36 @@
           }}
         {{end}}
       </div>
-    </div>
 
-
-    {{ if .org.Param "debug" }}
-      <div class="{{ $padding }}">
-        <p class="text-xs text-brand" title="p1-item url">{{printf "%v" .p1.Permalink }}</p>
-        {{/* <p class="text-xs text-brand" title="p2-parent url">{{printf "%v" .p2.Permalink }}</p> */}}
-        {{/* <p class="text-xs text-brand" title="org-active url">{{printf "%v" .org.Permalink }}</p> */}}
-        {{/* <p class="text-xs text-brand" title="{{printf `p2: %v` .p2.Permalink }}">{{printf "%v" .p1.Permalink }}</p> */}}
-
-        {{/* {{if eq .p1.Permalink .org.Permalink}}<p class="text-xs">active PAGE</p>{{end}} */}}
-        {{/* {{if .org.IsDescendant .p1}}<p class="text-xs">active tree (IsDescendant)</p>{{end}} */}}
-        {{if $isActivePage }}<p class="text-xs">isActivePage</p>{{end}}
-        {{if $isActiveTree}}<p class="text-xs">isActiveTree</p>{{end}}
-        {{if $isBranchRedirect}}<p class="text-xs">isBranchRedirect</p>{{end}}
-        {{if $isTopLevel}}<p class="text-xs">isTopLevel</p>{{end}}
-        {{if $isVersioned}}<p class="text-xs">isVersioned</p>{{end}}
-        {{if $hasBranchSelector}}<p class="text-xs">hasBranchSelector</p>{{end}}
-        {{if $isSameSection}}<p class="text-xs">isSameSection</p>{{end}}
-      </div>
-    {{end}}
-
-    {{/* recursive processing */}}
-    {{ if .p1.Parent }}
-      {{ range $p := .p1.Pages }}
-        {{/* <div class="pl-2"> */}}
-        <div class="">
-        {{/* <div class=""> */}}
-          {{ $level = add $level 1 }}
-          {{ template "sidebar" (dict "p1" $p "p2" $.p1 "org" $.org "level" $level ) }}
-          {{ $level = sub $level 1 }}
+      {{ if .org.Param "debug" }}
+        <div class="{{ $padding }}">
+          <p class="text-xs text-brand" title="p1-item url">{{printf "%v" .p1.Permalink }}</p>
+          {{/* <p class="text-xs text-brand" title="p2-parent url">{{printf "%v" .p2.Permalink }}</p> */}}
+          {{/* <p class="text-xs text-brand" title="org-active url">{{printf "%v" .org.Permalink }}</p> */}}
+          {{/* <p class="text-xs text-brand" title="{{printf `p2: %v` .p2.Permalink }}">{{printf "%v" .p1.Permalink }}</p> */}}
+          {{if $isActivePage }}<p class="text-xs">isActivePage</p>{{end}}
+          {{if $isActiveTree}}<p class="text-xs">isActiveTree</p>{{end}}
+          {{if $isBranchRedirect}}<p class="text-xs">isBranchRedirect</p>{{end}}
+          {{/* {{if $hideBranchRedirect}}<p class="text-xs">hideBranchRedirect</p>{{end}} */}}
+          {{if $isTopLevel}}<p class="text-xs">isTopLevel</p>{{end}}
+          {{if $isVersioned}}<p class="text-xs">isVersioned</p>{{end}}
+          {{if $hasBranchSelector}}<p class="text-xs">hasBranchSelector</p>{{end}}
+          {{if $isSameSection}}<p class="text-xs">isSameSection</p>{{end}}
         </div>
-      {{ end }}
-    {{ end }}
+      {{end}}
 
-  </div>
+      {{/* recursive processing */}}
+      {{ if .p1.Parent }}
+        {{ range $p := .p1.Pages }}
+          <div class="">
+            {{ $level = add $level 1 }}
+            {{ template "sidebar" (dict "p1" $p "p2" $.p1 "org" $.org "level" $level ) }}
+            {{ $level = sub $level 1 }}
+          </div>
+        {{ end }}
+      {{ end }}
+
+    </div>
+  {{ end }}
 
 {{ end }}

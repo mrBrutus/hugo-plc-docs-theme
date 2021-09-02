@@ -147,7 +147,7 @@ kbd {
 
 .sidebar-item {
   @apply flex-grow flex items-center;
-  @apply py-4 md:py-2 pr-4 min-h-12 md:min-h-8;
+  @apply min-h-12 md:min-h-8;
 }
 
 .sidebar-item.active {

@@ -39,7 +39,7 @@ function initializeBranchSelect(sel) {
 
   // if available, the branch name stored in local storage is used
   if (branchStored) {
-    if (branchUrl !== branchStored) {
+    if ((branchUrl !== branchStored) && (branchUrl !== null))  {
       // change the url to reflect the stored branch
       updateBranchInUrl(branchStored, section)
     }
@@ -223,14 +223,6 @@ toggleMenuButton.addEventListener('click', toggleSidebarState);
 let overlayButton = document.getElementById('overlay');
 overlayButton.addEventListener('click', toggleSidebarState);
 
-
-// expand sidebar for current page
-const pageUrl = location.origin + location.pathname
-$('a').each(function () {
-  if (this.href == pageUrl) {
-    $(this).addClass('active').parents('.collapse').addClass('show');
-  }
-});
 
 // initial update
 updateSidebar();

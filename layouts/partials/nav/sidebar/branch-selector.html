@@ -1,11 +1,8 @@
-<label for= "{{ .label }}" class="flex items-center">
-  <select id="{{ .label }}" class="branch-select">
+<label for= "{{ .label }}" class="flex items-center pr-4">
+  {{ $disabled := (le (len .branches) 1) }}
+  <select id="{{ .label }}" class="branch-select" {{ if $disabled }}disabled{{ end }}>
     {{ range $i, $j := .branches }}
-      {{ if eq $i 0 }}
-        <option class="latest-branch" title="latest branch" value="{{ . }}">{{ . }}</option>
-      {{ else }}
-        <option value="{{ . }}">{{ . }}</option>
-      {{end}}
+      <option value="{{ . }}" {{ if eq $i 0 }}class="latest-branch" title="latest branch"{{ end }}>{{ . }}</option>
     {{end}}
   </select>
 </label>

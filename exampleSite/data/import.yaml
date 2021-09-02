@@ -1,0 +1,4 @@
+Foo:
+  # branches:
+  - main
+  - '0.1.0'
