@@ -233,41 +233,45 @@ updateSidebar();
 //  - Remember the sidebar scroll position between page loads
 // ============================================================================
 
-let storedScrollTop = parseInt(sessionStorage.getItem('sidebar-scroll-top'), 10);
+let storedScrollPos = parseInt(sessionStorage.getItem('sidebar-scroll-pos'), 10);
 let sidebarScroller = document.getElementById('sidebar');
-let selectedItem = sidebar.querySelector('.sidebar-item.active');
+let activeItem = sidebar.querySelector('.sidebar-item.active');
 
-if (sidebarScroller && selectedItem) {
-  if (!isNaN(storedScrollTop)) {
-    sidebarScroller.scrollTop = storedScrollTop;
-    // make sure it's into view
-    if (selectedItem) {
-      const itemTopPos = selectedItem.getBoundingClientRect().top;
-      const scrollTopPos = sidebarScroller.scrollHeight;
+if (sidebarScroller && activeItem) {
+  const activeItemOffset = activeItem.getBoundingClientRect().top - sidebarScroller.offsetTop;
+  const scrollerHeight = sidebarScroller.offsetHeight;
+  const activeItemHeight = activeItem.offsetHeight;
+  const activeItemPadding = (scrollerHeight * 0.05)
 
-      if (itemTopPos < sidebarScroller.offsetTop) {
-        console.log("sidebar needs scroll down");
-      }
+  if (!isNaN(storedScrollPos)) {
+    sidebarScroller.scrollTop = storedScrollPos;
 
-      if ((itemTopPos + selectedItem.offsetHeight) > (sidebarScroller.offsetTop + sidebarScroller.offsetHeight)) {
-        console.log("sidebar needs scroll up");
-      }
+    const scrollerPos = sidebarScroller.scrollTop;
+    const activeItemPos = activeItemOffset - scrollerPos;
 
-      // console.log(sidebarScroller.offsetTop);
-      // console.log(sidebarScroller.offsetHeight);
-      // console.log(sidebarScroller.scrollHeight);
-      // console.log(sidebarScroller.scrollTop);
-      // console.log(itemTopPos);
+    // console.log('storedScrollPos: ' + Math.trunc(storedScrollPos));
+    // console.log('activeItemOffset: ' + Math.trunc(activeItemOffset));
+    // console.log('scrollerHeight: ' + Math.trunc(scrollerHeight));
+    // console.log('activeItemHeight: ' + Math.trunc(activeItemHeight));
+    // console.log('activeItemPos: ' + Math.trunc(activeItemPos));
+    // console.log('scrollerPos: ' + Math.trunc(scrollerPos));
+
+    // scroll into view
+    if (activeItemPos < 0) {
+      sidebarScroller.scrollTop = activeItemOffset - activeItemPadding;
+    }
+
+    if ((activeItemPos + activeItemHeight) > (scrollerHeight)) {
+      sidebarScroller.scrollTop = (activeItemOffset + activeItemHeight - scrollerHeight) + activeItemPadding;
     }
   }
   else {
-    // let selectedItem = sidebar.querySelector('.sidebar-item.active');
-    sidebarScroller.scrollTop = selectedItem.offsetTop + sidebarScroller.offsetHeight * 0.8;
+    sidebarScroller.scrollTop = activeItemOffset - activeItemPadding;
   }
 }
 
 window.addEventListener('pagehide', () => {
-  sessionStorage.setItem('sidebar-scroll-top', sidebarScroller.scrollTop);
+  sessionStorage.setItem('sidebar-scroll-pos', sidebarScroller.scrollTop);
 });
 
 
