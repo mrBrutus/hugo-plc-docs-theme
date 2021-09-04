@@ -39,7 +39,7 @@ function initializeBranchSelect(sel) {
 
   // if available, the branch name stored in local storage is used
   if (branchStored) {
-    if ((branchUrl !== branchStored) && (branchUrl !== null))  {
+    if ((branchUrl !== branchStored) && (branchUrl !== null)) {
       // change the url to reflect the stored branch
       updateBranchInUrl(branchStored, section)
     }
@@ -283,7 +283,7 @@ window.addEventListener('pagehide', () => {
  * Invoke `click` method for DOM element
  * @param {string} id
  */
- function clickElementById(id) {
+function clickElementById(id) {
   const l = document.getElementById(id)
   if (l) { l.click() }
 }
