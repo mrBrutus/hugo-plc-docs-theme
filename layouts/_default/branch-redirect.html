@@ -36,16 +36,16 @@
       const urlBranch = urlParams.get('branch')
 
       // get stored branch
-      let branch = (urlBranch === null) ? localStorage.getItem({{ $.Title | urlize }}) : urlBranch
+      let branch = (urlBranch === null) ? sessionStorage.getItem({{ $.Section }}) : urlBranch
 
       // if branch not valid pick latest
       if (!branchArray.includes(branch)) { branch = branchArray[0] }
 
         // save branch to local storage
-        localStorage.setItem({{ $.Title | urlize }}, branch);
+        sessionStorage.setItem({{ $.Section }}, branch);
         
         // update URL for the selected branch
-        window.history.replaceState({}, document.title, "/" + ({{ $.Title | urlize }} + '-' + branch))
+        window.history.replaceState({}, document.title, "/" + ({{ $.Section }} + '-' + branch))
         location.reload()
     </script>
   {{ end }}

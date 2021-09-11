@@ -25,7 +25,7 @@ function branchSelectChanged(sel) {
 
 
 /**
- * Initialize the branch selection 
+ * Initialize the branch selection
  */
 function initializeBranchSelect(sel) {
   const section = sel.id
@@ -172,7 +172,7 @@ let updateSidebar = function () {
 
 
 /**
- * Toggle the sidebar state 
+ * Toggle the sidebar state
  * - setting stored in sessionStorage variable
  */
 let toggleSidebarState = function () {
@@ -329,7 +329,7 @@ function setOption(selectElement, optionValue) {
 * @param {HTMLSelectElement} selectElement
 */
 function optionToLocalStorage(selectElement) {
-  localStorage.setItem(selectElement.id, selectElement.value);
+  sessionStorage.setItem(selectElement.id, selectElement.value);
 }
 
 
@@ -339,7 +339,7 @@ function optionToLocalStorage(selectElement) {
 * @return {string}
 */
 function optionFromLocalStorage(selectElement) {
-  return localStorage.getItem(selectElement.id);
+  return sessionStorage.getItem(selectElement.id);
 }
 
 
@@ -378,7 +378,7 @@ function branchFromUrl(section) {
 /**
  * Generates a table of contents for your document based on the headings
  *  present. Anchors are injected into the document and the
- *  entries in the table of contents are linked to them. 
+ *  entries in the table of contents are linked to them.
  *   - This is based on the code from Matthew Christopher Kastor-Inare III
  */
 function htmlTableOfContents() {
