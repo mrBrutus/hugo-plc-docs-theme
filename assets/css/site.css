@@ -148,10 +148,13 @@ kbd {
 .sidebar-item {
   @apply flex-grow flex items-center;
   @apply min-h-12 md:min-h-8;
+  @apply hover:bg-default-soft;
+  @apply transition-colors duration-150;
 }
 
 .sidebar-item:not(.active) > a {
-  @apply hover:text-brand hover:bg-default-soft transition-colors;
+  @apply hover:text-brand;
+  @apply transition-colors duration-150;
 }
 
 .sidebar-item.active {

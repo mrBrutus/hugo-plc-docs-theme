@@ -1,107 +1,106 @@
-{{ $ctx := .ctx}}
-{{ $depth := .depth }}
+{{ $level := 0 }}
+{{ $org := .Page }}
 
-{{ $collapseId := ""}}
-{{ $branches := dict }}
-{{ $isImportedSection := false }}
-
-{{ $isTopLevel := eq $depth 0 }}
-{{ $hasChildren := gt (len $ctx.Pages) 0 }}
-{{ with $ctx.Param (printf "imported_sections.%s" $ctx.Title) }}
-  {{ $isImportedSection = true}}
-  {{/* branches will be used for populating the dropdown */}}
-  {{ $branches = .branches }}
-{{end}}
-{{ $inActiveSection := (in $.Page.Section $ctx.Section) }}
-{{ $isActive := (eq $.Page.Permalink $ctx.Permalink) }}
-{{ $isBranchRedirect := (eq ($ctx.Param "layout") "branch-redirect")}}
-
-{{/* single pages at top level */}}
-{{ if not $hasChildren }}
-  {{ $showTopLevelItem := false }}
-
-  {{ if not $isImportedSection }}{{ $showTopLevelItem = true}}{{end}}
-  {{ if (and ($isBranchRedirect) (not $inActiveSection))}}{{ $showTopLevelItem = true}}{{end}}
-  {{ if (and (not $isBranchRedirect) ($inActiveSection))}}{{ $showTopLevelItem = true}}{{end}}
-
-  {{ if $showTopLevelItem }}
-
-    {{/* has no children -> link to page in sidebar */}}
-    {{ partial "nav/sidebar/item.html" (dict 
-      "debugColor" "bg-blue-400"
-      "ctx" $ctx 
-      "title" $ctx.Title
-      "url" $ctx.Permalink 
-      "branchSelector" (and ($isImportedSection) (not $isBranchRedirect)) 
-      "branches" $branches 
-      ) 
-    }}
-
+{{ with .Site.GetPage "/" }}
+  {{ range $p := .Pages }}
+    {{ template "sidebar" (dict "p1" $p "p2" .Page "org" $org "level" $level ) }}
   {{ end }}
+{{ end }}
 
-{{ else }}
+
+{{ define "sidebar" }}
+  {{ $level := .level }}
+
+  {{/* active page */}}
+  {{ $isActivePage := eq .p1.Permalink .org.Permalink }}
+
+  {{/* active tree */}}
+  {{ $isActiveTree := or (.org.IsDescendant .p1) (.p1.IsDescendant .org) }}
+
+  {{/* top level page */}}
+  {{ $isTopLevel := eq $level 0 }}
+
+  {{/* branch redirecting page */}}
+  {{ $isBranchRedirect := (eq (.p1.Param "layout") "branch-redirect")}}
+  {{ $hideBranchRedirect := (and (not .org.Page.IsHome) (in .org.Permalink (.p1.Permalink | strings.TrimSuffix "/" ) )) }}
+
+  {{/* same section */}}
+  {{ $isSameSection := (eq (.p1.Section) (.org.Section)) }}
+
+  {{/* page is part of a versioned section */}}
+  {{ $isVersioned := false }}
+  {{ $branches := dict }}
+  {{ with index .p1.Site.Data.import .p1.Title }}
+    {{ $isVersioned = true}}
+    {{ $branches = . }}
+  {{end}}
+
+  {{ $padding := printf "pl-%v" (add (mul $level 2) 2) }}
+
+  {{/* item has a <select> for selecting the branch */}}
+  {{ $hasBranchSelector := (and $isTopLevel $isVersioned ) }}
+
+  {{/*
+  - isHidden: item has to be hidden in this context
+  - isCollapsible: make bundle collapsible
+  */}}
+  {{ $isHidden := false }}
+  {{ if not $isTopLevel }}
+    {{ if (not $isSameSection) }}{{ $isHidden = true }}{{ end}}
+  {{ else }}
+    {{ if and ($isVersioned) (not $isSameSection) (not $isBranchRedirect) }}{{ $isHidden = true }}{{ end}}
+    {{ if and ($isBranchRedirect) ($hideBranchRedirect) }}{{ $isHidden = true }}{{ end}}
+  {{ end}}
+  {{/* {{ $isHidden := false }} */}}
 
 
-  {{/* collection of pages which contain the current page */}}
-  {{ if $inActiveSection }}
-    {{/* has children -> collapsible section in sidebar */}}
-    {{/* create unique id for collapse */}}
-    {{ $collapseId = printf "_%s" (substr (md5 $ctx.RelPermalink) 0 5) }}
+  {{ if not $isHidden }}
+    <div class="sidebar-item flex justify-between w-full {{if $isActivePage}}active{{ end }} {{printf `level-%v` $level }}">
+      <a href="{{ .p1.Permalink }}" class="w-full py-4 md:py-2 {{ $padding }}">
+        {{ $title := .p1.Title }}
+        {{ if .org.Param "debug" }}{{ $title = printf "%v-%v" $level $title }}{{end}}
+        <span class="mr-2">{{ $title }}</span>
+      </a>
 
-    {{/* already expand certain menu items */}}
-    {{/* - items with just a few children */}}
-    {{ $startExpanded := false }}
-
-    {{if $isTopLevel }}{{$startExpanded = true}}{{end}}
-    {{ partial "nav/sidebar/item.html" (dict 
-      "debugColor" "bg-gray-400" 
-      "ctx" $ctx 
-      "padding" (printf "pl-%v" (sub (mul $depth 2) 0)) 
-      "title" $ctx.Title "url" (printf "#%s" $collapseId) 
-      "branchSelector" ($isImportedSection) 
-      "branches" $branches 
-      "collapse" true
-      ) 
-    }}
-
-    {{/* recursive processing of children */}}
-    <div class="collapse {{if $startExpanded }}show{{end}}" id="{{ $collapseId }}">
-      {{range $page_index, $page := $ctx.Pages }}
-        {{if gt (len .Pages) 0 }}
-          {{ partial "nav/sidebar/sidebar.html" (dict 
-            "ctx" $page
-            "depth" (add $depth 1)
-            "Page" $.Page 
-            ) 
-          }}
-        {{else}}
-
-          {{/* single pages not at top level */}}
-          {{ partial "nav/sidebar/item.html" (dict 
-            "debugColor" "bg-purple-400" 
-            "ctx" $ctx 
-            "padding" (printf "pl-%v" (add (mul $depth 2) 2)) 
-            "title" .Title 
-            "url" .Permalink 
-            ) 
-          }}
-
-        {{end}}
+      {{if $hasBranchSelector }}
+        {{ partial "nav/sidebar/branch-selector.html" (dict
+          "branches" $branches
+          "label" (.p1.Section | replaceRE "(^.*)(-.*)" "$1")
+          )
+        }}
       {{end}}
     </div>
 
-  {{ else }}
-    {{/* collection of pages at top level */}}
-    {{ if not $isImportedSection }}
+    <div class="{{ if .org.Param `debug` }}m-1 border border-black{{end}}">
+      {{ if .org.Param "debug" }}
+        <div class="{{ $padding }}">
+          <p class="text-xs text-brand" title="p1-item url">{{printf "%v" .p1.Permalink }}</p>
+          {{/* <p class="text-xs text-brand" title="p2-parent url">{{printf "%v" .p2.Permalink }}</p> */}}
+          {{/* <p class="text-xs text-brand" title="org-active url">{{printf "%v" .org.Permalink }}</p> */}}
+          {{/* <p class="text-xs text-brand" title="{{printf `p2: %v` .p2.Permalink }}">{{printf "%v" .p1.Permalink }}</p> */}}
+          {{if $isActivePage }}<p class="text-xs">isActivePage</p>{{end}}
+          {{if $isActiveTree}}<p class="text-xs">isActiveTree</p>{{end}}
+          {{if $isBranchRedirect}}<p class="text-xs">isBranchRedirect</p>{{end}}
+          {{/* {{if $hideBranchRedirect}}<p class="text-xs">hideBranchRedirect</p>{{end}} */}}
+          {{if $isTopLevel}}<p class="text-xs">isTopLevel</p>{{end}}
+          {{if $isVersioned}}<p class="text-xs">isVersioned</p>{{end}}
+          {{if $hasBranchSelector}}<p class="text-xs">hasBranchSelector</p>{{end}}
+          {{if $isSameSection}}<p class="text-xs">isSameSection</p>{{end}}
+        </div>
+      {{end}}
 
-      {{ partial "nav/sidebar/item.html" (dict 
-        "debugColor" "bg-green-400" 
-        "ctx" $ctx 
-        "title" $ctx.Title 
-        "url" $ctx.Permalink 
-        ) 
-      }}
+      {{/* recursive processing */}}
+      {{ if .p1.Parent }}
+        {{ range $p := .p1.Pages }}
+          <div class="">
+            {{ $level = add $level 1 }}
+            {{ template "sidebar" (dict "p1" $p "p2" $.p1 "org" $.org "level" $level ) }}
+            {{ $level = sub $level 1 }}
+          </div>
+        {{ end }}
+      {{ end }}
 
-    {{ end }}
+    </div>
   {{ end }}
+
 {{ end }}
