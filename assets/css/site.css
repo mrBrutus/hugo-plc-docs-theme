@@ -149,12 +149,12 @@ kbd {
   @apply flex-grow flex items-center;
   @apply min-h-12 md:min-h-8;
   @apply hover:bg-default-soft;
-  @apply transition-colors duration-150;
+  @apply transition-colors duration-100;
 }
 
 .sidebar-item:not(.active) > a {
   @apply hover:text-brand;
-  @apply transition-colors duration-150;
+  @apply transition-colors duration-100;
 }
 
 .sidebar-item.active {
@@ -162,7 +162,7 @@ kbd {
 }
 
 .sidebar-item.level-0 {
-  @apply font-semibold;
+  @apply text-base;
 }
 
 .sidebar-item.level-1,
@@ -172,9 +172,16 @@ kbd {
 .sidebar-item.level-5,
 .sidebar-item.level-6,
 .sidebar-item.level-7,
-.sidebar-item.level-8
- {
+.sidebar-item.level-8 {
   @apply font-normal text-sm;
+}
+
+.sidebar-item.parent {
+  @apply font-semibold;
+}
+
+.sidebar-item.new-group {
+  @apply mt-2;
 }
 
 .collapse {

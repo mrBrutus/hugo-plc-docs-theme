@@ -2,6 +2,7 @@
 {{ $org := .Page }}
 
 {{ with .Site.GetPage "/" }}
+  {{ $org.Scratch.Set "lastLevel" 0 }}
   {{ range $p := .Pages }}
     {{ template "sidebar" (dict "p1" $p "p2" .Page "org" $org "level" $level ) }}
   {{ end }}
@@ -10,6 +11,7 @@
 
 {{ define "sidebar" }}
   {{ $level := .level }}
+  {{ $lastLevel := .org.Scratch.Get "lastLevel" }}
 
   {{/* active page */}}
   {{ $isActivePage := eq .p1.Permalink .org.Permalink }}
@@ -40,10 +42,10 @@
   {{/* item has a <select> for selecting the branch */}}
   {{ $hasBranchSelector := (and $isTopLevel $isVersioned ) }}
 
-  {{/*
-  - isHidden: item has to be hidden in this context
-  - isCollapsible: make bundle collapsible
-  */}}
+  {{/* page has children */}}
+  {{ $isParent := or (gt (len .p1.Pages) 0) $isBranchRedirect }}
+
+  {{/* item has to be hidden in this context */}}
   {{ $isHidden := false }}
   {{ if not $isTopLevel }}
     {{ if (not $isSameSection) }}{{ $isHidden = true }}{{ end}}
@@ -51,14 +53,18 @@
     {{ if and ($isVersioned) (not $isSameSection) (not $isBranchRedirect) }}{{ $isHidden = true }}{{ end}}
     {{ if and ($isBranchRedirect) ($hideBranchRedirect) }}{{ $isHidden = true }}{{ end}}
   {{ end}}
-  {{/* {{ $isHidden := false }} */}}
-
 
   {{ if not $isHidden }}
-    <div class="sidebar-item flex justify-between w-full {{if $isActivePage}}active{{ end }} {{printf `level-%v` $level }}">
+    <div class="
+    sidebar-item flex justify-between w-full
+    {{if $isActivePage}}active{{ end }}
+    {{if $isParent}}parent{{ end }}
+    {{if gt $lastLevel $level}}new-group{{ end }}
+    {{printf `lastLevel-%v` $lastLevel }}
+    {{printf `level-%v` $level }}">
       <a href="{{ .p1.Permalink }}" class="w-full py-4 md:py-2 {{ $padding }}">
         {{ $title := .p1.Title }}
-        {{ if .org.Param "debug" }}{{ $title = printf "%v-%v" $level $title }}{{end}}
+        {{ if .org.Param "debug" }}{{ $title = printf "%v-%v %v" $level $lastLevel $title }}{{end}}
         <span class="mr-2">{{ $title }}</span>
       </a>
 
@@ -75,13 +81,9 @@
       {{ if .org.Param "debug" }}
         <div class="{{ $padding }}">
           <p class="text-xs text-brand" title="p1-item url">{{printf "%v" .p1.Permalink }}</p>
-          {{/* <p class="text-xs text-brand" title="p2-parent url">{{printf "%v" .p2.Permalink }}</p> */}}
-          {{/* <p class="text-xs text-brand" title="org-active url">{{printf "%v" .org.Permalink }}</p> */}}
-          {{/* <p class="text-xs text-brand" title="{{printf `p2: %v` .p2.Permalink }}">{{printf "%v" .p1.Permalink }}</p> */}}
           {{if $isActivePage }}<p class="text-xs">isActivePage</p>{{end}}
           {{if $isActiveTree}}<p class="text-xs">isActiveTree</p>{{end}}
           {{if $isBranchRedirect}}<p class="text-xs">isBranchRedirect</p>{{end}}
-          {{/* {{if $hideBranchRedirect}}<p class="text-xs">hideBranchRedirect</p>{{end}} */}}
           {{if $isTopLevel}}<p class="text-xs">isTopLevel</p>{{end}}
           {{if $isVersioned}}<p class="text-xs">isVersioned</p>{{end}}
           {{if $hasBranchSelector}}<p class="text-xs">hasBranchSelector</p>{{end}}
@@ -91,6 +93,7 @@
 
       {{/* recursive processing */}}
       {{ if .p1.Parent }}
+        {{ $.org.Scratch.Set "lastLevel" $level }}
         {{ range $p := .p1.Pages }}
           <div class="">
             {{ $level = add $level 1 }}
@@ -99,8 +102,6 @@
           </div>
         {{ end }}
       {{ end }}
-
     </div>
   {{ end }}
-
 {{ end }}
