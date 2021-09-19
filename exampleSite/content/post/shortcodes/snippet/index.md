@@ -2,7 +2,6 @@
 title: snippet
 description: For re-using snippets or text sections.
 author: mrBrutus
-date: 2021-06-07
 tags:
   - shortcode
 ---

@@ -2,7 +2,6 @@
 title: lead
 description: For inserting a lead paragraph.
 author: mrBrutus
-date: 2021-06-06
 tags:
   - shortcode
 ---

@@ -2,7 +2,6 @@
 title: note
 description: For inserting a note of various types.
 author: mrBrutus
-date: 2021-06-06
 tags:
   - shortcode
 ---

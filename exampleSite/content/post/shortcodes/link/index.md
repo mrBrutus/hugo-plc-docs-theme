@@ -2,7 +2,6 @@
 title: link
 description: For inserting a link (in <code> tags) to another page in the same section.
 author: mrBrutus
-date: 2021-09-19
 tags:
   - shortcode
 ---
