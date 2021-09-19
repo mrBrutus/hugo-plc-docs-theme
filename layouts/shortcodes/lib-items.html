@@ -23,7 +23,7 @@
 {{ $pages := slice }}
 {{ if $tag }}
   {{/* all pages of the specified tag */}}
-  {{ $pages = (index .Page.Site.Taxonomies.tags $tag).Pages }}
+  {{ $pages = where (index .Page.Site.Taxonomies.tags $tag).Pages "Section" $.Page.Section }}
 {{ else }}
   {{/* all pages of with a `lib` layout */}}
   {{ $pages = where .Page.FirstSection.RegularPagesRecursive "Layout" "data-type" }}
@@ -44,7 +44,7 @@
       {{ range $items }}
         {{ $item := partial "lib/lib-item-summary" ( dict "ctx" . ) }}
         {{ if eq $item.kind $type }}
-          {{ $table = printf "%s | %s | *%s* |\n" $table $item.markdownLink $item.comment }}
+          {{ $table = printf "%s | %s | %v |\n" $table $item.markdownLink (.Params.description | replaceRE "\n" " ") }}
           {{ $itemsFound = true }}
         {{ end }}
       {{ end }}
@@ -59,7 +59,7 @@
     {{ range where . "Layout" "data-type" }}
       {{ $itemsFound = true }}
       {{ $item := partial "lib/lib-item-summary" ( dict "ctx" . ) }}
-      {{ $table = printf "%s| %s | %s | *%s* |\n" $table $item.kind $item.markdownLink $item.comment }}
+      {{ $table = printf "%s| %s | %s | %v |\n" $table $item.kind $item.markdownLink (.Params.description | replaceRE "\n" " ") }}
     {{ end }}
 
     {{/* function blocks */}}
@@ -67,7 +67,7 @@
       {{ $item := partial "lib/lib-item-summary" ( dict "ctx" . ) }}
       {{ if eq $item.kind "function block" }}
         {{ $itemsFound = true }}
-        {{ $table = printf "%s| %s | %s | *%s* |\n" $table $item.kind $item.markdownLink $item.comment }}
+        {{ $table = printf "%s| %s | %s | %v |\n" $table $item.kind $item.markdownLink (.Params.description | replaceRE "\n" " ") }}
       {{ end }}
     {{ end }}
 
@@ -76,7 +76,7 @@
       {{ $item := partial "lib/lib-item-summary" ( dict "ctx" . ) }}
       {{ if eq $item.kind "function" }}
         {{ $itemsFound = true }}
-        {{ $table = printf "%s| %s | %s | *%s* |\n" $table $item.kind $item.markdownLink $item.comment }}
+        {{ $table = printf "%s| %s | %s | %v |\n" $table $item.kind $item.markdownLink (.Params.description | replaceRE "\n" " ") }}
       {{ end }}
     {{ end }}
   {{ end }}
