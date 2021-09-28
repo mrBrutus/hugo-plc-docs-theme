@@ -1,7 +1,7 @@
 {{ define "main" }}
     {{ partial "nav/main" . }}
 
-    <section class="md:ml-80 xl:ml-96 xl:mr-56">    
+    <section class="md:ml-80 xl:ml-96 xl:mr-56">
       <div class="pt-16 md:mx-auto px-4 lg:px-20 xl:px-20 min-h-full prose prose-sm md:prose max-w-none lg:max-w-3xl xl:max-w-4xl print:py-0 print:px-0 print:max-w-none print:prose">
         <main class="min-h-screen">
 
@@ -10,9 +10,11 @@
             {{ partial "body/page-buttons.html" . }}
           </div>
 
+          {{ partial "body/version-note" . }}
+
           {{/* read the YAML data from the page resources */}}
           {{ $yamlData := partial "lib/get-yaml-data" ( dict "ctx" $ "fileName" "definition" ) }}
-          
+
           <header>
             <div class="flex justify-start items-baseline flex-wrap mb-2">
               <h1 class="low-profile-header mr-2 py-0" id="{{ .Title }}">{{ .Title }}</h1>
@@ -37,7 +39,7 @@
             {{/* changelog */}}
             {{ if not .Params.disable_changelog }}
               {{ with $yamlData.changelog }}
-      
+
                 <section>
                   <h2 id="version-history">Version history</h2>
                   {{ partial "lib/version-history.html" . }}

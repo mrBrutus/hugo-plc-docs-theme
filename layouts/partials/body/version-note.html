@@ -1,0 +1,37 @@
+{{ $isVersioned := false }}
+{{ $branches := dict }}
+{{ $name := "" }}
+{{ $thisVersion := "" }}
+{{ $latestVersion := "" }}
+
+{{ with .Site.GetPage .Section }}
+  {{ $name = .Title }}
+  {{ with index .Site.Data.import $name }}
+    {{ $isVersioned = true}}
+    {{ $branches = . }}
+  {{end}}
+{{end}}
+
+{{ if $isVersioned }}
+  {{ with $branches }}
+    {{ $latestVersion = index . 0 }}
+    {{ range . }}
+      {{ if in $.Section . }}
+        {{ $thisVersion = . }}
+      {{end}} 
+    {{end}}
+  {{end}}
+
+  {{ $note := "" }} 
+  <div class="w-full mt-2 mb-8">
+    <div class="flex-grow px-4 py-4 bg-default-soft border-l-4 border-brand">      
+      {{ if ne $thisVersion $latestVersion }}
+        {{ $note = printf "These are **older** %v docs (`%v`)." $name $thisVersion }}  
+        {{ $note = printf "%v Latest version: `%v`." $note $latestVersion }} 
+      {{ else }}
+        {{ $note = printf "These are the latest %v docs (`%v`)." $name $thisVersion }}  
+      {{ end }}
+      {{ $note | markdownify }} 
+    </div>
+  </div>
+{{ end }}

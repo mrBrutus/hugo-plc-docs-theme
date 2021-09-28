@@ -7,6 +7,8 @@
 
           {{ partial "body/breadcrumb" . }}
 
+          {{ partial "body/version-note" . }}
+
           {{/* read the YAML data from the page resources */}}
           {{ $yamlData := partial "lib/get-yaml-data" ( dict "ctx" $ "fileName" "_lib" ) }}
 

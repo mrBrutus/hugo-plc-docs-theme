@@ -10,6 +10,8 @@
             {{ partial "body/page-buttons.html" . }}
           </div>
 
+          {{ partial "body/version-note" . }}
+
           <header>
             <h1>{{ .Title }}</h1>
             {{ if .Params.featuredImage }}
