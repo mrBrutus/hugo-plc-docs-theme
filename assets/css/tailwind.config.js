@@ -209,8 +209,7 @@ module.exports = {
 
             ':not(pre)>code, a code': {
               color: 'var(--color-brand)',
-              fontWeight: '400',
-              fontSize: '1rem'
+              fontWeight: '600'
             },
 
             pre: {
