@@ -126,7 +126,7 @@ html:not(.dark) {
  * ========================================================================= */
 
 kbd {
-  @apply inline-block px-1 mx-1 bg-background-soft text-default rounded border border-default-light shadow-inner font-mono tracking-wider uppercase;
+  @apply inline-block px-1 mx-1 bg-background-soft text-sm rounded border border-default-light shadow-inner font-mono tracking-wider uppercase;
 }
 
 
