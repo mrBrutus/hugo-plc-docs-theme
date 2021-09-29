@@ -12,7 +12,7 @@ highlightjs:
       id: hljsLightCss
     - url: plugins/highlightjs/styles/atom-one-dark-reasonable.css
       id: hljsDarkCss
-    - url: plugins/highlightjs/styles/vs.css
+    - url: plugins/highlightjs/styles/vs2015.css
       media: print
 
 jquery:
