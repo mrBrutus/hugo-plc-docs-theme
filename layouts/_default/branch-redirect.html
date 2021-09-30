@@ -27,26 +27,28 @@
 {{ end }}
 
 {{ define "head" }}
-  {{ with index .Site.Data.import .Title }}
-    <script>
-      const branchArray = {{ . | jsonify | safeJS }}
-      
-      // branch from query string: <page url>?branch=<branch name>
-      const urlParams = new URLSearchParams(window.location.search)
-      const urlBranch = urlParams.get('branch')
-
-      // get stored branch
-      let branch = (urlBranch === null) ? sessionStorage.getItem({{ $.Section }}) : urlBranch
-
-      // if branch not valid pick latest
-      if (!branchArray.includes(branch)) { branch = branchArray[0] }
-
-        // save branch to local storage
-        sessionStorage.setItem({{ $.Section }}, branch);
+  {{ with .Site.Data.import }}
+    {{ with index . $.Title }}
+      <script>
+        const branchArray = {{ . | jsonify | safeJS }}
         
-        // update URL for the selected branch
-        window.history.replaceState({}, document.title, "/" + ({{ $.Section }} + '-' + branch))
-        location.reload()
-    </script>
+        // branch from query string: <page url>?branch=<branch name>
+        const urlParams = new URLSearchParams(window.location.search)
+        const urlBranch = urlParams.get('branch')
+
+        // get stored branch
+        let branch = (urlBranch === null) ? sessionStorage.getItem({{ $.Section }}) : urlBranch
+
+        // if branch not valid pick latest
+        if (!branchArray.includes(branch)) { branch = branchArray[0] }
+
+          // save branch to local storage
+          sessionStorage.setItem({{ $.Section }}, branch);
+          
+          // update URL for the selected branch
+          window.history.replaceState({}, document.title, "/" + ({{ $.Section }} + '-' + branch))
+          location.reload()
+      </script>
+    {{ end }}
   {{ end }}
 {{ end }}
