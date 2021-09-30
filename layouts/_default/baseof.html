@@ -10,6 +10,7 @@
       {{ partial "head/scripts" . }}    
       {{ partial "head/theming" . }}
       {{ partial "head/meta" . }}
+      {{ block "head" . }}{{ end }}
   </head>
 
   <body class="notransition bg-background font-body text-default transition-color duration-300">
