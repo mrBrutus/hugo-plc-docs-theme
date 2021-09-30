@@ -44,7 +44,7 @@
 
           {{ with $data.type }}{{$type = printf " : %s" . }}{{end}}
           {{ with $data.default_value }}{{$default_value = printf " := %v" . }}{{end}}
-          {{ with $data.comment }}{{$comment = printf " (*%s*)" . }}{{end}}
+          {{ with $data.comment }}{{$comment = printf " (*%s*)" (. | replaceRE "\n" " " | strings.TrimRight " ") }}{{end}}
           {{ $code_block = printf "%s  %s%s%v;%s\n" $code_block $data.name $type $default_value $comment}}
         {{ end }}
         {{ $code_block = printf "%sEND_STRUCT\n" $code_block }}
