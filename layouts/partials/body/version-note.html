@@ -6,9 +6,11 @@
 
 {{ with .Site.GetPage .Section }}
   {{ $name = .Title }}
-  {{ with index .Site.Data.import $name }}
-    {{ $isVersioned = true}}
-    {{ $branches = . }}
+  {{ with .Site.Data.import }}
+    {{ with index . $name }}
+      {{ $isVersioned = true}}
+      {{ $branches = . }}
+    {{end}}
   {{end}}
 {{end}}
 
