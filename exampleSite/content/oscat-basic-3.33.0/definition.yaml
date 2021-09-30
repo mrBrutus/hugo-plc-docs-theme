@@ -1,0 +1,56 @@
+company: OSCAT
+author: The OSCAT community
+name: oscat_basic
+description: |
+  Excerpt from the [oscat library](http://www.oscat.de/).
+comment: Some short description here
+releases:
+  - version: 3.33.0
+    date: 2012-01-16
+    author: The OSCAT community
+    assets:
+      - name: Codesys
+        url: "http://www.oscat.de/component/jdownloads/download/2-oscat-basic/4-oscat-basic-331-codesys3.html"
+        date: 2012-01-19
+      - name: S7
+        url: "http://www.oscat.de/component/jdownloads/download/2-oscat-basic/8-oscat-basic-332-s7.html"
+        date: 2012-01-19
+    changed:
+      - "`REAL_TO_STRF`"
+      - "`_STRING_TO_BUFFER`"
+      - "`_BUFFER_INSERT`"
+      - "`SET_DATE`"
+      - "`RTC_2`"
+  - version: 3.32.0
+    date: 2011-04-08
+    author: The OSCAT community    
+    added:
+      - "`LIST_RETRIEVE_LAST`"
+      - "`LIST_ADD`"
+    changed:      
+      - "`GEN_PULSE`"
+      - "`CALENDAR_CALC`"
+      - "`REAL_TO_FRAC`"
+      - "`FILTER_MAV_W`"
+      - "`FACT`"
+      - "`CONSTANTS_MATH`"
+      - "`DATE_ADD`"
+      - "`LIST_SORT_L`"
+      - "`LIST_RETRIEVE_MAX`"
+      - "`LIST_RETRIEVE_MIN`"
+      - "`LIST_RETRIEVE`"
+      - "`LIST_NEXT`"
+      - "`LIST_LEN`"
+      - "`LIST_INSERT`"
+      - "`LIST_GET`"
+      - "`LIST_CLEAN`"
+      - "`MAX3`"
+      - "`MIN3`"
+      - "`MID3`"
+      - "`F_POLY`"
+      - "`F_QUAD`"
+      - "`ONTIME`"      
+    removed:      
+      - "`LIST_SORT_L`"
+      - "`LIST_RETRIEVE_MIN`"
+      - "`LIST_RETRIEVE_MAX`"
