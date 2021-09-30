@@ -1,52 +1,109 @@
-{{ define "main" }}
-    {{ partial "nav/main" . }}
+{{ $level := 0 }}
+{{ $org := .Page }}
 
-    <section class="md:ml-80 xl:ml-96 xl:mr-56">
-      <div class="pt-16 md:mx-auto px-4 lg:px-20 xl:px-20 min-h-full prose prose-sm md:prose max-w-none lg:max-w-3xl xl:max-w-4xl print:py-0 print:px-0 print:max-w-none print:prose">
-        <main class="min-h-screen">
-
-          <div class="flex justify-between">
-            {{ partial "body/breadcrumb" . }}
-            {{/* {{ partial "body/page-buttons.html" . }} */}}
-          </div>
-
-          <header>
-            <h1>{{ .Title }}</h1>
-            {{ if .Params.featuredImage }}
-              {{ partial "body/featured-image" . }}
-            {{ end }}
-          </header>
-
-          <article>
-            {{ "*This is the redirect page for a versioned section*" | markdownify  }}
-          </article>
-          {{ partial "footer/page-footer.html" . }}
-        </main>
-      </div>
-    </section>
+{{ with .Site.GetPage "/" }}
+  {{ $org.Scratch.Set "lastLevel" 0 }}
+  {{ range $p := .Pages }}
+    {{ template "sidebar" (dict "p1" $p "p2" .Page "org" $org "level" $level ) }}
+  {{ end }}
 {{ end }}
 
-{{ define "head" }}
-  {{ with index .Site.Data.import .Title }}
-    <script>
-      const branchArray = {{ . | jsonify | safeJS }}
-      
-      // branch from query string: <page url>?branch=<branch name>
-      const urlParams = new URLSearchParams(window.location.search)
-      const urlBranch = urlParams.get('branch')
 
-      // get stored branch
-      let branch = (urlBranch === null) ? sessionStorage.getItem({{ $.Section }}) : urlBranch
+{{ define "sidebar" }}
+  {{ $level := .level }}
+  {{ $lastLevel := .org.Scratch.Get "lastLevel" }}
 
-      // if branch not valid pick latest
-      if (!branchArray.includes(branch)) { branch = branchArray[0] }
+  {{/* active page */}}
+  {{ $isActivePage := eq .p1.Permalink .org.Permalink }}
 
-        // save branch to local storage
-        sessionStorage.setItem({{ $.Section }}, branch);
-        
-        // update URL for the selected branch
-        window.history.replaceState({}, document.title, "/" + ({{ $.Section }} + '-' + branch))
-        location.reload()
-    </script>
+  {{/* active tree */}}
+  {{ $isActiveTree := or (.org.IsDescendant .p1) (.p1.IsDescendant .org) }}
+
+  {{/* top level page */}}
+  {{ $isTopLevel := eq $level 0 }}
+
+  {{/* branch redirecting page */}}
+  {{ $isBranchRedirect := (eq (.p1.Param "layout") "branch-redirect")}}
+  {{ $hideBranchRedirect := (and (not .org.Page.IsHome) (in .org.Permalink (.p1.Permalink | strings.TrimSuffix "/" ) )) }}
+
+  {{/* same section */}}
+  {{ $isSameSection := (eq (.p1.Section) (.org.Section)) }}
+
+  {{/* page is part of a versioned section */}}
+  {{ $isVersioned := false }}
+  {{ $branches := dict }}
+  {{ with .p1.Site.Data.import }}
+    {{ with index . $.p1.Title }}
+      {{ $isVersioned = true}}
+      {{ $branches = . }}
+    {{end}}
+  {{end}}
+
+  {{ $padding := printf "pl-%v" (add (mul $level 2) 2) }}
+
+  {{/* item has a <select> for selecting the branch */}}
+  {{ $hasBranchSelector := (and $isTopLevel $isVersioned ) }}
+
+  {{/* page has children */}}
+  {{ $isParent := or (gt (len .p1.Pages) 0) $isBranchRedirect }}
+
+  {{/* item has to be hidden in this context */}}
+  {{ $isHidden := false }}
+  {{ if not $isTopLevel }}
+    {{ if (not $isSameSection) }}{{ $isHidden = true }}{{ end}}
+  {{ else }}
+    {{ if and ($isVersioned) (not $isSameSection) (not $isBranchRedirect) }}{{ $isHidden = true }}{{ end}}
+    {{ if and ($isBranchRedirect) ($hideBranchRedirect) }}{{ $isHidden = true }}{{ end}}
+  {{ end}}
+
+  {{ if not $isHidden }}
+    <div class="
+    sidebar-item flex justify-between w-full
+    {{if $isActivePage}}active{{ end }}
+    {{if $isParent}}parent{{ end }}
+    {{if gt $lastLevel $level}}new-group{{ end }}
+    {{printf `lastLevel-%v` $lastLevel }}
+    {{printf `level-%v` $level }}">
+      <a href="{{ .p1.Permalink }}" class="w-full py-4 md:py-2 {{ $padding }}">
+        {{ $title := .p1.Title }}
+        {{ if .org.Param "debug" }}{{ $title = printf "%v-%v %v" $level $lastLevel $title }}{{end}}
+        <span class="mr-2">{{ $title }}</span>
+      </a>
+
+      {{if $hasBranchSelector }}
+        {{ partial "nav/sidebar/branch-selector.html" (dict
+          "branches" $branches
+          "label" (.p1.Section | replaceRE "(^.*)(-.*)" "$1")
+          )
+        }}
+      {{end}}
+    </div>
+
+    <div class="{{ if .org.Param `debug` }}m-1 border border-black{{end}}">
+      {{ if .org.Param "debug" }}
+        <div class="{{ $padding }}">
+          <p class="text-xs text-brand" title="p1-item url">{{printf "%v" .p1.Permalink }}</p>
+          {{if $isActivePage }}<p class="text-xs">isActivePage</p>{{end}}
+          {{if $isActiveTree}}<p class="text-xs">isActiveTree</p>{{end}}
+          {{if $isBranchRedirect}}<p class="text-xs">isBranchRedirect</p>{{end}}
+          {{if $isTopLevel}}<p class="text-xs">isTopLevel</p>{{end}}
+          {{if $isVersioned}}<p class="text-xs">isVersioned</p>{{end}}
+          {{if $hasBranchSelector}}<p class="text-xs">hasBranchSelector</p>{{end}}
+          {{if $isSameSection}}<p class="text-xs">isSameSection</p>{{end}}
+        </div>
+      {{end}}
+
+      {{/* recursive processing */}}
+      {{ if .p1.Parent }}
+        {{ $.org.Scratch.Set "lastLevel" $level }}
+        {{ range $p := .p1.Pages }}
+          <div class="">
+            {{ $level = add $level 1 }}
+            {{ template "sidebar" (dict "p1" $p "p2" $.p1 "org" $.org "level" $level ) }}
+            {{ $level = sub $level 1 }}
+          </div>
+        {{ end }}
+      {{ end }}
+    </div>
   {{ end }}
 {{ end }}
