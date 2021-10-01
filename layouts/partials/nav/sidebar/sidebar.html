@@ -73,7 +73,7 @@
       {{if $hasBranchSelector }}
         {{ partial "nav/sidebar/branch-selector.html" (dict
           "branches" $branches
-          "label" (.p1.Section | replaceRE "(^.*?)(-.*)" "$1")
+          "label" (.p1.Section | replaceRE "(^.*)(-.*)" "$1")
           )
         }}
       {{end}}
