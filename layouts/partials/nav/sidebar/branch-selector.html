@@ -2,7 +2,14 @@
   {{ $disabled := (le (len .branches) 1) }}
   <select id="{{ .label }}" class="branch-select" {{ if $disabled }}disabled{{ end }}>
     {{ range $i, $j := .branches }}
-      <option value="{{ . }}" {{ if eq $i 0 }}class="latest-branch" title="latest branch"{{ end }}>{{ . }}</option>
+      <option 
+        value="{{ . | replaceRE "-.*" "" }}"
+        {{ if eq $i 0 }}class="latest-version" title="latest version"{{ end }}
+        {{ if in . "beta" }}class="beta-version" title="beta version"{{ end }}
+        {{ if in . "dev" }}class="dev-version" title="development version"{{ end }}
+        >
+        {{ . }}
+      </option>
     {{end}}
   </select>
 </label>
