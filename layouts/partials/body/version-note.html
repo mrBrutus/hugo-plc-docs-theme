@@ -1,5 +1,5 @@
 {{ $isVersioned := false }}
-{{ $branches := dict }}
+{{ $branches := slice }}
 {{ $name := "" }}
 {{ $thisVersion := "" }}
 {{ $latestVersion := "" }}
@@ -18,7 +18,7 @@
   {{ with $branches }}
     {{ $latestVersion = index . 0 }}
     {{ range . }}
-      {{ if in $.Section . }}
+      {{ if in $.Section ( . | replaceRE "-.*" "") }}
         {{ $thisVersion = . }}
       {{end}} 
     {{end}}
