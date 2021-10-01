@@ -64,7 +64,7 @@
     {{if gt $lastLevel $level}}new-group{{ end }}
     {{printf `lastLevel-%v` $lastLevel }}
     {{printf `level-%v` $level }}">
-      <a href="{{ .p1.Permalink }}" class="w-full py-4 md:py-2 {{ $padding }}">
+      <a href="{{ .p1.Permalink }}" class="w-full py-4 md:py-2 {{ $padding }} break-words">
         {{ $title := .p1.Title }}
         {{ if .org.Param "debug" }}{{ $title = printf "%v-%v %v" $level $lastLevel $title }}{{end}}
         <span class="mr-2">{{ $title }}</span>

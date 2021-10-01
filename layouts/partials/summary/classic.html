@@ -1,6 +1,6 @@
 <article class="border-2 shadow-xs py-4 px-4 md:px-8">
   <header>
-    <span class="text-2xl text-brand-dark">
+    <span class="text-lg xl:text-2xl text-brand-dark break-words">
       <a href='{{ .Permalink }}'  class="low-profile-link">{{- with .Params.pinned -}}{{ ($.Site.Params.pinIcon | safeHTML) | default "📌" }}&nbsp;{{- end -}}{{ .Title }}</a>
     </span>  
 
