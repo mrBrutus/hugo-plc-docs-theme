@@ -162,10 +162,13 @@ kbd {
 }
 
 .sidebar-item.level-0 {
+  @apply text-lg;
+}
+
+.sidebar-item.level-1 {
   @apply text-base;
 }
 
-.sidebar-item.level-1,
 .sidebar-item.level-2,
 .sidebar-item.level-3,
 .sidebar-item.level-4,
@@ -176,9 +179,9 @@ kbd {
   @apply font-normal text-sm;
 }
 
-.sidebar-item.parent {
+/* .sidebar-item.parent {
   @apply font-semibold;
-}
+} */
 
 .sidebar-item.new-group {
   @apply mt-2;
