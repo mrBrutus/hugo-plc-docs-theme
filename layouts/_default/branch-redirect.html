@@ -29,9 +29,12 @@
 {{ define "head" }}
   {{ with .Site.Data.import }}
     {{ with index . $.Title }}
+    {{ $branches := slice }}
+    {{ range . }}
+      {{ $branches = $branches | append ( . | replaceRE "-.*" "") }} 
+    {{ end }}
       <script>
-        const branchArray = {{ . | jsonify | safeJS }}
-        
+        const branchArray = {{ $branches | jsonify | safeJS }}
         // branch from query string: <page url>?branch=<branch name>
         const urlParams = new URLSearchParams(window.location.search)
         const urlBranch = urlParams.get('branch')
