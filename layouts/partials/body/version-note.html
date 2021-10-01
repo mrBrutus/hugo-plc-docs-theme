@@ -28,10 +28,9 @@
   <div class="w-full mt-2 mb-8">
     <div class="flex-grow px-4 py-4 bg-default-soft border-l-4 border-brand">      
       {{ if ne $thisVersion $latestVersion }}
-        {{ $note = printf "These are **older** %v docs (`%v`)." $name $thisVersion }}  
-        {{ $note = printf "%v Latest version: `%v`." $note $latestVersion }} 
+        {{ $note = printf "This is part of %v `%v` -- *latest release: `%v`*." $name $thisVersion $latestVersion }}
       {{ else }}
-        {{ $note = printf "These are the latest %v docs (`%v`)." $name $thisVersion }}  
+        {{ $note = printf "This is part of %v `%v` -- *latest release*." $name $thisVersion }}
       {{ end }}
       {{ $note | markdownify }} 
     </div>
