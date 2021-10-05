@@ -1,0 +1,102 @@
+{{ define "main" }}
+    {{ partial "nav/main" . }}
+
+    <section class="md:ml-80 xl:ml-96 xl:mr-56">
+      <div class="pt-16 md:mx-auto px-4 lg:px-20 xl:px-20 min-h-full prose prose-sm md:prose max-w-none lg:max-w-3xl xl:max-w-4xl print:py-0 print:px-0 print:max-w-none print:prose">
+        <main class="min-h-screen">
+
+          <div class="flex justify-between">
+            {{ partial "body/breadcrumb" . }}
+            {{ partial "body/page-buttons.html" . }}
+          </div>
+
+          {{ partial "body/version-note" . }}
+
+          {{/* read the YAML data from the page resources */}}
+          {{ $yamlData := partial "lib/get-yaml-data" ( dict "ctx" $ "fileName" "definition" ) }}
+
+          <header>
+            <div class="flex justify-start items-baseline flex-wrap mb-2">
+              <h1 class="low-profile-header mr-2 py-0" id="{{ .Title }}">{{ .Title }}</h1>
+              {{ partial "lib/latest-version" $yamlData }}
+            </div>
+            {{ if .Params.featuredImage }}
+              {{ partial "body/featured-image" . }}
+            {{ end }}
+          </header>
+
+          <div class="mb-8 flex flex-col items-start sm:flex-row sm:items-center sm:flex-wrap sm:flex-grow">
+            {{ partial "lib/infos" $yamlData }}
+            {{ partial "body/tags" . }}
+          </div>
+
+          <article>
+            {{/* description from front matter as lead text */}}
+            {{ with .Params.description }}
+              <p class="lead">{{ . }}</p>
+            {{ end }}
+            {{/* description from yaml */}}
+            <div>
+              {{ partial "lib/description.html" $yamlData }}
+            </div>
+
+            {{/* changelog */}}
+            {{ if not .Params.disable_changelog }}
+              {{ with $yamlData.changelog }}
+
+                <section>
+                  <h2 id="version-history">Version history</h2>
+                  {{ partial "lib/version-history.html" . }}
+                </section>
+
+              {{ end }}
+            {{ end }}
+
+
+            {{/* controller support */}}
+            {{ with $yamlData.controller }}
+              <section>
+                <h2 id="controller-support">Controller support</h2>
+                {{ partial "lib/controller-table.html" . }}
+              </section>
+            {{ end }}
+
+            {{/* prerequisites */}}
+            {{ with $yamlData.prerequisite }}
+              <section>
+                <h2 id="prerequisites">Prerequisites</h2>
+                {{ partial "lib/prerequisite-table.html" . }}
+              </section>
+            {{ end }}
+
+            {{/* variable overview */}}
+            {{ if not .Params.disable_overview }}
+              {{ with $yamlData.set }}
+                <section>
+                  <h2 id="overview">Overview</h2>
+                  {{ partial "lib/enum/var-table.html" (dict "ctx" $ "set" . ) }}
+                </section>
+              {{ end }}
+            {{ end }}
+
+            {{/* source code */}}
+            {{ if (and (not .Params.disable_source) (or (hugo.Environment | eq "development") (.Params.open_source)) ) }}
+              {{ with $yamlData }}
+                <section>
+                  <h2 id="source-code">Source code</h2>
+                  {{ partial "lib/enum/source-code.html" (dict "ctx" $ "item" . ) }}
+                </section>
+              {{ end }}
+            {{ end }}
+
+            {{/* followed by the markdown content */}}
+            {{ .Content }}
+          </article>
+          {{ partial "footer/page-footer.html" . }}
+        </main>
+      </div>
+      {{ partial "nav/sidebar/main" . }}
+      {{ partial "nav/toc" . }}
+    </section>
+
+{{ end }}
