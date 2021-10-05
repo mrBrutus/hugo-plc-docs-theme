@@ -1,0 +1,30 @@
+{{/* render set as table */}}
+{{ with .set }}
+  <div class="overflow-x-auto md:overflow-x-hidden">
+    <table class="whitespace-nowrap md:whitespace-normal">
+      <thead>
+        <tr>
+          <th scope="col">name</th>
+          <th scope="col">value</th>
+          <th scope="col">comment</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        {{ range . }}
+          {{ $name := "" }}
+          {{ $value := "0" }}
+          {{ $comment := "" }}
+          {{ with .name }}{{$name = printf "`%s`" . }}{{end}}
+          {{ with .value }}{{$value = printf "%s" (string .) }}{{end}}
+          {{ with .comment }}{{$comment = printf "%s" . }}{{end}}
+          <tr class="">
+            <td>{{ $name | markdownify }}</td>
+            <td>{{ $value | markdownify }}</td>
+            <td class="">{{ $comment | markdownify }}</td>
+          </tr>
+        {{ end }}
+      </tbody>
+    </table>
+    </div>
+{{ end }}
