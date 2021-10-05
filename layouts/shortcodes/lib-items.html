@@ -20,6 +20,11 @@
   {{ $kind = $type }}
 {{ end}}
 
+{{ if eq $type "enum" }}
+  {{ $filter = "enum" }}
+  {{ $kind = $type }}
+{{ end}}
+
 {{ $pages := slice }}
 {{ if $tag }}
   {{/* all pages of the specified tag */}}
@@ -28,6 +33,7 @@
   {{/* all pages of with a `lib` layout */}}
   {{ $pages = where .Page.FirstSection.RegularPagesRecursive "Layout" "data-type" }}
   {{ $pages = append $pages (where .Page.FirstSection.RegularPagesRecursive "Layout" "function") }}
+  {{ $pages = append $pages (where .Page.FirstSection.RegularPagesRecursive "Layout" "enum") }}
 {{ end }}
 
 
@@ -62,6 +68,14 @@
       {{ $table = printf "%s| %s | %s | %v |\n" $table $item.kind $item.markdownLink (.Params.description | replaceRE "\n" " ") }}
     {{ end }}
 
+    {{/* enums */}}
+    {{ range where . "Layout" "enum" }}
+      {{ $itemsFound = true }}
+      {{ $item := partial "lib/lib-item-summary" ( dict "ctx" . ) }}
+      {{ warnf "\n--> %v" "enum" }}
+      {{ $table = printf "%s| %s | %s | %v |\n" $table $item.kind $item.markdownLink (.Params.description | replaceRE "\n" " ") }}
+    {{ end }}
+
     {{/* function blocks */}}
     {{ range where . "Layout" "function" }}
       {{ $item := partial "lib/lib-item-summary" ( dict "ctx" . ) }}
@@ -85,4 +99,3 @@
     {{ $table | markdownify}}
   {{ end }}
 {{ end }}
-
