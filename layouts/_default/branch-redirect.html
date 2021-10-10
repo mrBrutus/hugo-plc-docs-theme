@@ -1,3 +1,4 @@
+
 {{ define "main" }}
     {{ partial "nav/main" . }}
 
@@ -27,31 +28,31 @@
 {{ end }}
 
 {{ define "head" }}
-  {{ with .Site.Data.import }}
-    {{ with index . $.Title }}
-    {{ $branches := slice }}
-    {{ range . }}
-      {{ $branches = $branches | append ( . | replaceRE "-.*" "") }} 
+  {{ with .Page.Scratch.Get "versioning" }}
+    {{/* remove version suffixes (e.g. -dev) */}}
+    {{ $versions := slice }}
+    {{ range .versions }}
+      {{ $versions = $versions | append ( . | replaceRE "-.*" "") }} 
     {{ end }}
-      <script>
-        const branchArray = {{ $branches | jsonify | safeJS }}
-        // branch from query string: <page url>?branch=<branch name>
-        const urlParams = new URLSearchParams(window.location.search)
-        const urlBranch = urlParams.get('branch')
 
-        // get stored branch
-        let branch = (urlBranch === null) ? sessionStorage.getItem({{ $.Section }}) : urlBranch
+    <script>
+      const branchArray = {{ $versions | jsonify | safeJS }}
+      // branch from query string: <page url>?branch=<branch name>
+      const urlParams = new URLSearchParams(window.location.search)
+      const urlBranch = urlParams.get('branch')
 
-        // if branch not valid pick latest
-        if (!branchArray.includes(branch)) { branch = branchArray[0] }
+      // get stored branch
+      let branch = (urlBranch === null) ? sessionStorage.getItem({{ $.Section }}) : urlBranch
 
-          // save branch to local storage
-          sessionStorage.setItem({{ $.Section }}, branch);
-          
-          // update URL for the selected branch
-          window.history.replaceState({}, document.title, "/" + ({{ $.Section }} + '-' + branch))
-          location.reload()
-      </script>
-    {{ end }}
+      // if branch not valid pick latest
+      if (!branchArray.includes(branch)) { branch = branchArray[0] }
+
+        // save branch to local storage
+        sessionStorage.setItem({{ $.Section }}, branch);
+        
+        // update URL for the selected branch
+        window.history.replaceState({}, document.title, "/" + ({{ $.Section }} + '-' + branch))
+        location.reload()
+    </script>
   {{ end }}
 {{ end }}

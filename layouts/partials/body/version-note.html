@@ -1,38 +1,13 @@
-{{ $isVersioned := false }}
-{{ $branches := slice }}
-{{ $name := "" }}
-{{ $thisVersion := "" }}
-{{ $latestVersion := "" }}
-
-{{ with .Site.GetPage .Section }}
-  {{ $name = .Title }}
-  {{ with .Site.Data.import }}
-    {{ with index . $name }}
-      {{ $isVersioned = true}}
-      {{ $branches = . }}
-    {{end}}
-  {{end}}
-{{end}}
-
-{{ if $isVersioned }}
-  {{ with $branches }}
-    {{ $latestVersion = index . 0 }}
-    {{ range . }}
-      {{ if in $.Section ( . | replaceRE "-.*" "") }}
-        {{ $thisVersion = . }}
-      {{end}} 
-    {{end}}
-  {{end}}
-
+{{ with .Page.Scratch.Get "versioning" }}
   {{ $note := "" }} 
   <div class="w-full mt-2 mb-8">
     <div class="flex-grow px-4 py-4 bg-default-soft border-l-4 border-brand">      
-      {{ if ne $thisVersion $latestVersion }}
-        {{ $note = printf "This is part of %v `%v` -- *latest release: `%v`*." $name $thisVersion $latestVersion }}
+      {{ if not .islatestVersion }}
+        {{ $note = printf "This is part of %v `%v` -- *latest release: `%v`*." $.Title .thisVersion .latestVersion }}
       {{ else }}
-        {{ $note = printf "This is part of %v `%v` -- *latest release*." $name $thisVersion }}
+        {{ $note = printf "This is part of %v `%v` -- *latest release*." $.Title .thisVersion }}
       {{ end }}
       {{ $note | markdownify }} 
     </div>
   </div>
-{{ end }}
+{{end}}
