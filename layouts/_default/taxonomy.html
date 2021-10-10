@@ -20,17 +20,37 @@
 
         <div>
           {{ range .Pages.GroupBy "Section" }}
-            {{ with $.Site.GetPage "section" .Key }}
-              <h2>{{.Title}}</h2>
-            {{ else }}
-              <h2>{{ .Key | title }}</h2>
-            {{ end }}
+            {{ $s := $.Site.GetPage "section" .Key }}
 
-            <div class="grid grid-cols-1 xl:grid-cols-2 print:grid-cols-2 gap-4 mb-8 mt-4 lg:mt-12">
-              {{ range .Pages }}
-                {{ .Render "summary" }}
+            {{ $isVersioned := false }}
+            {{ $branches := dict }}
+            {{ $latestVersion := "" }}
+            {{ $thisVersion := "" }}
+
+            {{ with index $.Site.Data.import $s.Title }}
+              {{ $isVersioned = true}}
+              {{ $branches = . }}
+              {{ $latestVersion = index . 0 }}
+              {{ range $branches }}
+                {{ if in $s.Section . }}
+                  {{ $thisVersion = . }}
+                {{end}} 
+              {{end}}
+            {{end}}
+
+            {{ if or (not $isVersioned) (eq $thisVersion $latestVersion)}}
+              {{ with $.Site.GetPage "section" .Key }}
+                <h2>{{.Title}}</h2>
+              {{ else }}
+                <h2>{{ .Key | title }}</h2>
               {{ end }}
-            </div>
+
+              <div class="grid grid-cols-1 xl:grid-cols-2 print:grid-cols-2 gap-4 mb-8 mt-4 lg:mt-12">
+                {{ range .Pages }}
+                  {{ .Render "summary" }}
+                {{ end }}
+              </div>
+            {{ end }}
           {{ end }}
         </div>
 
