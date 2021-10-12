@@ -21,24 +21,14 @@
         <div>
           {{ range .Pages.GroupBy "Section" }}
             {{ $s := $.Site.GetPage "section" .Key }}
+            
+            {{/* only show the latest version for versioned sections */}}
+            {{ $ignorePage := "" }}
+            {{ with $s.Scratch.Get "versioning" }}
+              {{ $ignorePage = (not .isLatestVersion) }}
+            {{end}} 
 
-            {{ $isVersioned := false }}
-            {{ $branches := dict }}
-            {{ $latestVersion := "" }}
-            {{ $thisVersion := "" }}
-
-            {{ with index $.Site.Data.import $s.Title }}
-              {{ $isVersioned = true}}
-              {{ $branches = . }}
-              {{ $latestVersion = index . 0 }}
-              {{ range $branches }}
-                {{ if in $s.Section . }}
-                  {{ $thisVersion = . }}
-                {{end}} 
-              {{end}}
-            {{end}}
-
-            {{ if or (not $isVersioned) (eq $thisVersion $latestVersion)}}
+            {{ if not $ignorePage}}
               {{ with $.Site.GetPage "section" .Key }}
                 <h2>{{.Title}}</h2>
               {{ else }}
