@@ -6,12 +6,25 @@
     </span>
     <div class="flex flex-row flex-wrap pl-4">    
       {{ range $index, $element := .Site.Taxonomies.categories }}
+        {{/* only show the latest version for versioned sections */}}
+        {{ $count := 0 }}
+        {{ range $s := $element.Pages }}
+          {{ with $s.Scratch.Get "versioning" }}  
+            {{ if .isLatestVersion }}
+              {{ $count = (add $count 1) }}
+            {{ end }} 
+          {{ else }} 
+            {{ $count = (add $count 1) }}
+          {{ end }} 
+        {{end}} 
+
         <a href="{{ $element.Page.RelPermalink }}" class="mr-2 mb-2 flex flex-row items-center rounded bg-default-soft shadow-sm text-xs text-default hover:text-default-dark">
           <span class="pl-1 pr-1 py-0.5">
             {{ $element.Page.Title }}
           </span>
           <span class="pr-1 pl-1 py-0.5 rounded-r bg-brand text-brand-inverse">
-            {{ printf "%#v" (len $element) }}
+            {{/* {{ printf "%#v" (len $element) }} */}}
+            {{ printf "%#v" $count }}
           </span>
         </a>
       {{ end }}
