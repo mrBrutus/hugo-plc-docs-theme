@@ -1,19 +1,21 @@
 {{/* page part of a versioned section? */}}
-{{ with .Site.GetPage .Section }}
-  {{ with index .Site.Data.import .Title }}
-    {{ $versioning := dict }}
-    {{ $versioning = $versioning | merge (dict "isVersioned" true) }}
-    {{ $versioning = $versioning | merge (dict "versions" .) }}
-    {{ $versioning = $versioning | merge (dict "latestVersion" (index . 0)) }}
-    {{ range . }}
-      {{ if in $.Section ( . | replaceRE "-.*" "") }}
-        {{ $versioning = $versioning | merge (dict "thisVersion" .) }}
-      {{end}} 
+{{ if .Site.Data.import }}
+  {{ with .Site.GetPage .Section }}
+    {{ with index .Site.Data.import .Title }}
+      {{ $versioning := dict }}
+      {{ $versioning = $versioning | merge (dict "isVersioned" true) }}
+      {{ $versioning = $versioning | merge (dict "versions" .) }}
+      {{ $versioning = $versioning | merge (dict "latestVersion" (index . 0)) }}
+      {{ range . }}
+        {{ if in $.Section ( . | replaceRE "-.*" "") }}
+          {{ $versioning = $versioning | merge (dict "thisVersion" .) }}
+        {{end}} 
+      {{end}}
+      {{ if eq $versioning.thisVersion $versioning.latestVersion }}
+        {{ $versioning = $versioning | merge (dict "isLatestVersion" true) }}
+      {{end}}
+      {{ $.Page.Scratch.Set "versioning" $versioning }}
     {{end}}
-    {{ if eq $versioning.thisVersion $versioning.latestVersion }}
-      {{ $versioning = $versioning | merge (dict "isLatestVersion" true) }}
-    {{end}}
-    {{ $.Page.Scratch.Set "versioning" $versioning }}
   {{end}}
 {{end}}
 {{/* debug */}}
