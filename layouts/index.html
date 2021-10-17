@@ -1,33 +1,53 @@
 {{ define "main" }}
-    {{ partial "nav/main" . }}
+  {{/* ----------------------------------------------------------- */}}
+  {{/* abuse this template to do some pre-processing for every page */}}
+  {{/* ----------------------------------------------------------- */}}
 
-    <section class="md:ml-80 xl:ml-96">
-      <div class="pt-32 md:mx-auto px-4 lg:px-20 xl:px-20 min-h-full prose prose-sm md:prose max-w-none lg:max-w-3xl xl:max-w-4xl print:py-0 print:px-0 print:max-w-none print:prose">
-        <main class="min-h-screen">
+  {{/* pre-processing: add page version info to scratch */}}
+  {{ $total := newScratch }}
+  {{ range .Site.Pages }}
+    {{ partial "page/get-version-info" . }}
+    {{ if and (.Param `debug`) (.Page.Scratch.Get "versioning") }}
+      {{ $total.Add "total" 1 }}
+    {{ end }}
+  {{ end }}
+  {{ if .Param `debug` }}
+    {{ warnf "\n\n  --> %v versioned pages" ($total.Get "total") }}
+  {{ end }}
 
-          {{/* {{ partial "body/breadcrumb" . }} */}}
 
-          {{/* <header>
-            <h1>{{ .Title }}</h1>
-          </header> */}}
+  {{/* ----------------------------------------------------------- */}}
+  {{/* end of pre-processing                                        */}}
+  {{/* ----------------------------------------------------------- */}}
 
-          {{/* <div class="mb-8 flex flex-col items-start sm:flex-row sm:items-center sm:flex-wrap sm:flex-grow">
-            {{ partial "body/infos" . }}
-            {{ partial "body/tags" . }}
-          </div> */}}
+  {{ partial "nav/main" . }}
 
-          <article>
-            {{ .Content }}
-          </article>
+  <section class="md:ml-80 xl:ml-96">
+    <div class="pt-32 md:mx-auto px-4 lg:px-20 xl:px-20 min-h-full prose prose-sm md:prose max-w-none lg:max-w-3xl xl:max-w-4xl print:py-0 print:px-0 print:max-w-none print:prose">
+      <main class="min-h-screen">
 
-          {{ partial "footer/page-footer.html" . }}
+        {{/* {{ partial "body/breadcrumb" . }} */}}
 
-        </main>
-      </div>
+        {{/* <header>
+          <h1>{{ .Title }}</h1>
+        </header> */}}
 
-      {{ partial "nav/sidebar/main" . }}
+        {{/* <div class="mb-8 flex flex-col items-start sm:flex-row sm:items-center sm:flex-wrap sm:flex-grow">
+          {{ partial "body/infos" . }}
+          {{ partial "body/tags" . }}
+        </div> */}}
 
-    </section>
+        <article>
+          {{ .Content }}
+        </article>
 
+        {{ partial "footer/page-footer.html" . }}
+
+      </main>
+    </div>
+
+    {{ partial "nav/sidebar/main" . }}
+
+  </section>
 
 {{ end }}
