@@ -72,7 +72,6 @@
     {{ range where . "Layout" "enum" }}
       {{ $itemsFound = true }}
       {{ $item := partial "lib/lib-item-summary" ( dict "ctx" . ) }}
-      {{ warnf "\n--> %v" "enum" }}
       {{ $table = printf "%s| %s | %s | %v |\n" $table $item.kind $item.markdownLink (.Params.description | replaceRE "\n" " ") }}
     {{ end }}
 
