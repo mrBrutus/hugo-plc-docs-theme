@@ -23,7 +23,6 @@
         <div>
           {{ $org := .Page }}
           {{ with .Site.GetPage "/" }}
-
             {{ range $p := .Pages }}
               {{ template "crawl" (dict "p1" $p "org" $org "taxo" $taxo "term" $term ) }}
             {{ end }}
@@ -39,8 +38,8 @@
 
 
 {{ define "crawl" }}
-  {{ $term :=  .term }}
-  {{ $taxo :=  .taxo }}
+  {{ $term := .term }}
+  {{ $taxo := .taxo }}
   {{ $section := "" }}
   {{ $lastSection := .org.Scratch.Get "lastSection" }}
   {{ $parent := "" }}
@@ -59,25 +58,40 @@
         {{ $section = .Title }}
         {{ $versionInfo = .Scratch.Get "versioning" }}
       {{ end }}
+      {{ if not $section }}
+        {{ $section = "Home" }}
+      {{ end }}
 
-      {{ if ne $section $lastSection }}
+      {{ $newSection := ne $section $lastSection }}
+      {{ $parent = .p1.Parent }}
+      {{ $newParent := ne $parent $lastParent }}
+
+      {{ if $newSection }}
         {{/* start a new section */}}
-        </div>
         {{ $.org.Scratch.Set "lastSection" $section }}
 
-        {{ if $section}}
+        {{ if $section }}
+            {{ if $lastSection }}
+              </div>
+              {{ if .p1.Param "debug" }}<p class="border-b-4 border-r-4 border-black">/div</p>{{ end }}
+            {{ end }}
             <h2>{{$section}}</h2>
             {{ with $versionInfo }}
               {{ printf "*Only showing results from the latest version (`%v`).*" .latestVersion | markdownify }}
             {{end}}
         {{ end }}
-        <div class="grid grid-cols-1 xl:grid-cols-2 print:grid-cols-2 gap-4 mb-8 mt-4 lg:mt-12">
+
+        {{ if not $newParent }}
+          {{ if .p1.Param "debug" }}<p class="border-t-4 border-l-4 border-black">div</p>{{ end }}
+          <div class="grid grid-cols-1 xl:grid-cols-2 print:grid-cols-2 gap-4 mb-8 mt-4 lg:mt-12">
+        {{ end }}
       {{ end }}
 
-      {{ $parent = .p1.Parent }}
-      {{ if ne $parent $lastParent }}
-        {{/* start a new sub section */}}
-        </div>
+      {{ if $newParent }}
+        {{ if not $newSection }}
+          </div>
+          {{ if .p1.Param "debug" }}<p class="border-b-2 border-r-2 border-brand">/div</p>{{ end }}
+        {{ end }}
         {{ $.org.Scratch.Set "lastParent" $parent }}
 
         {{ with $parent }}
@@ -87,6 +101,7 @@
             <h3><a href="{{ $parent.Permalink }}" class="low-profile-link">{{ $parent.RelPermalink | strings.TrimSuffix "/" }}</a></h3>
           {{ end }}
         {{ end }}
+        {{ if .p1.Param "debug" }}<p class="border-t-2 border-l-2 border-brand">div</p>{{ end }}
         <div class="grid grid-cols-1 xl:grid-cols-2 print:grid-cols-2 gap-4 mb-8 mt-4 lg:mt-12">
       {{ end }}
 
