@@ -13,7 +13,7 @@
         {{ $term :=  .Data.Term }}
         {{ $taxo :=  .Data.Plural }}
         <header>
-          <h1>{{ $taxo | singularize | title }}: {{ $term | title }}</h1>
+          <h1>{{ $taxo | title }} – {{ $term | title }}</h1>
         </header>
 
         <article>
