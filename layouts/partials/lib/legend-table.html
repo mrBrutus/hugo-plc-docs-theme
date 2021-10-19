@@ -9,6 +9,8 @@
     </thead>
     <tbody>
       {{ range $value, $description := . }}
+      {{/* remove the leading zero's */}}
+      {{ $value = ($value | replaceRE `(0?)(\d+)` `$2`) }}
       <tr>
         <td class="">{{ with $value }} {{ . }}{{ end }}</td>
         <td>{{ with $description }} {{ . | markdownify }} {{ end }}</td>
