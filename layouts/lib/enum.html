@@ -31,6 +31,9 @@
           </div>
 
           <article>
+            {{/* markdown content */}}
+            {{ .Content }}
+
             {{/* description from front matter as lead text */}}
             {{ with .Params.description }}
               <p class="lead">{{ . }}</p>
@@ -88,9 +91,6 @@
                 </section>
               {{ end }}
             {{ end }}
-
-            {{/* followed by the markdown content */}}
-            {{ .Content }}
           </article>
           {{ partial "footer/page-footer.html" . }}
         </main>

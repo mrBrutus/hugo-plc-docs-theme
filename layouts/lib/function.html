@@ -31,6 +31,9 @@
           </div>
 
           <article>
+            {{/* markdown content */}}
+            {{ .Content }}
+
             {{/* description (or comment) */}}
             <div>
               {{ partial "lib/description.html" $yamlData }}
@@ -104,9 +107,6 @@
                 </section>
               {{ end }}
             {{ end }}
-
-            {{/* followed by the markdown content */}}
-            {{ .Content }}
           </article>
           {{ partial "footer/page-footer.html" . }}
         </main>
