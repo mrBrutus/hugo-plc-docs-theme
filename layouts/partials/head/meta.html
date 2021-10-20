@@ -40,7 +40,7 @@
 
   {{ with $.Resources.GetMatch $fileName }}
     {{ $original := .  }}
-    {{ $process := $original.Fill "1200x630" }}
+    {{ $process := $original.Fill "1200x630 Center" }}
     {{ $imgFileExt := path.Ext $original.RelPermalink }}
     {{ $imgFileName := path.Join $.Page.File.Dir (printf "/social-image%s" $imgFileExt) }}
     {{ $img := slice $process | resources.Concat $imgFileName }}
