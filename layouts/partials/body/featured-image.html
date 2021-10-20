@@ -8,7 +8,7 @@
 
   {{ with $.Resources.GetMatch $fileName }}
     {{ $original := .  }}
-    {{ $process := $original.Fill "1600x1000" }}
+    {{ $process := $original.Fill "1600x1000 Center" }}
     {{ $imgFileExt := path.Ext $original.RelPermalink }}
     {{ $imgFileName := path.Join $.Page.File.Dir (printf "/hero-image%s" $imgFileExt) }}
     {{ $img := slice $process | resources.Concat $imgFileName }}
