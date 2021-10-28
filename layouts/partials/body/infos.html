@@ -1,6 +1,12 @@
 {{ if not ( or ( eq ($.Param "layout") "lib-type" ) (eq ($.Param "layout") "lib-function" ) (eq ($.Param "layout") "lib-common-data" )) }}
   <div class="flex items-center flex-wrap mr-2 text-xs">
 
+    {{ with .Params.pinned }}
+      <span class="mr-2">
+        {{ ($.Site.Params.pinIcon | safeHTML) | default "📌" }}&nbsp;
+      </span>
+    {{ end }}
+
     {{ with .Params.Date }}
       <time class="py-0.5 flex items-center mr-2" title="created">
         {{ partial "svgs/heroicons/calendar.svg" (dict "class" "h-4 mr-1" ) }}
