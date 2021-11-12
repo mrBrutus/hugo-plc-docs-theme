@@ -1,15 +1,26 @@
 {{/* page part of a versioned section? */}}
 {{ if .Site.Data.import }}
   {{ with .Site.GetPage .Section }}
-    {{ with index .Site.Data.import .Title }}
+    {{ $sectionTitle := .Title }}
+    {{ with index .Site.Data.import $sectionTitle }}
       {{ $versioning := dict }}
+      {{ $versioning = $versioning | merge (dict "sectionTitle" $sectionTitle) }}
       {{ $versioning = $versioning | merge (dict "isVersioned" true) }}
       {{ $versioning = $versioning | merge (dict "versions" .) }}
       {{ $versioning = $versioning | merge (dict "latestVersion" (index . 0)) }}
       {{ range . }}
         {{ if in $.Section ( . | replaceRE "-.*" "") }}
           {{ $versioning = $versioning | merge (dict "thisVersion" .) }}
-        {{end}} 
+
+          {{/* special versions */}}
+          {{ if in . "-dev" }}
+            {{ $versioning = $versioning | merge (dict "devVersion" true) }}
+          {{end}}
+          {{ if in . "-beta" }}
+            {{ $versioning = $versioning | merge (dict "betaVersion" true) }}
+          {{end}}
+
+        {{end}}
       {{end}}
       {{ if eq $versioning.thisVersion $versioning.latestVersion }}
         {{ $versioning = $versioning | merge (dict "isLatestVersion" true) }}
