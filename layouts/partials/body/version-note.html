@@ -1,13 +1,19 @@
 {{ with .Page.Scratch.Get "versioning" }}
-  {{ $note := "" }} 
+  {{ $note := "" }}
   <div class="w-full mt-2 mb-8">
-    <div class="flex-grow px-4 py-4 bg-default-soft border-l-4 border-brand">      
+    <div class="flex-grow px-4 py-4 bg-default-soft border-l-4 border-brand">
       {{ if not .isLatestVersion }}
-        {{ $note = printf "This is part of %v `%v` -- *latest release: `%v`*." $.Title .thisVersion .latestVersion }}
+        {{ $note = printf "This is part of %v `%v` -- *latest release: `%v`*." .versionedSection .thisVersion .latestVersion }}
+        {{ if .devVersion }}
+          {{ $note = printf "This is part of %v `%v` -- *latest release: `%v`*.<br>**🚧 Development version -- not released yet! 🚧**" .versionedSection .thisVersion .latestVersion }}
+        {{ end }}
+        {{ if .betaVersion }}
+          {{ $note = printf "This is part of %v `%v` -- *latest release: `%v`*.<br>**🧪 Beta version -- use at own risk! 🧪**" .versionedSection .thisVersion .latestVersion }}
+        {{ end }}
       {{ else }}
-        {{ $note = printf "This is part of %v `%v` -- *latest release*." $.Title .thisVersion }}
+        {{ $note = printf "This is part of %v `%v` -- *latest release*." .versionedSection .thisVersion }}
       {{ end }}
-      {{ $note | markdownify }} 
+      {{ $note | markdownify }}
     </div>
   </div>
 {{end}}
