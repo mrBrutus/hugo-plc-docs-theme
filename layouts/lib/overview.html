@@ -1,4 +1,5 @@
 {{ define "main" }}
+    {{ partial "page/get-version-info" . }}
     {{ partial "nav/main" . }}
 
     <section class="md:ml-80 xl:ml-96">
@@ -7,8 +8,10 @@
 
           {{ partial "body/breadcrumb" . }}
 
+          {{ partial "body/version-note" . }}
+
           {{/* read the YAML data from the page resources */}}
-          {{ $yamlData := partial "lib/get-yaml-data" ( dict "ctx" $.Parent "fileName" "definition" ) }}
+          {{ $yamlData := partial "lib/get-yaml-data" ( dict "ctx" $ "fileName" "_lib" ) }}
 
           <header>
             <div class="flex justify-start items-baseline flex-wrap">
@@ -21,6 +24,9 @@
           </header>
 
           <article>
+            {{/* markdown content */}}
+            {{ .Content }}
+
             {{/* description (or comment) */}}
             <div>
               {{ partial "lib/description.html" $yamlData }}

@@ -20,17 +20,7 @@
 {{ with $.Param "contact" }}<meta name="contact" content="{{ . }}">{{ end }}
 
 {{/* Robots */}}
-{{ $taxonomies := slice }}
-{{ range $k, $v := site.Taxonomies }}
-    {{ $taxonomies = $taxonomies | append $k }}
-{{ end }}
-{{ $follow := "" }}
-{{ if and (not .Params.robotsdisallow) (not (in $taxonomies .Data.Plural)) }}
-  {{ $follow = "index, follow" }}
-{{ else }}
-  {{ $follow = "noindex, nofollow" }}
-{{ end }}
-<meta name="robots" content="{{ $follow }}, noarchive, max-snippet:160">
+{{ with .Params.robotsdisallow }}<meta name="robots" content="noindex, nofollow, noarchive">{{ else }}<meta name="robots" content="index, follow, archive">{{ end }}
 
 {{/* Open Graph (social card) */}}
 <meta property="og:site_name" content="{{ .Site.Title }}">
@@ -50,7 +40,7 @@
 
   {{ with $.Resources.GetMatch $fileName }}
     {{ $original := .  }}
-    {{ $process := $original.Fill "1200x630" }}
+    {{ $process := $original.Fill "1200x630 Center" }}
     {{ $imgFileExt := path.Ext $original.RelPermalink }}
     {{ $imgFileName := path.Join $.Page.File.Dir (printf "/social-image%s" $imgFileExt) }}
     {{ $img := slice $process | resources.Concat $imgFileName }}

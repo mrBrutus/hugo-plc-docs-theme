@@ -1,7 +1,6 @@
 ---
 title: OSCAT basic
-description: Description of the library.
-cascade:
-  _build:
-    publishResources: false
+layout: branch-redirect
+description: This is a versioned section.
+weight: -700
 ---

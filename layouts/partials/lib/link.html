@@ -1,0 +1,51 @@
+{{/* create hyperlink for (versioned) page */}}
+{{ $ctx := .ctx }}
+{{ $item := .item }}
+{{ $text := .text }}
+{{ $result := "" }}
+{{ $url := "" }}
+{{ $code := "" }}
+
+{{ $libItem := $item }}
+
+{{ $anchor := findRE "#.*" $libItem }}
+{{ if $anchor }}
+  {{ $anchor = index $anchor 0 }}
+  {{ $libItem = strings.TrimSuffix $anchor $libItem}}
+  {{ $anchor = $anchor | urlize  }}
+{{ end }}
+
+{{ range where (where $ctx.Site.Pages "Slug" $libItem) "Section" $ctx.Section }}
+  {{ $url = .Permalink }}
+  {{ if or (eq (.Param "layout") "function") (eq (.Param "layout") "data-type") (eq (.Param "layout") "enum") }}
+    {{ $code = "`"}}
+  {{ end }}
+{{ end }}
+
+{{ if not $url}}
+  {{ range where (where $ctx.Site.Pages "Title" $libItem) "Section" $ctx.Section }}
+    {{ $url = .Permalink }}
+    {{ if or (eq (.Param "layout") "function") (eq (.Param "layout") "data-type") (eq (.Param "layout") "enum") }}
+      {{ $code = "`"}}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ if $url }}
+  {{ if $anchor }}
+    {{ $url = printf "%s%s" $url $anchor}}
+  {{ end }}  
+  {{ if $text }}
+    {{ $result = printf "[%s%s%s](%s)" $code $text $code $url }}
+  {{ else }}
+    {{ $result = printf "[%s%s%s](%s)" $code $libItem $code $url }}
+  {{ end }}  
+{{ else }}
+  {{ with $item }}
+    {{ $result = printf "%s" . }}
+    {{ warnf "%s: partial %s: page not found: %s" $ctx.File.Path "link" . }}
+  {{ end }}
+{{ end }}
+{{ $result = $result | markdownify }}
+
+{{ return $result }}

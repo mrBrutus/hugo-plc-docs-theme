@@ -1,4 +1,5 @@
 {{ define "main" }}
+  {{ partial "page/get-version-info" . }}
   {{ partial "nav/main" . }}
 
   <section class="md:ml-80 xl:ml-96">
@@ -7,6 +8,8 @@
         <div class="flex justify-between">
           {{ partial "body/breadcrumb" . }}
         </div>
+
+        {{ partial "body/version-note" . }}
 
         <header>
           <h1>{{ .Title }}</h1>

@@ -1,19 +1,29 @@
 {{ if (ne (len .Site.Taxonomies.tags) 0) }}
-  {{ $collapseId := printf "_%s" (substr (md5 ("/tags/" | relURL)) 0 5) }}
-
-  <section class="px-4">
-    <a href="{{printf "#%s" $collapseId}}" data-toggle="collapse" class="sidebar-item italic">
+  <section>
+    <span class="sidebar-item italic py-4 md:py-2 pl-2">
       {{ partial "svgs/heroicons/tag.svg" (dict "class" "h-4 mr-1" ) }}      
       <span class="">Tags</span>
-    </a>
-    <div id="{{ $collapseId }}" class="collapse flex flex-row flex-wrap">
+    </span>
+    <div class="flex flex-row flex-wrap pl-4">
       {{ range $index, $element := .Site.Taxonomies.tags }}
+        {{/* only show the latest version for versioned sections */}}
+        {{ $count := 0 }}
+        {{ range $s := $element.Pages }}
+          {{ with $s.Scratch.Get "versioning" }}  
+            {{ if .isLatestVersion }}
+              {{ $count = (add $count 1) }}
+            {{ end }} 
+          {{ else }} 
+            {{ $count = (add $count 1) }}
+          {{ end }} 
+        {{end}} 
+
         <a href="{{ $element.Page.RelPermalink }}" class="mr-2 mb-2 flex flex-row items-center rounded bg-default-soft shadow-sm text-xs text-default hover:text-default-dark">
           <span class="pl-1 pr-1 py-0.5">
             {{ $element.Page.Title }}
           </span>
           <span class="pr-1 pl-1 py-0.5 rounded-r bg-brand text-brand-inverse">
-            {{ printf "%#v" (len $element) }}
+            {{ printf "%#v" $count }}
           </span>
         </a>
       {{ end }}

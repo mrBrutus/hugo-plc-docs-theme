@@ -1,9 +1,20 @@
 {{ if .Params.tags }}
   <div class="flex items-center flex-wrap mr-2 text-xs">
-    <span class="py-0.5 flex items-center mr-2" title="tags">
+    <span class="py-0.5 flex items-center flex-wrap mr-2" title="tags">
       {{ partial "svgs/heroicons/tag.svg" (dict "class" "h-4 mr-1" ) }}
       {{ range (.GetTerms "tags") }}
-        <a href="{{ .Permalink }}" class="button-a mr-1" title="{{ .LinkTitle }}">{{ .LinkTitle }}</a>&nbsp
+        <a href="{{ .Permalink }}" class="button-a mr-1 my-0.5" title="{{ .LinkTitle }}">{{ .LinkTitle }}</a>&nbsp
+      {{ end }}
+    </span>
+  </div>
+{{ end }}
+
+{{ if and .Params.categories (not  (or (eq (.Param "layout") "function") (eq (.Param "layout") "data-type") (eq (.Param "layout") "enum"))) }}
+  <div class="flex items-center flex-wrap mr-2 text-xs">
+    <span class="py-0.5 flex items-center flex-wrap mr-2" title="categories">
+      {{ partial "svgs/heroicons/bookmark.svg" (dict "class" "h-4 mr-1" ) }}
+      {{ range (.GetTerms "categories") }}
+        <a href="{{ .Permalink }}" class="button-a mr-1 my-0.5" title="{{ .LinkTitle }}">{{ .LinkTitle }}</a>&nbsp
       {{ end }}
     </span>
   </div>

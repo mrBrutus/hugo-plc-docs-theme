@@ -1,4 +1,5 @@
 {{ define "main" }}
+  {{ partial "page/get-version-info" . }}
   {{ partial "nav/main" . }}
 
   <section class="md:ml-80 xl:ml-96">
@@ -8,8 +9,12 @@
           {{ partial "body/breadcrumb" . }}
         </div>
 
+        {{ partial "body/version-note" . }}
+
+        {{ $term :=  .Data.Term }}
+        {{ $taxo :=  .Data.Plural }}
         <header>
-          <h1>{{ .Title }}</h1>
+          <h1>{{ $taxo | title }} – {{ $term | title }}</h1>
         </header>
 
         <article>
@@ -17,28 +22,99 @@
         </article>
 
         <div>
-          {{ range .Pages.GroupBy "Section" }}
-            {{ with $.Site.GetPage "section" .Key }}
-              <h2>{{.Title}}</h2>
-            {{ else }}
-              <h2>{{ .Key | title }}</h2>
+          {{ $org := .Page }}
+          {{ with .Site.GetPage "/" }}
+            {{ range $p := .Pages }}
+              {{ template "crawl" (dict "p1" $p "org" $org "taxo" $taxo "term" $term ) }}
             {{ end }}
-
-            <div class="grid grid-cols-1 xl:grid-cols-2 print:grid-cols-2 gap-4 mb-8 mt-4 lg:mt-12">
-              {{ range .Pages }}
-                {{ .Render "summary" }}
-              {{ end }}
-            </div>
           {{ end }}
         </div>
 
-        {{ partial "footer/page-footer.html" . }}          
-
+        {{ partial "footer/page-footer.html" . }}
       </main>
     </div>
-
     {{ partial "nav/sidebar/main" . }}
-
   </section>
+{{ end }}
 
+
+{{ define "crawl" }}
+  {{ $term := .term }}
+  {{ $taxo := .taxo }}
+  {{ $section := "" }}
+  {{ $lastSection := .org.Scratch.Get "lastSection" }}
+  {{ $parent := "" }}
+  {{ $lastParent := .org.Scratch.Get "lastParent" }}
+
+  {{ if (in (.p1.Param .taxo) $term) }}
+    {{/* only show the latest version for versioned sections */}}
+    {{ $ignoreSection := "" }}
+    {{ with .p1.Scratch.Get "versioning" }}
+      {{ $ignoreSection = (not .isLatestVersion) }}
+    {{end}}
+
+    {{ if not $ignoreSection }}
+      {{ $versionInfo := dict }}
+      {{ with .p1.Site.GetPage .p1.Section }}
+        {{ $section = .Title }}
+        {{ $versionInfo = .Scratch.Get "versioning" }}
+      {{ end }}
+      {{ if not $section }}
+        {{ $section = "Home" }}
+      {{ end }}
+
+      {{ $newSection := ne $section $lastSection }}
+      {{ $parent = .p1.Parent }}
+      {{ $newParent := ne $parent $lastParent }}
+
+      {{ if $newSection }}
+        {{/* start a new section */}}
+        {{ $.org.Scratch.Set "lastSection" $section }}
+
+        {{ if $section }}
+            {{ if $lastSection }}
+              </div>
+              {{ if .p1.Param "debug" }}<p class="border-b-4 border-r-4 border-black">/div</p>{{ end }}
+            {{ end }}
+            <h2>{{$section}}</h2>
+            {{ with $versionInfo }}
+              {{ printf "*Only showing results from the latest version (`%v`).*" .latestVersion | markdownify }}
+            {{end}}
+        {{ end }}
+
+        {{ if not $newParent }}
+          {{ if .p1.Param "debug" }}<p class="border-t-4 border-l-4 border-black">div</p>{{ end }}
+          <div class="grid grid-cols-1 xl:grid-cols-2 print:grid-cols-2 gap-4 mb-8 mt-4 lg:mt-12">
+        {{ end }}
+      {{ end }}
+
+      {{ if $newParent }}
+        {{ if not $newSection }}
+          </div>
+          {{ if .p1.Param "debug" }}<p class="border-b-2 border-r-2 border-brand">/div</p>{{ end }}
+        {{ end }}
+        {{ $.org.Scratch.Set "lastParent" $parent }}
+
+        {{ with $parent }}
+          {{ with .Title }}
+            <h3><a href="{{ $parent.Permalink }}" class="low-profile-link">{{ . }}</a></h3>
+          {{ else }}
+            <h3><a href="{{ $parent.Permalink }}" class="low-profile-link">{{ $parent.RelPermalink | strings.TrimSuffix "/" }}</a></h3>
+          {{ end }}
+        {{ end }}
+        {{ if .p1.Param "debug" }}<p class="border-t-2 border-l-2 border-brand">div</p>{{ end }}
+        <div class="grid grid-cols-1 xl:grid-cols-2 print:grid-cols-2 gap-4 mb-8 mt-4 lg:mt-12">
+      {{ end }}
+
+      {{ .p1.Render "summary" }}
+
+    {{ end }}
+  {{ end }}
+
+  {{/* recursive processing */}}
+  {{ if .p1.Parent }}
+    {{ range $p := .p1.Pages }}
+      {{ template "crawl" (dict "p1" $p "org" $.org "taxo" $taxo "term" $term ) }}
+    {{ end }}
+  {{ end }}
 {{ end }}

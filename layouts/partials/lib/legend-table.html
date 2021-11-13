@@ -1,6 +1,6 @@
 {{/* this lists the possible values of the variable in a table */}}
-<div>
-  <table>
+<div class="overflow-x-auto md:overflow-x-hidden">
+  <table class="whitespace-nowrap md:whitespace-normal">
     <thead>
     <tr>
       <th scope="col" class="w-1/4">value</th>
@@ -9,6 +9,8 @@
     </thead>
     <tbody>
       {{ range $value, $description := . }}
+      {{/* remove the leading zero's */}}
+      {{ $value = ($value | replaceRE `(0?)(\d+)` `$2`) }}
       <tr>
         <td class="">{{ with $value }} {{ . }}{{ end }}</td>
         <td>{{ with $description }} {{ . | markdownify }} {{ end }}</td>

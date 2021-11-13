@@ -3,7 +3,6 @@
 .hljs-code {
   @apply relative;
   @apply flex flex-col justify-start;  
-  @apply print:rounded-l-lg !important print:border-l-4;
   @apply print:pl-2 !important;
   @apply print:whitespace-pre-wrap;
 }

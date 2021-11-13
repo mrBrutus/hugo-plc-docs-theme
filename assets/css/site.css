@@ -126,7 +126,7 @@ html:not(.dark) {
  * ========================================================================= */
 
 kbd {
-  @apply inline-block px-1 mx-1 bg-background-soft text-default rounded border border-default-light shadow-inner font-mono tracking-wider uppercase;
+  @apply inline-block px-1 mx-1 bg-background-soft text-sm rounded border border-default-light shadow-inner font-mono tracking-wider uppercase;
 }
 
 
@@ -147,11 +147,44 @@ kbd {
 
 .sidebar-item {
   @apply flex-grow flex items-center;
-  @apply py-4 md:py-2 pr-4 min-h-12 md:min-h-8;
+  @apply min-h-12 md:min-h-8;
+  @apply hover:bg-default-soft;
+  @apply transition-colors duration-100;
+}
+
+.sidebar-item:not(.active) > a {
+  @apply hover:text-brand;
+  @apply transition-colors duration-100;
 }
 
 .sidebar-item.active {
   @apply bg-default-soft;
+}
+
+.sidebar-item.level-0 {
+  @apply text-lg;
+}
+
+.sidebar-item.level-1 {
+  @apply text-base;
+}
+
+.sidebar-item.level-2,
+.sidebar-item.level-3,
+.sidebar-item.level-4,
+.sidebar-item.level-5,
+.sidebar-item.level-6,
+.sidebar-item.level-7,
+.sidebar-item.level-8 {
+  @apply font-normal text-sm;
+}
+
+/* .sidebar-item.parent {
+  @apply font-semibold;
+} */
+
+.sidebar-item.new-group {
+  @apply mt-2;
 }
 
 .collapse {
@@ -187,9 +220,6 @@ kbd {
   /* pre, blockquote {
     page-break-inside:avoid;
   } */
-  table {
-    @apply whitespace-pre-wrap !important;
-  }
   .collapse {
     display: block !important;
     height: auto !important;

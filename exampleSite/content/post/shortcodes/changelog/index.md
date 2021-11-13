@@ -2,7 +2,6 @@
 title: changelog
 description: For inserting a changelog.
 author: mrBrutus
-date: 2021-06-06
 tags:
   - shortcode
 ---

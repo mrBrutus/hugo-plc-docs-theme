@@ -2,7 +2,6 @@
 title: note
 description: For inserting a note of various types.
 author: mrBrutus
-date: 2021-06-06
 tags:
   - shortcode
 ---
@@ -21,7 +20,7 @@ some markdown content...
 
 The `type` parameter is optional. Supported types:
 [info](#info), [warning](#warning), [success](#success), [error](#error), [do](#do),
-[dont](#dont), [learn](#learn), [tip](#tip), [pro](#pro), [contra](#contra), [dev](#dev)
+[dont](#dont), [learn](#learn), [tip](#tip), [pro](#pro), [contra](#contra),  [download](#download), [dev](#dev)
 
 ## Examples
 
@@ -129,6 +128,16 @@ This is a *sample text* for `{{</* note pro */>}}`.
 
 {{< note contra >}}
 This is a *sample text* for `{{</* note contra */>}}`.
+
+- item 1
+- item 2
+
+{{< /note >}}
+
+### download
+
+{{< note download >}}
+This is a *sample text* for `{{</* note download */>}}`.
 
 - item 1
 - item 2

@@ -1,0 +1,59 @@
+{{/* generate source code */}}
+{{ with .item }}
+  <div>
+
+    {{/* Declaration */}}
+    {{ $name := $.ctx.Page.Title }}
+    {{ $description := "" }}
+    {{ with .comment }}{{ $description = . }}{{ end }}
+    {{ $code_block := "```iecst\n" }}
+
+    {{/* comment */}}
+    {{ with $description }}
+      {{ $code_block = printf "%s(*%s*)\n" $code_block . }}
+    {{ end }}
+
+    {{/* insert construct */}}
+    {{ $code_block = printf "%sTYPE %s : \n\n" $code_block $name }}
+
+    {{/* insert code header */}}
+    {{ $latestChangelog := dict }}
+    {{ with .changelog }}
+      {{ range first 1 . }}{{$latestChangelog = . }}{{ end }}
+    {{ end }}
+
+    {{ $type := "" }}
+    {{ with .type }}{{$type = printf "%s" (. | upper) }}{{end}}
+
+    {{/* read the YAML data from the project file */}}
+    {{ $projectData := partial "lib/get-yaml-data" ( dict "ctx" $.ctx.FirstSection "fileName" "definition" ) }}
+
+    {{ $code_header := partial "lib/code-header.html" (dict "name" $name "project" $projectData "description" $description "latestChangelog" $latestChangelog ) }}
+    {{ $code_block = printf "%s%s\n" $code_block $code_header }}
+
+    {{/* insert set values */}}
+    {{ with .set }}
+    {{ $size := len . }}
+      <h3 id="declarations">Declarations</h3>
+      <div class="overflow-x-auto">
+      {{ $code_block = printf "%s(\n" $code_block }}
+        {{ $index := 1 }}
+        {{ range  . }}
+          {{ $name := "" }}
+          {{ $value := "0" }}
+          {{ $comment := "" }}
+          {{ $seperator := "," }}
+          {{ if eq $index $size }}{{$seperator = ""}}{{end}}
+          {{ with .name }}{{$name = printf "%s" . }}{{end}}
+          {{ with .value }}{{$value = printf "%s" (string .) }}{{end}}
+          {{ with .comment }}{{$comment = printf "(*%s*)" (. | replaceRE "\n" " " | strings.TrimRight " ") }}{{end}}
+          {{ $code_block = printf "%s  %s := %s%s %s\n" $code_block $name $value $seperator $comment}}
+          {{ $index = add $index 1 }}
+        {{ end }}
+        {{ $code_block = printf "%s) %s;\n" $code_block $type }}
+        {{ $code_block = printf "%sEND_TYPE\n" $code_block }}
+        {{ printf "%s```" $code_block | markdownify }}
+      </div>
+    {{ end }}
+
+{{ end }}

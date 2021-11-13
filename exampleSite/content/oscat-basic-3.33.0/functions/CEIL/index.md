@@ -5,7 +5,6 @@ layout: function
 description: |
   This is a rounding function which returns the smallest possible integer
   which is greater or equal to `X`.
-open_source: true
 tags:
  - mathematical
 ---

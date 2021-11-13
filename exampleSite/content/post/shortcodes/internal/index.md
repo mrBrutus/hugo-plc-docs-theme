@@ -2,7 +2,6 @@
 title: internal
 description: For inserting a section which is only visible in the development environment.
 author: mrBrutus
-date: 2021-06-06
 tags:
   - shortcode
 ---

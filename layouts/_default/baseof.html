@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="{{ .Site.LanguageCode }}">
-
   <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,6 +9,7 @@
       {{ partial "head/scripts" . }}    
       {{ partial "head/theming" . }}
       {{ partial "head/meta" . }}
+      {{ block "head" . }}{{ end }}
   </head>
 
   <body class="notransition bg-background font-body text-default transition-color duration-300">

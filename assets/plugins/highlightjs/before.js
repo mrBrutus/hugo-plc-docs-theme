@@ -60,10 +60,10 @@ window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", fun
 
 
 // Use light theme for printing
-window.onbeforeprint = (event) => {
+window.addEventListener("beforeprint", function(event) {
   document.documentElement.classList.remove('dark');
-};
+});
 
-window.onafterprint = (event) => {
-  activateTheme(theme)
-};
+window.addEventListener("afterprint", function(event) {
+  activateTheme(theme)  
+});

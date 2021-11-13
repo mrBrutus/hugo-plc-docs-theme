@@ -1,11 +1,14 @@
 {{ define "main" }}
+    {{ partial "page/get-version-info" . }}
     {{ partial "nav/main" . }}
 
-    <section class="md:ml-80 xl:ml-96 xl:mr-56">    
+    <section class="md:ml-80 xl:ml-96 xl:mr-56">
       <div class="pt-16 md:mx-auto px-4 lg:px-20 xl:px-20 min-h-full prose prose-sm md:prose max-w-none lg:max-w-3xl xl:max-w-4xl print:py-0 print:px-0 print:max-w-none print:prose">
         <main class="min-h-screen">
 
           {{ partial "body/breadcrumb" . }}
+
+          {{ partial "body/version-note" . }}
 
           {{/* read the YAML data from the page resources */}}
           {{ $yamlData := partial "lib/get-yaml-data" ( dict "ctx" $.Parent "fileName" "_common" ) }}
@@ -17,15 +20,18 @@
             </div>
             {{ if .Params.featuredImage }}
               {{ partial "body/featured-image" . }}
-            {{ end }}            
+            {{ end }}
           </header>
 
-          <div class="mb-8 flex flex-col items-start sm:flex-row sm:items-center sm:flex-wrap sm:flex-grow">
+          <div class="mb-8 flex flex-wrap flex-row items-center">
             {{ partial "lib/infos" $yamlData }}
             {{ partial "body/tags" . }}
           </div>
 
           <article>
+            {{/* markdown content */}}
+            {{ .Content }}
+
             {{/* description (or comment) */}}
             <div>
               {{ partial "lib/description.html" $yamlData }}
@@ -34,7 +40,7 @@
             {{/* changelog */}}
             {{ if not .Params.disable_changelog }}
               {{ with $yamlData.changelog }}
-      
+
                 <section>
                   <h2 id="version-history">Version history</h2>
                   {{ partial "lib/version-history.html" . }}

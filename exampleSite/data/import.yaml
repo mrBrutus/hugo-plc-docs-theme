@@ -1,0 +1,6 @@
+Foo:
+  # branches:
+  - '0.2.0'
+  - '0.1.0'
+OSCAT basic:
+  - '3.33.0'

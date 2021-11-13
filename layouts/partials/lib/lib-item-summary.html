@@ -19,9 +19,9 @@
 {{/* kind */}}
 {{ with .ctx.Layout }}
   {{ $kind := "" }}
-  {{ if (eq . "data-type")}}
-    {{ $kind = "data type" }}
-  {{ else }} 
+  {{ if (eq . "data-type")}}{{ $kind = "data type" }}{{ end }}
+  {{ if (eq . "enum")}}{{ $kind = "enum" }}{{ end }}
+  {{ if not $kind  }} 
     {{ if $item.return }}
       {{ $kind = "function" }}
     {{ else }} 

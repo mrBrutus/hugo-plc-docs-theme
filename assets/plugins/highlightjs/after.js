@@ -75,8 +75,9 @@ function copyBanner(e, r) {
 }
 
 
-function processCodeBlocks() {
-  var codeblocks = document.querySelectorAll('.hljs-code');
+function processCodeBlocks() {  
+  // codeblocks inside a `note` are excluded
+  var codeblocks = document.querySelectorAll(':not(.note) > .hljs-code');  
 
   for (i = 0; i < codeblocks.length; i++) {
     var cb = codeblocks[i];

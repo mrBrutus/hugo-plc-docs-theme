@@ -3,7 +3,7 @@
   <div>
 
     {{/* Declaration */}}
-    {{ $name := $.ctx.Page.Title }}
+    {{ $name := $.ctx.Page.File.BaseFileName }}
     {{ $description := "" }}
     {{ with .comment }}{{ $description = . }}{{ end }}
     {{ $code_block := "```iecst\n" }}
@@ -15,7 +15,7 @@
 
     {{/* insert construct */}}
     {{ $code_block = printf "%sTYPE %s : \n\n" $code_block $name }}
-
+    
     {{/* insert code header */}}
     {{ $latestChangelog := dict }}
     {{ with .changelog }}
@@ -24,7 +24,7 @@
 
 
     {{/* read the YAML data from the project file */}}
-    {{ $projectData := partial "lib/get-yaml-data" ( dict "ctx" $.ctx.FirstSection "fileName" "definition" ) }}
+    {{ $projectData := partial "lib/get-yaml-data" ( dict "ctx" $.ctx.Parent "fileName" "definition" ) }}
 
     {{ $code_header := partial "lib/code-header.html" (dict "name" $name "project" $projectData "description" $description "latestChangelog" $latestChangelog ) }}
     {{ $code_block = printf "%s%s\n" $code_block $code_header }}
@@ -44,7 +44,7 @@
 
           {{ with $data.type }}{{$type = printf " : %s" . }}{{end}}
           {{ with $data.default_value }}{{$default_value = printf " := %v" . }}{{end}}
-          {{ with $data.comment }}{{$comment = printf " (*%s*)" . }}{{end}}
+          {{ with $data.comment }}{{$comment = printf " (*%s*)" (. | replaceRE "\n" " " | strings.TrimRight " ") }}{{end}}
           {{ $code_block = printf "%s  %s%s%v;%s\n" $code_block $data.name $type $default_value $comment}}
         {{ end }}
         {{ $code_block = printf "%sEND_STRUCT\n" $code_block }}
