@@ -7,4 +7,5 @@ description: |
   decimals.
 tags:
  - string
+open_source: true
 ---
