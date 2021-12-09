@@ -6,4 +6,5 @@ description: |
   The COMPLEX structure can present complex numbers.
 tags:
   - mathematical
+open_source: true
 ---
