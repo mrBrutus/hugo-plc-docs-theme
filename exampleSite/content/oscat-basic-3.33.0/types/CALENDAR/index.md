@@ -8,4 +8,5 @@ description: |
   update the calendar continuously.
 tags:
   - time & date
+open_source: true
 ---
